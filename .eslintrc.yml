@@ -1,0 +1,15 @@
+root: true
+extends:
+  - plugin:mysticatea/es2015
+  - plugin:mysticatea/+node
+rules:
+  mysticatea/node/no-unsupported-features:
+    - error
+    - ignores:
+      - modules
+overrides:
+  - files:
+      - "*.ts"
+    rules:
+      mysticatea/ts/no-explicit-any:
+        - "off"
