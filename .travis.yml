@@ -1,0 +1,25 @@
+sudo: false
+
+language: node_js
+node_js:
+  - 6
+  - 8
+  - 10
+
+script:
+  - npm test
+
+after_success:
+  - npm run -s codecov
+
+before_deploy:
+  - npm run -s docs:build
+
+deploy:
+  provider: pages
+  github-token: $ATOKEN
+  keep-history: true
+  local-dir: docs/.vuepress/dist
+  on:
+    branch: master
+    node: 10
