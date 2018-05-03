@@ -11,7 +11,7 @@ import sourcemaps from "rollup-plugin-sourcemaps"
  */
 function config(ext) {
     return {
-        input: ".temp/index.js",
+        input: "src/index.js",
         output: {
             file: `index${ext}`,
             format: ext === ".mjs" ? "es" : "cjs",
