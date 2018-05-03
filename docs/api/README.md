@@ -117,7 +117,7 @@ The location object.
 #### Example
 
 ```js{12}
-const { getFunctionHeadLocation } = require("@mysticatea/eslint-utils")
+const { getFunctionHeadLocation } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -207,7 +207,7 @@ The name and kind of the function.
 #### Example
 
 ```js{11}
-const { getFunctionNameWithKind } = require("@mysticatea/eslint-utils")
+const { getFunctionNameWithKind } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -248,7 +248,7 @@ If such scope doesn't exist then it returns the 1st argument `initialScope`.
 #### Example
 
 ```js{9}
-const { getInnermostScope } = require("@mysticatea/eslint-utils")
+const { getInnermostScope } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -285,7 +285,7 @@ If the property name is not constant then it returns `null`.
 #### Example
 
 ```js{8}
-const { getPropertyName } = require("@mysticatea/eslint-utils")
+const { getPropertyName } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -321,7 +321,7 @@ If the node is not constant then it returns `null`.
 #### Example
 
 ```js{9}
-const { getStringIfConstant } = require("@mysticatea/eslint-utils")
+const { getStringIfConstant } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -381,7 +381,7 @@ entry | any | The property value of any of `ReferenceTracker.READ`, `ReferenceTr
 #### Examples
 
 ```js
-const { ReferenceTracker } = require("@mysticatea/eslint-utils")
+const { ReferenceTracker } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -447,7 +447,7 @@ entry | any | The property value of any of `ReferenceTracker.READ`, `ReferenceTr
 #### Examples
 
 ```js
-const { ReferenceTracker } = require("@mysticatea/eslint-utils")
+const { ReferenceTracker } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -514,7 +514,7 @@ entry | any | The property value of any of `ReferenceTracker.READ`, `ReferenceTr
 #### Examples
 
 ```js
-const { ReferenceTracker } = require("@mysticatea/eslint-utils")
+const { ReferenceTracker } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -565,7 +565,7 @@ Check whether a given token is a `=>` token or not.
 #### Examples
 
 ```js{9}
-const { isArrowToken } = require("@mysticatea/eslint-utils")
+const { isArrowToken } = require("eslint-utils")
 
 module.exports = {
     meta: {},

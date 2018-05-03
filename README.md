@@ -1,7 +1,7 @@
-# @mysticatea/eslint-utils
+# eslint-utils
 
-[![npm version](https://img.shields.io/npm/v/eslint-utils.svg)](https://www.npmjs.com/package/@mysticatea/eslint-utils)
-[![Downloads/month](https://img.shields.io/npm/dm/@mysticatea/eslint-utils.svg)](http://www.npmtrends.com/@mysticatea/eslint-utils)
+[![npm version](https://img.shields.io/npm/v/eslint-utils.svg)](https://www.npmjs.com/package/eslint-utils)
+[![Downloads/month](https://img.shields.io/npm/dm/eslint-utils.svg)](http://www.npmtrends.com/eslint-utils)
 [![Build Status](https://travis-ci.org/mysticatea/eslint-utils.svg?branch=master)](https://travis-ci.org/mysticatea/eslint-utils)
 [![Coverage Status](https://codecov.io/gh/mysticatea/eslint-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/mysticatea/eslint-utils)
 [![Dependency Status](https://david-dm.org/mysticatea/eslint-utils.svg)](https://david-dm.org/mysticatea/eslint-utils)
@@ -13,7 +13,7 @@ This package provides utility functions and classes for make ESLint custom rules
 For example, there is the class which tracks variable references.
 
 ```js
-const { ReferenceTracker } = require("@mysticatea/eslint-utils")
+const { ReferenceTracker } = require("eslint-utils")
 
 module.exports = {
     meta: {},
@@ -61,7 +61,7 @@ module.exports = {
 Use [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/).
 
 ```
-npm install @mysticatea/eslint-utils
+npm install eslint-utils
 ```
 
 ### Requirements
