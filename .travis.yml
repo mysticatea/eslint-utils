@@ -17,6 +17,7 @@ before_deploy:
 
 deploy:
   provider: pages
+  skip-cleanup: true
   github-token: $ATOKEN
   keep-history: true
   local-dir: docs/.vuepress/dist
