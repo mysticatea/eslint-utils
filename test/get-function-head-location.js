@@ -1,6 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
-import { getFunctionHeadLocation } from "../src/get-function-head-location"
+import { getFunctionHeadLocation } from "../src/"
 
 describe("The 'getFunctionHeadLocation' function", () => {
     const expectedResults = {

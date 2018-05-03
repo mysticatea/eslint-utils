@@ -1,12 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
-import {
-    CALL,
-    CONSTRUCT,
-    ESM,
-    READ,
-    ReferenceTracker,
-} from "../src/reference-tracker"
+import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
 
 const config = {
     parserOptions: { ecmaVersion: 2018, sourceType: "module" },

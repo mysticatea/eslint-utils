@@ -1,6 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
-import { getPropertyName } from "../src/get-property-name"
+import { getPropertyName } from "../src/"
 
 describe("The 'getPropertyName' function", () => {
     for (const { code, expected } of [

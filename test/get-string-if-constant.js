@@ -1,6 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
-import { getStringIfConstant } from "../src/get-string-if-constant"
+import { getStringIfConstant } from "../src/"
 
 describe("The 'getStringIfConstant' function", () => {
     for (const { code, expected } of [

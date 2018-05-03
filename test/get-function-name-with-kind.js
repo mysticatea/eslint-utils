@@ -1,6 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
-import { getFunctionNameWithKind } from "../src/get-function-name-with-kind"
+import { getFunctionNameWithKind } from "../src/"
 
 describe("The 'getFunctionNameWithKind' function", () => {
     const expectedResults = {

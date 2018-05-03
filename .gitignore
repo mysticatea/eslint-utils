@@ -1,6 +1,6 @@
 /.nyc_output
 /coverage
+/docs/.vuepress/dist
 /node_modules
-/src/index.js
 /index.*
 /test.*

@@ -22,7 +22,7 @@ import {
     isOpeningBracketToken,
     isOpeningParenToken,
     isSemicolonToken,
-} from "../src/token-predicate"
+} from "../src/"
 
 describe("The predicate functions for tokens", () => {
     for (const { positive, negative, patterns } of [
