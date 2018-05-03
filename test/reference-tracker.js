@@ -5,15 +5,15 @@ import {
     CONSTRUCT,
     ESM,
     READ,
-    ReferenceTracer,
-} from "../src/reference-tracer"
+    ReferenceTracker,
+} from "../src/reference-tracker"
 
 const config = {
     parserOptions: { ecmaVersion: 2018, sourceType: "module" },
     rules: { test: "error" },
 }
 
-describe("The 'ReferenceTracer' class:", () => {
+describe("The 'ReferenceTracker' class:", () => {
     describe("the 'iterateGlobalReferences' method", () => {
         for (const { description, code, traceMap, expected } of [
             {
@@ -32,7 +32,7 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "Identifier" },
                         path: ["Object"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                 ],
             },
@@ -56,31 +56,31 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -105,31 +105,31 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -154,19 +154,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -192,19 +192,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                 ],
             },
@@ -229,19 +229,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "Property" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -266,19 +266,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "Property" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -304,19 +304,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "Property" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -341,19 +341,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["Object", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["Object", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["Object", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -364,9 +364,9 @@ describe("The 'ReferenceTracer' class:", () => {
                 let actual = null
                 linter.defineRule("test", context => ({
                     "Program:exit"() {
-                        const tracer = new ReferenceTracer(context.getScope())
+                        const tracker = new ReferenceTracker(context.getScope())
                         actual = Array.from(
-                            tracer.iterateGlobalReferences(traceMap)
+                            tracker.iterateGlobalReferences(traceMap)
                         ).map(x =>
                             Object.assign(x, { node: { type: x.node.type } })
                         )
@@ -404,25 +404,25 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "CallExpression" },
                         path: ["abc"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["abc"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["abc"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["abc", "xyz"],
                         type: READ,
-                        entry: 4,
+                        info: 4,
                     },
                 ],
             },
@@ -473,9 +473,9 @@ describe("The 'ReferenceTracer' class:", () => {
                 let actual = null
                 linter.defineRule("test", context => ({
                     "Program:exit"() {
-                        const tracer = new ReferenceTracer(context.getScope())
+                        const tracker = new ReferenceTracker(context.getScope())
                         actual = Array.from(
-                            tracer.iterateCjsReferences(traceMap)
+                            tracker.iterateCjsReferences(traceMap)
                         ).map(x =>
                             Object.assign(x, { node: { type: x.node.type } })
                         )
@@ -512,25 +512,25 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "ImportDeclaration" },
                         path: ["abc"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["abc"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["abc"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["abc", "xyz"],
                         type: READ,
-                        entry: 4,
+                        info: 4,
                     },
                 ],
             },
@@ -554,19 +554,19 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["abc", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["abc", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["abc", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -614,25 +614,25 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["abc", "default", "y"],
                         type: READ,
-                        entry: 4,
+                        info: 4,
                     },
                     {
                         node: { type: "ImportSpecifier" },
                         path: ["abc", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["abc", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["abc", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -663,25 +663,25 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "MemberExpression" },
                         path: ["abc", "default", "y"],
                         type: READ,
-                        entry: 4,
+                        info: 4,
                     },
                     {
                         node: { type: "MemberExpression" },
                         path: ["abc", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "CallExpression" },
                         path: ["abc", "b"],
                         type: CALL,
-                        entry: 2,
+                        info: 2,
                     },
                     {
                         node: { type: "NewExpression" },
                         path: ["abc", "c"],
                         type: CONSTRUCT,
-                        entry: 3,
+                        info: 3,
                     },
                 ],
             },
@@ -706,7 +706,7 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "ExportSpecifier" },
                         path: ["abc", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                 ],
             },
@@ -731,13 +731,13 @@ describe("The 'ReferenceTracer' class:", () => {
                         node: { type: "ExportAllDeclaration" },
                         path: ["abc", "a"],
                         type: READ,
-                        entry: 1,
+                        info: 1,
                     },
                     {
                         node: { type: "ExportAllDeclaration" },
                         path: ["abc", "d"],
                         type: READ,
-                        entry: 5,
+                        info: 5,
                     },
                 ],
             },
@@ -748,9 +748,9 @@ describe("The 'ReferenceTracer' class:", () => {
                 let actual = null
                 linter.defineRule("test", context => ({
                     "Program:exit"() {
-                        const tracer = new ReferenceTracer(context.getScope())
+                        const tracker = new ReferenceTracker(context.getScope())
                         actual = Array.from(
-                            tracer.iterateEsmReferences(traceMap)
+                            tracker.iterateEsmReferences(traceMap)
                         ).map(x =>
                             Object.assign(x, { node: { type: x.node.type } })
                         )

@@ -22,7 +22,8 @@
     "opener": "^1.4.3",
     "rimraf": "^2.6.2",
     "rollup": "^0.58.2",
-    "rollup-plugin-sourcemaps": "^0.4.2"
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "vuepress": "^0.8.4"
   },
   "scripts": {
     "prebuild": "npm run -s clean",
@@ -32,6 +33,8 @@
     "clean": "rimraf .temp src/index.js index.*",
     "codecov": "nyc report -r lcovonly && codecov",
     "coverage": "nyc report -r lcov && opener ./coverage/lcov-report/index.html",
+    "docs:build": "vuepress build docs",
+    "docs:watch": "vuepress dev docs",
     "lint": "eslint src test scripts",
     "pretest": "run-s build lint",
     "test": "nyc mocha --reporter dot \"test/*.js\"",

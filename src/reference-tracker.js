@@ -12,11 +12,11 @@ export const CONSTRUCT = Symbol("construct")
 export const ESM = Symbol("strict")
 
 /**
- * The reference tracer.
+ * The reference tracker.
  */
-export class ReferenceTracer {
+export class ReferenceTracker {
     /**
-     * Initialize this tracer.
+     * Initialize this tracker.
      * @param {Scope} globalScope The global scope.
      * @param {object} [options] The options.
      * @param {"legacy"|"strict"} [options.mode="strict"] The mode to determine the ImportDeclaration's behavior for CJS modules.
@@ -38,7 +38,7 @@ export class ReferenceTracer {
     /**
      * Iterate the references of global variables.
      * @param {object} traceMap The trace map.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *iterateGlobalReferences(traceMap) {
         for (const key of Object.keys(traceMap)) {
@@ -78,7 +78,7 @@ export class ReferenceTracer {
     /**
      * Iterate the references of CommonJS modules.
      * @param {object} traceMap The trace map.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *iterateCjsReferences(traceMap) {
         const variable = this.globalScope.set.get("require")
@@ -111,7 +111,7 @@ export class ReferenceTracer {
                     node: callNode,
                     path,
                     type: READ,
-                    entry: nextTraceMap[READ],
+                    info: nextTraceMap[READ],
                 }
             }
             yield* this._iteratePropertyReferences(callNode, path, nextTraceMap)
@@ -121,7 +121,7 @@ export class ReferenceTracer {
     /**
      * Iterate the references of ES modules.
      * @param {object} traceMap The trace map.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *iterateEsmReferences(traceMap) {
         const programNode = this.globalScope.block
@@ -139,7 +139,7 @@ export class ReferenceTracer {
             const path = [moduleId]
 
             if (nextTraceMap[READ]) {
-                yield { node, path, type: READ, entry: nextTraceMap[READ] }
+                yield { node, path, type: READ, info: nextTraceMap[READ] }
             }
 
             if (node.type === "ExportAllDeclaration") {
@@ -150,7 +150,7 @@ export class ReferenceTracer {
                             node,
                             path: path.concat(key),
                             type: READ,
-                            entry: exportTraceMap[READ],
+                            info: exportTraceMap[READ],
                         }
                     }
                 }
@@ -213,7 +213,7 @@ export class ReferenceTracer {
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
      * @param {boolean} shouldReport = The flag to report those references.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *_iterateVariableReferences(variable, path, traceMap, shouldReport) {
         if (this.variableStack.includes(variable)) {
@@ -228,7 +228,7 @@ export class ReferenceTracer {
                 const node = reference.identifier
 
                 if (shouldReport && traceMap[READ]) {
-                    yield { node, path, type: READ, entry: traceMap[READ] }
+                    yield { node, path, type: READ, info: traceMap[READ] }
                 }
                 yield* this._iteratePropertyReferences(node, path, traceMap)
             }
@@ -242,7 +242,7 @@ export class ReferenceTracer {
      * @param rootNode The AST node to iterate references.
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     //eslint-disable-next-line complexity, require-jsdoc
     *_iteratePropertyReferences(rootNode, path, traceMap) {
@@ -266,7 +266,7 @@ export class ReferenceTracer {
                         node: parent,
                         path,
                         type: READ,
-                        entry: nextTraceMap[READ],
+                        info: nextTraceMap[READ],
                     }
                 }
                 yield* this._iteratePropertyReferences(
@@ -279,7 +279,7 @@ export class ReferenceTracer {
         }
         if (parent.type === "CallExpression") {
             if (parent.callee === node && traceMap[CALL]) {
-                yield { node: parent, path, type: CALL, entry: traceMap[CALL] }
+                yield { node: parent, path, type: CALL, info: traceMap[CALL] }
             }
             return
         }
@@ -289,7 +289,7 @@ export class ReferenceTracer {
                     node: parent,
                     path,
                     type: CONSTRUCT,
-                    entry: traceMap[CONSTRUCT],
+                    info: traceMap[CONSTRUCT],
                 }
             }
             return
@@ -319,7 +319,7 @@ export class ReferenceTracer {
      * @param {Node} patternNode The Pattern node to iterate references.
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *_iterateLhsReferences(patternNode, path, traceMap) {
         if (patternNode.type === "Identifier") {
@@ -349,7 +349,7 @@ export class ReferenceTracer {
                         node: property,
                         path: nextPath,
                         type: READ,
-                        entry: nextTraceMap[READ],
+                        info: nextTraceMap[READ],
                     }
                 }
                 yield* this._iterateLhsReferences(
@@ -370,7 +370,7 @@ export class ReferenceTracer {
      * @param {Node} specifierNode The ModuleSpecifier node to iterate references.
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
-     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,entry:any}>} The iterator to iterate references.
+     * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *_iterateImportReferences(specifierNode, path, traceMap) {
         const type = specifierNode.type
@@ -391,7 +391,7 @@ export class ReferenceTracer {
                     node: specifierNode,
                     path,
                     type: READ,
-                    entry: nextTraceMap[READ],
+                    info: nextTraceMap[READ],
                 }
             }
             yield* this._iterateVariableReferences(
@@ -427,17 +427,17 @@ export class ReferenceTracer {
                     node: specifierNode,
                     path,
                     type: READ,
-                    entry: nextTraceMap[READ],
+                    info: nextTraceMap[READ],
                 }
             }
         }
     }
 }
 
-ReferenceTracer.READ = READ
-ReferenceTracer.CALL = CALL
-ReferenceTracer.CONSTRUCT = CONSTRUCT
-ReferenceTracer.ESM = ESM
+ReferenceTracker.READ = READ
+ReferenceTracker.CALL = CALL
+ReferenceTracker.CONSTRUCT = CONSTRUCT
+ReferenceTracker.ESM = ESM
 
 /**
  * This is a predicate function for Array#filter.
