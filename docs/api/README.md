@@ -4,43 +4,9 @@ sidebarDepth: 3
 
 # API Reference
 
-## findVariable
+## AST utilities
 
-```js
-const variable = utils.findVariable(initialScope, name)
-```
-
-Get the variable of a given name.
-
-#### Parameters
-
- Name | Type | Description
-:-----|:-----|:------------
-initialScope | Scope | The scope object to start finding variables.
-name | string or Node | The variable name to find. This can be an Identifier node.
-
-#### Return value
-
-The found variable or `null`.
-
-#### Example
-
-```js{8}
-const { findVariable } = require("eslint-utils")
-
-module.exports = {
-    meta: {},
-    create(context) {
-        return {
-            Identifier(node) {
-                const variable = findVariable(context.getScope(), node)
-            },
-        }
-    },
-}
-```
-
-## getFunctionHeadLocation
+### getFunctionHeadLocation
 
 ```js
 const loc = utils.getFunctionHeadLocation(node, sourceCode)
@@ -173,7 +139,7 @@ module.exports = {
 }
 ```
 
-## getFunctionNameWithKind
+### getFunctionNameWithKind
 
 ```js
 const name = utils.getFunctionNameWithKind(node)
@@ -261,45 +227,7 @@ module.exports = {
 }
 ```
 
-## getInnermostScope
-
-```js
-const scope = utils.getInnermostScope(initialScope, node)
-```
-
-Get the innermost scope which contains a given node.
-
-#### Parameters
-
- Name | Type | Description
-:-----|:-----|:------------
-initialScope | Scope | The scope to start finding.
-node | Node | The node to find the innermost scope.
-
-#### Return value
-
-The innermost scope which contains the given node.
-If such scope doesn't exist then it returns the 1st argument `initialScope`.
-
-#### Example
-
-```js{9}
-const { getInnermostScope } = require("eslint-utils")
-
-module.exports = {
-    meta: {},
-    create(context) {
-        return {
-            "Program"(node) {
-                const globalScope = context.getScope()
-                const maybeNodejsScope = getInnermostScope(globalScope, node)
-            },
-        }
-    },
-}
-```
-
-## getPropertyName
+### getPropertyName
 
 ```js
 const name = utils.getPropertyName(node)
@@ -335,7 +263,7 @@ module.exports = {
 }
 ```
 
-## getStringIfConstant
+### getStringIfConstant
 
 ```js
 const str = utils.getStringIfConstant(node)
@@ -373,11 +301,209 @@ module.exports = {
 }
 ```
 
-## ReferenceTracker
+## Token utilities
+
+### isArrowToken / isNotArrowToken
+
+```js
+utils.isArrowToken(token)
+utils.isNotArrowToken(token)
+```
+
+Check whether a given token is a `=>` token or not.
+
+#### Examples
+
+```js{9}
+const { isArrowToken } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        const sourceCode = context.getSourceCode()
+
+        return {
+            ArrowFunctionExpression(node) {
+                const arrowToken = sourceCode.getTokenBefore(node.body, isArrowToken)
+            },
+        }
+    },
+}
+```
+
+### isClosingBraceToken / isNotClosingBraceToken
+
+```js
+utils.isClosingBraceToken(token)
+utils.isNotClosingBraceToken(token)
+```
+
+Check whether a given token is a `}` token or not.
+
+### isClosingBracketToken / isNotClosingBracketToken
+
+```js
+utils.isClosingBracketToken(token)
+utils.isNotClosingBracketToken(token)
+```
+
+Check whether a given token is a `]` token or not.
+
+### isClosingParenToken / isNotClosingParenToken
+
+```js
+utils.isClosingParenToken(token)
+utils.isNotClosingParenToken(token)
+```
+
+Check whether a given token is a `)` token or not.
+
+### isColonToken / isNotColonToken
+
+```js
+utils.isColonToken(token)
+utils.isNotColonToken(token)
+```
+
+Check whether a given token is a `:` token or not.
+
+### isCommaToken / isNotCommaToken
+
+```js
+utils.isCommaToken(token)
+utils.isNotCommaToken(token)
+```
+
+Check whether a given token is a `,` token or not.
+
+### isCommentToken / isNotCommentToken
+
+```js
+utils.isCommentToken(token)
+utils.isNotCommentToken(token)
+```
+
+Check whether a given token is a comment token or not.
+
+### isOpeningBraceToken / isNotOpeningBraceToken
+
+```js
+utils.isOpeningBraceToken(token)
+utils.isNotOpeningBraceToken(token)
+```
+
+Check whether a given token is a `{` token or not.
+
+### isOpeningBracketToken / isNotOpeningBracketToken
+
+```js
+utils.isOpeningBracketToken(token)
+utils.isNotOpeningBracketToken(token)
+```
+
+Check whether a given token is a `[` token or not.
+
+### isOpeningParenToken / isNotOpeningParenToken
+
+```js
+utils.isOpeningParenToken(token)
+utils.isNotOpeningParenToken(token)
+```
+
+Check whether a given token is a `(` token or not.
+
+### isSemicolonToken / isNotSemicolonToken
+
+```js
+utils.isSemicolonToken(token)
+utils.isNotSemicolonToken(token)
+```
+
+Check whether a given token is a `;` token or not.
+
+## Scope analysis utilities
+
+### findVariable
+
+```js
+const variable = utils.findVariable(initialScope, name)
+```
+
+Get the variable of a given name.
+
+#### Parameters
+
+ Name | Type | Description
+:-----|:-----|:------------
+initialScope | Scope | The scope object to start finding variables.
+name | string or Node | The variable name to find. This can be an Identifier node.
+
+#### Return value
+
+The found variable or `null`.
+
+#### Example
+
+```js{8}
+const { findVariable } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        return {
+            Identifier(node) {
+                const variable = findVariable(context.getScope(), node)
+            },
+        }
+    },
+}
+```
+### getInnermostScope
+
+```js
+const scope = utils.getInnermostScope(initialScope, node)
+```
+
+Get the innermost scope which contains a given node.
+
+#### Parameters
+
+ Name | Type | Description
+:-----|:-----|:------------
+initialScope | Scope | The scope to start finding.
+node | Node | The node to find the innermost scope.
+
+#### Return value
+
+The innermost scope which contains the given node.
+If such scope doesn't exist then it returns the 1st argument `initialScope`.
+
+#### Example
+
+```js{9}
+const { getInnermostScope } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        return {
+            "Program"(node) {
+                const globalScope = context.getScope()
+                const maybeNodejsScope = getInnermostScope(globalScope, node)
+            },
+        }
+    },
+}
+```
+
+### ReferenceTracker
 
 ```js
 const tracker = new utils.ReferenceTracker(globalScope, options)
 ```
+
+The tracker for references.
+This provides reference tracking for global variables, CommonJS modules, and ES modules.
 
 #### Parameters
 
@@ -586,123 +712,3 @@ module.exports = {
     },
 }
 ```
-
-## Predicate functions for tokens
-
-### isArrowToken / isNotArrowToken
-
-```js
-utils.isArrowToken(token)
-utils.isNotArrowToken(token)
-```
-
-Check whether a given token is a `=>` token or not.
-
-#### Examples
-
-```js{9}
-const { isArrowToken } = require("eslint-utils")
-
-module.exports = {
-    meta: {},
-    create(context) {
-        const sourceCode = context.getSourceCode()
-
-        return {
-            ArrowFunctionExpression(node) {
-                const arrowToken = sourceCode.getTokenBefore(node.body, isArrowToken)
-            },
-        }
-    },
-}
-```
-
-### isClosingBraceToken / isNotClosingBraceToken
-
-```js
-utils.isClosingBraceToken(token)
-utils.isNotClosingBraceToken(token)
-```
-
-Check whether a given token is a `}` token or not.
-
-### isClosingBracketToken / isNotClosingBracketToken
-
-```js
-utils.isClosingBracketToken(token)
-utils.isNotClosingBracketToken(token)
-```
-
-Check whether a given token is a `]` token or not.
-
-### isClosingParenToken / isNotClosingParenToken
-
-```js
-utils.isClosingParenToken(token)
-utils.isNotClosingParenToken(token)
-```
-
-Check whether a given token is a `)` token or not.
-
-### isColonToken / isNotColonToken
-
-```js
-utils.isColonToken(token)
-utils.isNotColonToken(token)
-```
-
-Check whether a given token is a `:` token or not.
-
-### isCommaToken / isNotCommaToken
-
-```js
-utils.isCommaToken(token)
-utils.isNotCommaToken(token)
-```
-
-Check whether a given token is a `,` token or not.
-
-### isCommentToken / isNotCommentToken
-
-```js
-utils.isCommentToken(token)
-utils.isNotCommentToken(token)
-```
-
-Check whether a given token is a comment token or not.
-
-### isOpeningBraceToken / isNotOpeningBraceToken
-
-```js
-utils.isOpeningBraceToken(token)
-utils.isNotOpeningBraceToken(token)
-```
-
-Check whether a given token is a `{` token or not.
-
-### isOpeningBracketToken / isNotOpeningBracketToken
-
-```js
-utils.isOpeningBracketToken(token)
-utils.isNotOpeningBracketToken(token)
-```
-
-Check whether a given token is a `[` token or not.
-
-### isOpeningParenToken / isNotOpeningParenToken
-
-```js
-utils.isOpeningParenToken(token)
-utils.isNotOpeningParenToken(token)
-```
-
-Check whether a given token is a `(` token or not.
-
-### isSemicolonToken / isNotSemicolonToken
-
-```js
-utils.isSemicolonToken(token)
-utils.isNotSemicolonToken(token)
-```
-
-Check whether a given token is a `;` token or not.
