@@ -266,7 +266,8 @@ module.exports = {
 ### getStringIfConstant
 
 ```js
-const str = utils.getStringIfConstant(node)
+const str1 = utils.getStringIfConstant(node)
+const str2 = utils.getStringIfConstant(node, initialScope)
 ```
 
 Get the string value of a given literal node.
@@ -276,6 +277,7 @@ Get the string value of a given literal node.
  Name | Type | Description
 :-----|:-----|:------------
 node | Node | The node to get that string value.
+initialScope | Scope or undefined | Optional. The scope object to find variables. If this scope was given and the node is an Identifier node, it finds the variable of the identifier, and if the variable is a `const` variable, it returns the value of the `const` variable.
 
 #### Return value
 

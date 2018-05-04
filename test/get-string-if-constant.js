@@ -37,4 +37,31 @@ describe("The 'getStringIfConstant' function", () => {
             assert.strictEqual(actual, expected)
         })
     }
+
+    describe("with the 2nd argument 'initialScope',", () => {
+        for (const { code, expected } of [
+            { code: "id", expected: null },
+            { code: "const id = 'abc'; id", expected: "abc" },
+            { code: "let id = 'abc'; id", expected: null },
+            { code: "var id = 'abc'; id", expected: null },
+            { code: "const id = otherId; id", expected: null },
+        ]) {
+            it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
+                const linter = new eslint.Linter()
+
+                let actual = null
+                linter.defineRule("test", context => ({
+                    "Program > ExpressionStatement > *"(node) {
+                        actual = getStringIfConstant(node, context.getScope())
+                    },
+                }))
+                linter.verify(code, {
+                    parserOptions: { ecmaVersion: 2018 },
+                    rules: { test: "error" },
+                })
+
+                assert.strictEqual(actual, expected)
+            })
+        }
+    })
 })
