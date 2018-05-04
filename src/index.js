@@ -1,3 +1,4 @@
+import { findVariable } from "./find-variable"
 import { getFunctionHeadLocation } from "./get-function-head-location"
 import { getFunctionNameWithKind } from "./get-function-name-with-kind"
 import { getInnermostScope } from "./get-innermost-scope"
@@ -39,6 +40,7 @@ export default {
     CALL,
     CONSTRUCT,
     ESM,
+    findVariable,
     getFunctionHeadLocation,
     getFunctionNameWithKind,
     getInnermostScope,
@@ -73,6 +75,7 @@ export {
     CALL,
     CONSTRUCT,
     ESM,
+    findVariable,
     getFunctionHeadLocation,
     getFunctionNameWithKind,
     getInnermostScope,

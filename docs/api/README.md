@@ -4,6 +4,42 @@ sidebarDepth: 3
 
 # API Reference
 
+## findVariable
+
+```js
+const variable = utils.findVariable(initialScope, name)
+```
+
+Get the variable of a given name.
+
+#### Parameters
+
+ Name | Type | Description
+:-----|:-----|:------------
+initialScope | Scope | The scope object to start finding variables.
+name | string or Node | The variable name to find. This can be an Identifier node.
+
+#### Return value
+
+The found variable or `null`.
+
+#### Example
+
+```js{8}
+const { findVariable } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        return {
+            Identifier(node) {
+                const variable = findVariable(context.getScope(), node)
+            },
+        }
+    },
+}
+```
+
 ## getFunctionHeadLocation
 
 ```js

@@ -1,4 +1,4 @@
-import { getInnermostScope } from "./get-innermost-scope"
+import { findVariable } from "./find-variable"
 import { getPropertyName } from "./get-property-name"
 import { getStringIfConstant } from "./get-string-if-constant"
 
@@ -9,7 +9,7 @@ const has = Function.call.bind(Object.hasOwnProperty)
 export const READ = Symbol("read")
 export const CALL = Symbol("call")
 export const CONSTRUCT = Symbol("construct")
-export const ESM = Symbol("strict")
+export const ESM = Symbol("esm")
 
 /**
  * The reference tracker.
@@ -189,25 +189,6 @@ export class ReferenceTracker {
     }
 
     /**
-     * Finds the variable object of a given Identifier node.
-     * @param {ASTNode} node - An Identifier node to find.
-     * @returns {Variable|null} Found variable object.
-     */
-    _findVariable(node) {
-        let scope = getInnermostScope(this.globalScope, node)
-        while (scope != null) {
-            const variable = scope.set.get(node.name)
-            if (variable != null) {
-                return variable
-            }
-
-            scope = scope.upper
-        }
-
-        return null
-    }
-
-    /**
      * Iterate the references for a given variable.
      * @param {Variable} variable The variable to iterate that references.
      * @param {string[]} path The current path.
@@ -323,7 +304,7 @@ export class ReferenceTracker {
      */
     *_iterateLhsReferences(patternNode, path, traceMap) {
         if (patternNode.type === "Identifier") {
-            const variable = this._findVariable(patternNode)
+            const variable = findVariable(this.globalScope, patternNode)
             if (variable != null) {
                 yield* this._iterateVariableReferences(
                     variable,
@@ -395,7 +376,7 @@ export class ReferenceTracker {
                 }
             }
             yield* this._iterateVariableReferences(
-                this._findVariable(specifierNode.local),
+                findVariable(this.globalScope, specifierNode.local),
                 path,
                 nextTraceMap,
                 false
@@ -406,7 +387,7 @@ export class ReferenceTracker {
 
         if (type === "ImportNamespaceSpecifier") {
             yield* this._iterateVariableReferences(
-                this._findVariable(specifierNode.local),
+                findVariable(this.globalScope, specifierNode.local),
                 path,
                 traceMap,
                 false
