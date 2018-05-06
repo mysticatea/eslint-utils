@@ -14,6 +14,9 @@ module.exports = {
         docsBranch: "master",
         editLinks: true,
 
-        sidebar: ["/guide/", "/api/"],
+        nav: [
+            { text: "Getting Started", link: "/guide/" },
+            { text: "API Reference", link: "/api/" },
+        ],
     },
 }

@@ -1,3 +1,7 @@
+---
+sidebar: auto
+---
+
 # Geting Started
 
 ## Installation
