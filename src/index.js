@@ -3,6 +3,7 @@ import { getFunctionHeadLocation } from "./get-function-head-location"
 import { getFunctionNameWithKind } from "./get-function-name-with-kind"
 import { getInnermostScope } from "./get-innermost-scope"
 import { getPropertyName } from "./get-property-name"
+import { getStaticValue } from "./get-static-value"
 import { getStringIfConstant } from "./get-string-if-constant"
 import {
     CALL,
@@ -45,6 +46,7 @@ export default {
     getFunctionNameWithKind,
     getInnermostScope,
     getPropertyName,
+    getStaticValue,
     getStringIfConstant,
     isArrowToken,
     isClosingBraceToken,
@@ -80,6 +82,7 @@ export {
     getFunctionNameWithKind,
     getInnermostScope,
     getPropertyName,
+    getStaticValue,
     getStringIfConstant,
     isArrowToken,
     isClosingBraceToken,

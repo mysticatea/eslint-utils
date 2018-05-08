@@ -9,7 +9,7 @@ describe("The 'getPropertyName' function", () => {
         { code: "a[`b`]", expected: "b" },
         { code: "a[100]", expected: "100" },
         { code: "a[b]", expected: null },
-        { code: "a['a' + 'b']", expected: null },
+        { code: "a['a' + 'b']", expected: "ab" },
         { code: "a[tag`b`]", expected: null },
         { code: "a[`${b}`]", expected: null }, //eslint-disable-line no-template-curly-in-string
         { code: "({b: 1})", expected: "b" },
@@ -22,7 +22,7 @@ describe("The 'getPropertyName' function", () => {
         { code: "({[`b`]: 1})", expected: "b" },
         { code: "({[100]: 1})", expected: "100" },
         { code: "({[b]: 1})", expected: null },
-        { code: "({['a' + 'b']: 1})", expected: null },
+        { code: "({['a' + 'b']: 1})", expected: "ab" },
         { code: "({[tag`b`]: 1})", expected: null },
         { code: "({[`${b}`]: 1})", expected: null }, //eslint-disable-line no-template-curly-in-string
         { code: "(class {b() {}})", expected: "b" },
@@ -30,7 +30,7 @@ describe("The 'getPropertyName' function", () => {
         { code: "(class {['b']() {}})", expected: "b" },
         { code: "(class {[100]() {}})", expected: "100" },
         { code: "(class {[b]() {}})", expected: null },
-        { code: "(class {['a' + 'b']() {}})", expected: null },
+        { code: "(class {['a' + 'b']() {}})", expected: "ab" },
         { code: "(class {[tag`b`]() {}})", expected: null },
         { code: "(class {[`${b}`]() {}})", expected: null }, //eslint-disable-line no-template-curly-in-string
     ]) {

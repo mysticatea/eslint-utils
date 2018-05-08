@@ -260,7 +260,67 @@ module.exports = {
     create(context) {
         return {
             MemberExpression(node) {
-                const name = getPropertyName(node)
+                const name = getPropertyName(node, context.getScope())
+            },
+        }
+    },
+}
+```
+
+----
+
+## getStaticValue
+
+```js
+const ret1 = utils.getStaticValue(node)
+const ret2 = utils.getStaticValue(node, initialScope)
+```
+
+Get the value of a given node if it can decide the value statically.
+
+If the 2nd parameter `initialScope` was given, this function tries to resolve identifier references which are in the given node as much as possible.
+In the resolving way, it does on the assumption that built-in global objects have not been modified.
+For example, it considers `Symbol.iterator`, ``String.raw`hello` ``, and `Object.freeze({a: 1}).a` as static.
+
+For another complex example, this function can evaluate the following cases on AST:
+
+```js{6}
+const eventName = "click"
+const aMap = Object.freeze({
+    click: 777
+})
+
+;`on${eventName} : ${aMap[eventName]}` // evaluated to "onclick : 777"
+```
+
+### Parameters
+
+ Name | Type | Description
+:-----|:-----|:------------
+node | Node | The node to get that the value.
+initialScope | Scope or undefined | Optional. The scope object to find variables.
+
+### Return value
+
+The `{ value: any }` shaped object. The `value` property is the static value.
+
+If it couldn't compute the static value of the node, it returns `null`.
+
+### Example
+
+```js{8}
+const { getStaticValue } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        return {
+            ExpressionStatement(node) {
+                const evaluated = getStaticValue(node, context.getScope())
+                if (evaluated) {
+                    const staticValue = evaluated.value
+                    // ...
+                }
             },
         }
     },
@@ -276,35 +336,14 @@ const str1 = utils.getStringIfConstant(node)
 const str2 = utils.getStringIfConstant(node, initialScope)
 ```
 
-Get the string value of a given literal node.
+Get the string value of a given node.
 
-### Parameters
+This function is a tiny wrapper of the [getStaticValue](#getstaticvalue) function.
+I.e., this is the same as below:
 
- Name | Type | Description
-:-----|:-----|:------------
-node | Node | The node to get that string value.
-initialScope | Scope or undefined | Optional. The scope object to find variables. If this scope was given and the node is an Identifier node, it finds the variable of the identifier, and if the variable is a `const` variable, it returns the value of the `const` variable.
-
-### Return value
-
-The string value of the node.
-If the node is not constant then it returns `null`.
-
-### Example
-
-```js{9}
-const { getStringIfConstant } = require("eslint-utils")
-
-module.exports = {
-    meta: {},
-    create(context) {
-        return {
-            MemberExpression(node) {
-                const name = node.computed
-                    ? getStringIfConstant(node.property)
-                    : node.property.name
-            },
-        }
-    },
+```js
+function getStringIfConstant(node, initialScope) {
+    const evaluated = getStaticValue(node, initialScope)
+    return evaluated && String(evaluated.value)
 }
 ```
