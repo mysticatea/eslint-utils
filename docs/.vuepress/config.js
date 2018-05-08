@@ -15,8 +15,26 @@ module.exports = {
         editLinks: true,
 
         nav: [
-            { text: "Getting Started", link: "/guide/" },
-            { text: "API Reference", link: "/api/" },
+            { text: "Guide", link: "/guide/getting-started" },
+            { text: "API Reference", link: "/api/ast-utils" },
         ],
+        sidebar: {
+            "/": [
+                {
+                    title: "Guide",
+                    collapsable: false,
+                    children: ["/guide/getting-started"],
+                },
+                {
+                    title: "API Reference",
+                    collapsable: false,
+                    children: [
+                        "/api/ast-utils",
+                        "/api/scope-utils",
+                        "/api/token-utils",
+                    ],
+                },
+            ],
+        },
     },
 }

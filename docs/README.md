@@ -1,8 +1,7 @@
 ---
 home: true
 actionText: Get Started →
-actionLink: /guide/
-footer: MIT Licensed | © 2018 Toru Nagashima
+actionLink: /guide/getting-started
 ---
 
 <center>
