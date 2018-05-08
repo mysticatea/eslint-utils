@@ -231,15 +231,19 @@ module.exports = {
 
 ```js
 const name = utils.getPropertyName(node)
+const name = utils.getPropertyName(node, initialScope)
 ```
 
 Get the property name of a given property node.
+
+If the node is a computed property, this tries to compute the property name by the [getStringIfConstant](#getstringifconstant) function.
 
 ### Parameters
 
  Name | Type | Description
 :-----|:-----|:------------
 node | Node | The node to get that name. This shuld be any of `MemberExpression`, `Property`, and `MethodDefinition` node.
+initialScope | Scope or undefined | Optional. The scope object to find variables.
 
 ### Return value
 
