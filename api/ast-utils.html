@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>eslint-utils | AST utilities</title>
+    <meta name="description" content="Utilities for ESLint plugins and custom rules.">
+    
+    
+    <link rel="preload" href="/eslint-utils/assets/css/5.styles.3b5c09e1.css" as="style"><link rel="preload" href="/eslint-utils/assets/js/app.34e06378.js" as="script"><link rel="preload" href="/eslint-utils/assets/js/3.1a460bbc.js" as="script"><link rel="prefetch" href="/eslint-utils/assets/js/0.f87bc0c9.js"><link rel="prefetch" href="/eslint-utils/assets/js/1.97811312.js"><link rel="prefetch" href="/eslint-utils/assets/js/2.6055add6.js"><link rel="prefetch" href="/eslint-utils/assets/js/4.101c08c2.js">
+    <link rel="stylesheet" href="/eslint-utils/assets/css/5.styles.3b5c09e1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div data-v-84210aa4><div class="theme-container" data-v-84210aa4><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div><a href="/eslint-utils/" class="home-link router-link-active"><!----><span class="site-name">
+      eslint-utils
+    </span></a><div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""><!----></div><nav class="nav-links can-hide"><div class="nav-item"><a href="/eslint-utils/guide/getting-started.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/eslint-utils/api/ast-utils.html" class="nav-link router-link-exact-active router-link-active">API Reference</a></div><a href="https://github.com/mysticatea/eslint-utils" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header><div class="sidebar-mask"></div><div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/eslint-utils/guide/getting-started.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/eslint-utils/api/ast-utils.html" class="nav-link router-link-exact-active router-link-active">API Reference</a></div><a href="https://github.com/mysticatea/eslint-utils" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav><ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading"><span>Guide</span><!----></p><ul class="sidebar-group-items"><li><a href="/eslint-utils/guide/getting-started.html" class="sidebar-link">Geting Started</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading open"><span>API Reference</span><!----></p><ul class="sidebar-group-items"><li><a href="/eslint-utils/api/ast-utils.html" class="active sidebar-link">AST utilities</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/eslint-utils/api/ast-utils.html#getfunctionheadlocation" class="sidebar-link">getFunctionHeadLocation</a></li><li class="sidebar-sub-header"><a href="/eslint-utils/api/ast-utils.html#getfunctionnamewithkind" class="sidebar-link">getFunctionNameWithKind</a></li><li class="sidebar-sub-header"><a href="/eslint-utils/api/ast-utils.html#getpropertyname" class="sidebar-link">getPropertyName</a></li><li class="sidebar-sub-header"><a href="/eslint-utils/api/ast-utils.html#getstaticvalue" class="sidebar-link">getStaticValue</a></li><li class="sidebar-sub-header"><a href="/eslint-utils/api/ast-utils.html#getstringifconstant" class="sidebar-link">getStringIfConstant</a></li></ul></li><li><a href="/eslint-utils/api/scope-utils.html" class="sidebar-link">Scope analysis utilities</a></li><li><a href="/eslint-utils/api/token-utils.html" class="sidebar-link">Token utilities</a></li></ul></div></li></ul></div><div class="page"><div class="content"><h1 id="ast-utilities"><a href="#ast-utilities" aria-hidden="true" class="header-anchor">#</a> AST utilities</h1><hr><h2 id="getfunctionheadlocation"><a href="#getfunctionheadlocation" aria-hidden="true" class="header-anchor">#</a> getFunctionHeadLocation</h2><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> loc <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getFunctionHeadLocation</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> sourceCode<span class="token punctuation">)</span>
+</code></pre></div><p>Get the proper location of a given function node to report.</p><details><summary>Show the location examples:</summary><div class="language- extra-class"><pre class="language-text"><code>- `function foo() {}`
+   ^^^^^^^^^^^^
+- `(function foo() {})`
+    ^^^^^^^^^^^^
+- `(function() {})`
+    ^^^^^^^^
+- `function* foo() {}`
+   ^^^^^^^^^^^^^
+- `(function* foo() {})`
+    ^^^^^^^^^^^^^
+- `(function*() {})`
+    ^^^^^^^^^
+- `() =&gt; {}`
+      ^^
+- `async () =&gt; {}`
+            ^^
+- `({ foo: function foo() {} })`
+      ^^^^^^^^^^^^^^^^^
+- `({ foo: function() {} })`
+      ^^^^^^^^^^^^^
+- `({ ['foo']: function() {} })`
+      ^^^^^^^^^^^^^^^^^
+- `({ [foo]: function() {} })`
+      ^^^^^^^^^^^^^^^
+- `({ foo() {} })`
+      ^^^
+- `({ foo: function* foo() {} })`
+      ^^^^^^^^^^^^^^^^^^
+- `({ foo: function*() {} })`
+      ^^^^^^^^^^^^^^
+- `({ ['foo']: function*() {} })`
+      ^^^^^^^^^^^^^^^^^^
+- `({ [foo]: function*() {} })`
+      ^^^^^^^^^^^^^^^^
+- `({ *foo() {} })`
+      ^^^^
+- `({ foo: async function foo() {} })`
+      ^^^^^^^^^^^^^^^^^^^^^^^
+- `({ foo: async function() {} })`
+      ^^^^^^^^^^^^^^^^^^^
+- `({ ['foo']: async function() {} })`
+      ^^^^^^^^^^^^^^^^^^^^^^^
+- `({ [foo]: async function() {} })`
+      ^^^^^^^^^^^^^^^^^^^^^
+- `({ async foo() {} })`
+      ^^^^^^^^^
+- `({ get foo() {} })`
+      ^^^^^^^
+- `({ set foo(a) {} })`
+      ^^^^^^^
+- `class A { constructor() {} }`
+             ^^^^^^^^^^^
+- `class A { foo() {} }`
+             ^^^
+- `class A { *foo() {} }`
+             ^^^^
+- `class A { async foo() {} }`
+             ^^^^^^^^^
+- `class A { ['foo']() {} }`
+             ^^^^^^^
+- `class A { *['foo']() {} }`
+             ^^^^^^^^
+- `class A { async ['foo']() {} }`
+             ^^^^^^^^^^^^^
+- `class A { [foo]() {} }`
+             ^^^^^
+- `class A { *[foo]() {} }`
+             ^^^^^^
+- `class A { async [foo]() {} }`
+             ^^^^^^^^^^^
+- `class A { get foo() {} }`
+             ^^^^^^^
+- `class A { set foo(a) {} }`
+             ^^^^^^^
+- `class A { static foo() {} }`
+             ^^^^^^^^^^
+- `class A { static *foo() {} }`
+             ^^^^^^^^^^^
+- `class A { static async foo() {} }`
+             ^^^^^^^^^^^^^^^^
+- `class A { static get foo() {} }`
+             ^^^^^^^^^^^^^^
+- `class A { static set foo(a) {} }`
+             ^^^^^^^^^^^^^^
+</code></pre></div></details><h3 id="parameters"><a href="#parameters" aria-hidden="true" class="header-anchor">#</a> Parameters</h3><table><thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr></thead><tbody><tr><td style="text-align:left">node</td><td style="text-align:left">Node</td><td style="text-align:left">The function node to get the location. This should be any of <code>FunctionDeclaration</code>, <code>FunctionExpression</code>, and <code>ArrowFunctionExpression</code> node.</td></tr><tr><td style="text-align:left">sourceCode</td><td style="text-align:left">SourceCode</td><td style="text-align:left">The source code object to get tokens.</td></tr></tbody></table><h3 id="return-value"><a href="#return-value" aria-hidden="true" class="header-anchor">#</a> Return value</h3><p>The location object.</p><h3 id="example"><a href="#example" aria-hidden="true" class="header-anchor">#</a> Example</h3><div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><div class="highlighted"> </div><br><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> getFunctionHeadLocation <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;eslint-utils&quot;</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> sourceCode <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getSourceCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            <span class="token function">FunctionDeclaration</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                context<span class="token punctuation">.</span><span class="token function">report</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                    node<span class="token punctuation">,</span>
+                    loc<span class="token punctuation">:</span> <span class="token function">getFunctionHeadLocation</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> sourceCode<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    message<span class="token punctuation">:</span> <span class="token string">&quot;disallow this function!&quot;</span><span class="token punctuation">,</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><hr><h2 id="getfunctionnamewithkind"><a href="#getfunctionnamewithkind" aria-hidden="true" class="header-anchor">#</a> getFunctionNameWithKind</h2><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> name <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getFunctionNameWithKind</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+</code></pre></div><p>Get the name and kind of a given function node.</p><details><summary>Show the name and kind examples:</summary><div class="language- extra-class"><pre class="language-text"><code>- `function foo() {}`  .................... `function 'foo'`
+- `(function foo() {})`  .................. `function 'foo'`
+- `(function() {})`  ...................... `function`
+- `function* foo() {}`  ................... `generator function 'foo'`
+- `(function* foo() {})`  ................. `generator function 'foo'`
+- `(function*() {})`  ..................... `generator function`
+- `() =&gt; {}`  ............................. `arrow function`
+- `async () =&gt; {}`  ....................... `async arrow function`
+- `({ foo: function foo() {} })`  ......... `method 'foo'`
+- `({ foo: function() {} })`  ............. `method 'foo'`
+- `({ ['foo']: function() {} })`  ......... `method 'foo'`
+- `({ [foo]: function() {} })`  ........... `method`
+- `({ foo() {} })`  ....................... `method 'foo'`
+- `({ foo: function* foo() {} })`  ........ `generator method 'foo'`
+- `({ foo: function*() {} })`  ............ `generator method 'foo'`
+- `({ ['foo']: function*() {} })`  ........ `generator method 'foo'`
+- `({ [foo]: function*() {} })`  .......... `generator method`
+- `({ *foo() {} })`  ...................... `generator method 'foo'`
+- `({ foo: async function foo() {} })`  ... `async method 'foo'`
+- `({ foo: async function() {} })`  ....... `async method 'foo'`
+- `({ ['foo']: async function() {} })`  ... `async method 'foo'`
+- `({ [foo]: async function() {} })`  ..... `async method`
+- `({ async foo() {} })`  ................. `async method 'foo'`
+- `({ get foo() {} })`  ................... `getter 'foo'`
+- `({ set foo(a) {} })`  .................. `setter 'foo'`
+- `class A { constructor() {} }`  ......... `constructor`
+- `class A { foo() {} }`  ................. `method 'foo'`
+- `class A { *foo() {} }`  ................ `generator method 'foo'`
+- `class A { async foo() {} }`  ........... `async method 'foo'`
+- `class A { ['foo']() {} }`  ............. `method 'foo'`
+- `class A { *['foo']() {} }`  ............ `generator method 'foo'`
+- `class A { async ['foo']() {} }`  ....... `async method 'foo'`
+- `class A { [foo]() {} }`  ............... `method`
+- `class A { *[foo]() {} }`  .............. `generator method`
+- `class A { async [foo]() {} }`  ......... `async method`
+- `class A { get foo() {} }`  ............. `getter 'foo'`
+- `class A { set foo(a) {} }`  ............ `setter 'foo'`
+- `class A { static foo() {} }`  .......... `static method 'foo'`
+- `class A { static *foo() {} }`  ......... `static generator method 'foo'`
+- `class A { static async foo() {} }`  .... `static async method 'foo'`
+- `class A { static get foo() {} }`  ...... `static getter 'foo'`
+- `class A { static set foo(a) {} }`  ..... `static setter 'foo'`
+</code></pre></div></details><h3 id="parameters-2"><a href="#parameters-2" aria-hidden="true" class="header-anchor">#</a> Parameters</h3><table><thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr></thead><tbody><tr><td style="text-align:left">node</td><td style="text-align:left">Node</td><td style="text-align:left">The function node to get the name and kind. This should be any of <code>FunctionDeclaration</code>, <code>FunctionExpression</code>, and <code>ArrowFunctionExpression</code> node.</td></tr></tbody></table><h3 id="return-value-2"><a href="#return-value-2" aria-hidden="true" class="header-anchor">#</a> Return value</h3><p>The name and kind of the function.</p><h3 id="example-2"><a href="#example-2" aria-hidden="true" class="header-anchor">#</a> Example</h3><div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><div class="highlighted"> </div><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> getFunctionNameWithKind <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;eslint-utils&quot;</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            <span class="token function">FunctionDeclaration</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                context<span class="token punctuation">.</span><span class="token function">report</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                    node<span class="token punctuation">,</span>
+                    message<span class="token punctuation">:</span> <span class="token string">&quot;disallow this {{name}}!&quot;</span><span class="token punctuation">,</span>
+                    data<span class="token punctuation">:</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token function">getFunctionNameWithKind</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><hr><h2 id="getpropertyname"><a href="#getpropertyname" aria-hidden="true" class="header-anchor">#</a> getPropertyName</h2><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> name <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getPropertyName</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+<span class="token keyword">const</span> name <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getPropertyName</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> initialScope<span class="token punctuation">)</span>
+</code></pre></div><p>Get the property name of a given property node.</p><p>If the node is a computed property, this tries to compute the property name by the <a href="#getstringifconstant">getStringIfConstant</a> function.</p><h3 id="parameters-3"><a href="#parameters-3" aria-hidden="true" class="header-anchor">#</a> Parameters</h3><table><thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr></thead><tbody><tr><td style="text-align:left">node</td><td style="text-align:left">Node</td><td style="text-align:left">The node to get that name. This shuld be any of <code>MemberExpression</code>, <code>Property</code>, and <code>MethodDefinition</code> node.</td></tr><tr><td style="text-align:left">initialScope</td><td style="text-align:left">Scope or undefined</td><td style="text-align:left">Optional. The scope object to find variables.</td></tr></tbody></table><h3 id="return-value-3"><a href="#return-value-3" aria-hidden="true" class="header-anchor">#</a> Return value</h3><p>The property name of the node.
+If the property name is not constant then it returns <code>null</code>.</p><h3 id="example-3"><a href="#example-3" aria-hidden="true" class="header-anchor">#</a> Example</h3><div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><br><div class="highlighted"> </div><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> getPropertyName <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;eslint-utils&quot;</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            <span class="token function">MemberExpression</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token function">getPropertyName</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><hr><h2 id="getstaticvalue"><a href="#getstaticvalue" aria-hidden="true" class="header-anchor">#</a> getStaticValue</h2><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> ret1 <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getStaticValue</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+<span class="token keyword">const</span> ret2 <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getStaticValue</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> initialScope<span class="token punctuation">)</span>
+</code></pre></div><p>Get the value of a given node if it can decide the value statically.</p><p>If the 2nd parameter <code>initialScope</code> was given, this function tries to resolve identifier references which are in the given node as much as possible.
+In the resolving way, it does on the assumption that built-in global objects have not been modified.
+For example, it considers <code>Symbol.iterator</code>, <code>String.raw`hello`</code>, and <code>Object.freeze({a: 1}).a</code> as static.</p><p>For another complex example, this function can evaluate the following cases on AST:</p><div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><div class="highlighted"> </div><br></div><pre class="language-js"><code><span class="token keyword">const</span> eventName <span class="token operator">=</span> <span class="token string">&quot;click&quot;</span>
+<span class="token keyword">const</span> aMap <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">freeze</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    click<span class="token punctuation">:</span> <span class="token number">777</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">;</span><span class="token template-string"><span class="token string">`on</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>eventName<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> : </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>aMap<span class="token punctuation">[</span>eventName<span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span> <span class="token comment">// evaluated to &quot;onclick : 777&quot;</span>
+</code></pre></div><h3 id="parameters-4"><a href="#parameters-4" aria-hidden="true" class="header-anchor">#</a> Parameters</h3><table><thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr></thead><tbody><tr><td style="text-align:left">node</td><td style="text-align:left">Node</td><td style="text-align:left">The node to get that the value.</td></tr><tr><td style="text-align:left">initialScope</td><td style="text-align:left">Scope or undefined</td><td style="text-align:left">Optional. The scope object to find variables.</td></tr></tbody></table><h3 id="return-value-4"><a href="#return-value-4" aria-hidden="true" class="header-anchor">#</a> Return value</h3><p>The <code>{ value: any }</code> shaped object. The <code>value</code> property is the static value.</p><p>If it couldn't compute the static value of the node, it returns <code>null</code>.</p><h3 id="example-4"><a href="#example-4" aria-hidden="true" class="header-anchor">#</a> Example</h3><div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><br><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> getStaticValue <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;eslint-utils&quot;</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+    meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">{</span>
+            <span class="token function">ExpressionStatement</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">const</span> evaluated <span class="token operator">=</span> <span class="token function">getStaticValue</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>evaluated<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">const</span> staticValue <span class="token operator">=</span> evaluated<span class="token punctuation">.</span>value
+                    <span class="token comment">// ...</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre></div><hr><h2 id="getstringifconstant"><a href="#getstringifconstant" aria-hidden="true" class="header-anchor">#</a> getStringIfConstant</h2><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> str1 <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getStringIfConstant</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+<span class="token keyword">const</span> str2 <span class="token operator">=</span> utils<span class="token punctuation">.</span><span class="token function">getStringIfConstant</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> initialScope<span class="token punctuation">)</span>
+</code></pre></div><p>Get the string value of a given node.</p><p>This function is a tiny wrapper of the <a href="#getstaticvalue">getStaticValue</a> function.
+I.e., this is the same as below:</p><div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">function</span> <span class="token function">getStringIfConstant</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> initialScope<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> evaluated <span class="token operator">=</span> <span class="token function">getStaticValue</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> initialScope<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> evaluated <span class="token operator">&amp;&amp;</span> <span class="token function">String</span><span class="token punctuation">(</span>evaluated<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div><div class="content edit-link"><a href="https://github.com/mysticatea/eslint-utils/edit/master/docs/api/ast-utils.md" target="_blank" rel="noopener noreferrer">Edit this page</a><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!----></div><div class="content page-nav"><p class="inner"><span class="prev">
+        ← <a href="/eslint-utils/guide/getting-started.html" class="prev">
+          Geting Started
+        </a></span><span class="next"><a href="/eslint-utils/api/scope-utils.html">
+          Scope analysis utilities
+        </a> →
+      </span></p></div></div></div><!----></div></div>
+    <script src="/eslint-utils/assets/js/3.1a460bbc.js" defer></script><script src="/eslint-utils/assets/js/app.34e06378.js" defer></script>
+  </body>
+</html>
