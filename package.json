@@ -13,7 +13,7 @@
   "devDependencies": {
     "codecov": "^3.0.1",
     "eslint": "^4.19.1",
-    "eslint-plugin-mysticatea": "^5.0.0-beta.7",
+    "eslint-plugin-mysticatea": "^5.0.0-beta.10",
     "esm": "^3.0.28",
     "espree": "^3.5.4",
     "mocha": "^5.1.1",
@@ -22,7 +22,7 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.58.2",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "vuepress": "^0.8.4"
+    "vuepress": "github:mysticatea/vuepress"
   },
   "scripts": {
     "prebuild": "npm run -s clean",
