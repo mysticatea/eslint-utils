@@ -1,6 +1,30 @@
 import assert from "assert"
 import { PatternMatcher } from "../src/"
 
+const NAMED_CAPTURE_GROUP_SUPPORTED = (() => {
+    try {
+        new RegExp("(?<a>)", "u") //eslint-disable-line no-new, mysticatea/node/no-unsupported-features
+        return true
+    } catch (_error) {
+        return false
+    }
+})()
+
+/**
+ * Create a new RegExpExecArray.
+ * @param {string[]} subStrings The substrings.
+ * @param {number} index The index.
+ * @param {string} input The input.
+ * @returns {RegExpExecArray} The created object.
+ */
+function newRegExpExecArray(subStrings, index, input) {
+    Object.assign(subStrings, { index, input })
+    if (NAMED_CAPTURE_GROUP_SUPPORTED) {
+        subStrings.groups = undefined
+    }
+    return subStrings
+}
+
 describe("The 'PatternMatcher' class:", () => {
     describe("the constructor", () => {
         it("should throw TypeError if non-RegExp value was given.", () => {
@@ -18,7 +42,10 @@ describe("The 'PatternMatcher' class:", () => {
                     },
                 },
             ]) {
-                assert.throws(() => new PatternMatcher(value), TypeError)
+                assert.throws(
+                    () => new PatternMatcher(value),
+                    /^TypeError: 'pattern' should be a RegExp instance\.$/
+                )
             }
         })
 
@@ -26,7 +53,7 @@ describe("The 'PatternMatcher' class:", () => {
             for (const value of [/foo/, /bar/im]) {
                 assert.throws(
                     () => new PatternMatcher(value),
-                    "'pattern' should contains 'g' flag."
+                    /^Error: 'pattern' should contains 'g' flag\.$/
                 )
             }
         })
@@ -42,67 +69,47 @@ describe("The 'PatternMatcher' class:", () => {
                 { str: String.raw`\a\foo`, expected: [] },
                 {
                     str: "foo",
-                    expected: [
-                        Object.assign(["foo"], {
-                            index: 0,
-                            input: "foo",
-                        }),
-                    ],
+                    expected: [newRegExpExecArray(["foo"], 0, "foo")],
                 },
                 {
                     str: String.raw`\\foo`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 2,
-                            input: String.raw`\\foo`,
-                        }),
+                        newRegExpExecArray(["foo"], 2, String.raw`\\foo`),
                     ],
                 },
                 {
                     str: String.raw`\\\\foo`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 4,
-                            input: String.raw`\\\\foo`,
-                        }),
+                        newRegExpExecArray(["foo"], 4, String.raw`\\\\foo`),
                     ],
                 },
                 {
                     str: "-foofoofooabcfoo-",
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 1,
-                            input: "-foofoofooabcfoo-",
-                        }),
-                        Object.assign(["foo"], {
-                            index: 4,
-                            input: "-foofoofooabcfoo-",
-                        }),
-                        Object.assign(["foo"], {
-                            index: 7,
-                            input: "-foofoofooabcfoo-",
-                        }),
-                        Object.assign(["foo"], {
-                            index: 13,
-                            input: "-foofoofooabcfoo-",
-                        }),
+                        newRegExpExecArray(["foo"], 1, "-foofoofooabcfoo-"),
+                        newRegExpExecArray(["foo"], 4, "-foofoofooabcfoo-"),
+                        newRegExpExecArray(["foo"], 7, "-foofoofooabcfoo-"),
+                        newRegExpExecArray(["foo"], 13, "-foofoofooabcfoo-"),
                     ],
                 },
                 {
                     str: String.raw`-foo\foofooabcfoo-`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 1,
-                            input: String.raw`-foo\foofooabcfoo-`,
-                        }),
-                        Object.assign(["foo"], {
-                            index: 8,
-                            input: String.raw`-foo\foofooabcfoo-`,
-                        }),
-                        Object.assign(["foo"], {
-                            index: 14,
-                            input: String.raw`-foo\foofooabcfoo-`,
-                        }),
+                        newRegExpExecArray(
+                            ["foo"],
+                            1,
+                            String.raw`-foo\foofooabcfoo-`
+                        ),
+                        newRegExpExecArray(
+                            ["foo"],
+                            8,
+                            String.raw`-foo\foofooabcfoo-`
+                        ),
+                        newRegExpExecArray(
+                            ["foo"],
+                            14,
+                            String.raw`-foo\foofooabcfoo-`
+                        ),
                     ],
                 },
             ]) {
@@ -118,28 +125,14 @@ describe("The 'PatternMatcher' class:", () => {
             for (const { str, expected } of [
                 {
                     str: "ab0c",
-                    expected: [
-                        Object.assign(["b0", "b", "0"], {
-                            index: 1,
-                            input: "ab0c",
-                        }),
-                    ],
+                    expected: [newRegExpExecArray(["b0", "b", "0"], 1, "ab0c")],
                 },
                 {
                     str: "a1b2c3",
                     expected: [
-                        Object.assign(["a1", "a", "1"], {
-                            index: 0,
-                            input: "a1b2c3",
-                        }),
-                        Object.assign(["b2", "b", "2"], {
-                            index: 2,
-                            input: "a1b2c3",
-                        }),
-                        Object.assign(["c3", "c", "3"], {
-                            index: 4,
-                            input: "a1b2c3",
-                        }),
+                        newRegExpExecArray(["a1", "a", "1"], 0, "a1b2c3"),
+                        newRegExpExecArray(["b2", "b", "2"], 2, "a1b2c3"),
+                        newRegExpExecArray(["c3", "c", "3"], 4, "a1b2c3"),
                     ],
                 },
             ]) {
@@ -155,32 +148,14 @@ describe("The 'PatternMatcher' class:", () => {
             it("should iterate for two strings in parallel.", () => {
                 const matcher = new PatternMatcher(/\w/g)
                 const expected1 = [
-                    Object.assign(["a"], {
-                        index: 0,
-                        input: "a--b-c",
-                    }),
-                    Object.assign(["b"], {
-                        index: 3,
-                        input: "a--b-c",
-                    }),
-                    Object.assign(["c"], {
-                        index: 5,
-                        input: "a--b-c",
-                    }),
+                    newRegExpExecArray(["a"], 0, "a--b-c"),
+                    newRegExpExecArray(["b"], 3, "a--b-c"),
+                    newRegExpExecArray(["c"], 5, "a--b-c"),
                 ]
                 const expected2 = [
-                    Object.assign(["a"], {
-                        index: 1,
-                        input: "-ab-c-",
-                    }),
-                    Object.assign(["b"], {
-                        index: 2,
-                        input: "-ab-c-",
-                    }),
-                    Object.assign(["c"], {
-                        index: 4,
-                        input: "-ab-c-",
-                    }),
+                    newRegExpExecArray(["a"], 1, "-ab-c-"),
+                    newRegExpExecArray(["b"], 2, "-ab-c-"),
+                    newRegExpExecArray(["c"], 4, "-ab-c-"),
                 ]
                 const actual1 = []
                 const actual2 = []
@@ -208,47 +183,30 @@ describe("The 'PatternMatcher' class:", () => {
             for (const { str, expected } of [
                 {
                     str: "foo",
-                    expected: [
-                        Object.assign(["foo"], {
-                            index: 0,
-                            input: "foo",
-                        }),
-                    ],
+                    expected: [newRegExpExecArray(["foo"], 0, "foo")],
                 },
                 {
                     str: String.raw`\foo`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 1,
-                            input: String.raw`\foo`,
-                        }),
+                        newRegExpExecArray(["foo"], 1, String.raw`\foo`),
                     ],
                 },
                 {
                     str: String.raw`\\foo`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 2,
-                            input: String.raw`\\foo`,
-                        }),
+                        newRegExpExecArray(["foo"], 2, String.raw`\\foo`),
                     ],
                 },
                 {
                     str: String.raw`\\\foo`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 3,
-                            input: String.raw`\\\foo`,
-                        }),
+                        newRegExpExecArray(["foo"], 3, String.raw`\\\foo`),
                     ],
                 },
                 {
                     str: String.raw`\\\\foo`,
                     expected: [
-                        Object.assign(["foo"], {
-                            index: 4,
-                            input: String.raw`\\\\foo`,
-                        }),
+                        newRegExpExecArray(["foo"], 4, String.raw`\\\\foo`),
                     ],
                 },
             ]) {
