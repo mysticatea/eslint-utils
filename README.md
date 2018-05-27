@@ -10,67 +10,15 @@
 
 This package provides utility functions and classes for make ESLint custom rules.
 
-For example, there is the class which tracks variable references.
+For examples:
 
-```js
-const { ReferenceTracker } = require("eslint-utils")
-
-module.exports = {
-    meta: {},
-    create(context) {
-        return {
-            "Program:exit"() {
-                const tracker = new ReferenceTracker(context.getScope())
-
-                // Track the references of global variables.
-                for (const { node, path } of tracker.iterateGlobalReferences({
-                    // Iterate the call expressions of `console.log`, `console.info`
-                    console: {
-                        log: { [ReferenceTracker.CALL]: true },
-                        info: { [ReferenceTracker.CALL]: true },
-                    },
-                })) {
-                    context.report({
-                        node,
-                        message: "Don't use {{name}}.",
-                        data: { name: path.join(".") },
-                    })
-                }
-
-                // Track the references of CommonJS modules.
-                for (const { node, path } of tracker.iterateCjsReferences({
-                    // Iterate the access of `fs.exists`.
-                    fs: {
-                        exists: { [ReferenceTracker.READ]: true },
-                    },
-                })) {
-                    context.report({
-                        node,
-                        message: "Don't use {{name}}.",
-                        data: { name: path.join(".") },
-                    })
-                }
-            }
-        }
-    },
-}
-```
-
-## 💿 Installation
-
-Use [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/).
-
-```
-npm install eslint-utils
-```
-
-### Requirements
-
-- Node.js `6.5.0` or newer.
+- [getStaticValue](https://mysticatea.github.io/eslint-utils/api/ast-utils.html#getstaticvalue) evaluates static value on AST.
+- [PatternMatcher](https://mysticatea.github.io/eslint-utils/api/ast-utils.html#patternmatcher-class) finds a regular expression pattern as handling escape sequences.
+- [ReferenceTracker](https://mysticatea.github.io/eslint-utils/api/scope-utils.html#referencetracker-class) checks the members of modules/globals as handling assignments and destructuring.
 
 ## 📖 Usage
 
-See [API reference](https://mysticatea.github.io/eslint-utils/).
+See [documentation](https://mysticatea.github.io/eslint-utils/).
 
 ## 📰 Changelog
 
