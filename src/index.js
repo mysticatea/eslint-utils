@@ -5,6 +5,7 @@ import { getInnermostScope } from "./get-innermost-scope"
 import { getPropertyName } from "./get-property-name"
 import { getStaticValue } from "./get-static-value"
 import { getStringIfConstant } from "./get-string-if-constant"
+import { PatternMatcher } from "./pattern-matcher"
 import {
     CALL,
     CONSTRUCT,
@@ -70,6 +71,7 @@ export default {
     isOpeningBracketToken,
     isOpeningParenToken,
     isSemicolonToken,
+    PatternMatcher,
     READ,
     ReferenceTracker,
 }
@@ -106,6 +108,7 @@ export {
     isOpeningBracketToken,
     isOpeningParenToken,
     isSemicolonToken,
+    PatternMatcher,
     READ,
     ReferenceTracker,
 }

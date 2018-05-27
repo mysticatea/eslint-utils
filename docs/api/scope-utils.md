@@ -73,7 +73,7 @@ module.exports = {
 }
 ```
 
-## ReferenceTracker
+## ReferenceTracker class
 
 ```js
 const tracker = new utils.ReferenceTracker(globalScope, options)
