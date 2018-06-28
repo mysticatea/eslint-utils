@@ -351,6 +351,24 @@ describe("The 'ReferenceTracker' class:", () => {
                     },
                 ],
             },
+            {
+                description:
+                    "should not iterate the references of a given global variable if it's modified.",
+                code: [
+                    "Object = {}",
+                    "Object.a",
+                    "Object.b()",
+                    "new Object.c()",
+                ].join("\n"),
+                traceMap: {
+                    Object: {
+                        a: { [READ]: 1 },
+                        b: { [CALL]: 2 },
+                        c: { [CONSTRUCT]: 3 },
+                    },
+                },
+                expected: [],
+            },
         ]) {
             it(description, () => {
                 const linter = new eslint.Linter()

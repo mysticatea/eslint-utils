@@ -11,6 +11,21 @@ export const CALL = Symbol("call")
 export const CONSTRUCT = Symbol("construct")
 export const ESM = Symbol("esm")
 
+const requireCall = { require: { [CALL]: true } }
+
+/**
+ * Check whether a given variable is modified or not.
+ * @param {Variable} variable The variable to check.
+ * @returns {boolean} `true` if the variable is modified.
+ */
+function isModifiedGlobal(variable) {
+    return (
+        variable == null ||
+        variable.defs.length !== 0 ||
+        variable.references.some(r => r.isWrite())
+    )
+}
+
 /**
  * The reference tracker.
  */
@@ -46,7 +61,7 @@ export class ReferenceTracker {
             const path = [key]
             const variable = this.globalScope.set.get(key)
 
-            if (variable == null || variable.defs.length !== 0) {
+            if (isModifiedGlobal(variable)) {
                 continue
             }
 
@@ -62,7 +77,7 @@ export class ReferenceTracker {
             const path = []
             const variable = this.globalScope.set.get(key)
 
-            if (variable == null || variable.defs.length !== 0) {
+            if (isModifiedGlobal(variable)) {
                 continue
             }
 
@@ -81,40 +96,24 @@ export class ReferenceTracker {
      * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
     *iterateCjsReferences(traceMap) {
-        const variable = this.globalScope.set.get("require")
-
-        if (variable == null || variable.defs.length !== 0) {
-            return
-        }
-
-        for (const reference of variable.references) {
-            const reqNode = reference.identifier
-            const callNode = reqNode.parent
-
-            if (
-                !reference.isRead() ||
-                callNode.type !== "CallExpression" ||
-                callNode.callee !== reqNode
-            ) {
-                continue
-            }
-            const key = getStringIfConstant(callNode.arguments[0])
-
+        for (const { node } of this.iterateGlobalReferences(requireCall)) {
+            const key = getStringIfConstant(node.arguments[0])
             if (key == null || !has(traceMap, key)) {
                 continue
             }
+
             const nextTraceMap = traceMap[key]
             const path = [key]
 
             if (nextTraceMap[READ]) {
                 yield {
-                    node: callNode,
+                    node,
                     path,
                     type: READ,
                     info: nextTraceMap[READ],
                 }
             }
-            yield* this._iteratePropertyReferences(callNode, path, nextTraceMap)
+            yield* this._iteratePropertyReferences(node, path, nextTraceMap)
         }
     }
 
