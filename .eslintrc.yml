@@ -1,12 +1,12 @@
 root: true
 
 extends:
-    - plugin:mysticatea/es2015
-    - plugin:mysticatea/+modules
-    - plugin:mysticatea/+node
+  - plugin:@mysticatea/es2015
+  - plugin:@mysticatea/+modules
+  - plugin:@mysticatea/+node
 
 rules:
-    mysticatea/node/no-unsupported-features:
-        - error
-        - ignores:
-            - modules
+  "@mysticatea/node/no-unsupported-features":
+    - error
+    - ignores:
+      - modules

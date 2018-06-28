@@ -3,7 +3,7 @@ import { PatternMatcher } from "../src/"
 
 const NAMED_CAPTURE_GROUP_SUPPORTED = (() => {
     try {
-        new RegExp("(?<a>)", "u") //eslint-disable-line no-new, mysticatea/node/no-unsupported-features
+        new RegExp("(?<a>)", "u") //eslint-disable-line no-new, @mysticatea/node/no-unsupported-features
         return true
     } catch (_error) {
         return false
