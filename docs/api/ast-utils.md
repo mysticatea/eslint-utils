@@ -350,6 +350,72 @@ function getStringIfConstant(node, initialScope) {
 
 ----
 
+## isParenthesized
+
+```js
+const ret = utils.isParenthesized(node, sourceCode)
+```
+
+Check whether a given node is parenthesized or not.
+
+This function detects it correctly even if it's parenthesized by specific syntax.
+
+```js
+f(a); //→ this `a` is not parenthesized.
+f((b)); //→ this `b` is parenthesized.
+
+new C(a); //→ this `a` is not parenthesized.
+new C((b)); //→ this `b` is parenthesized.
+
+if (a) {} //→ this `a` is not parenthesized.
+if ((b)) {} //→ this `b` is parenthesized.
+
+switch (a) {} //→ this `a` is not parenthesized.
+switch ((b)) {} //→ this `b` is parenthesized.
+
+while (a) {} //→ this `a` is not parenthesized.
+while ((b)) {} //→ this `b` is parenthesized.
+
+do {} while (a); //→ this `a` is not parenthesized.
+do {} while ((b)); //→ this `b` is parenthesized.
+
+with (a) {} //→ this `a` is not parenthesized.
+with ((b)) {} //→ this `b` is parenthesized.
+```
+
+### Parameters
+
+ Name | Type | Description
+:-----|:-----|:------------
+node | Node | The node to check.
+sourceCode | SourceCode | The source code object to get tokens.
+
+### Return value
+
+`true` if the node is parenthesized.
+
+### Example
+
+```js{9}
+const { isParenthesized } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        const sourceCode = context.getSourceCode()
+        return {
+            ":expression"(node) {
+                if (isParenthesized(node, sourceCode)) {
+                    // ...
+                }
+            },
+        }
+    },
+}
+```
+
+----
+
 ## PatternMatcher class
 
 ```js

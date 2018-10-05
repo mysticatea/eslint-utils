@@ -13,6 +13,7 @@
   "devDependencies": {
     "@mysticatea/eslint-plugin": "^5.0.1",
     "codecov": "^3.0.2",
+    "dot-prop": "^4.2.0",
     "eslint": "^5.0.1",
     "esm": "^3.0.55",
     "espree": "^4.0.0",
