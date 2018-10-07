@@ -361,26 +361,23 @@ Check whether a given node is parenthesized or not.
 This function detects it correctly even if it's parenthesized by specific syntax.
 
 ```js
-f(a); //→ this `a` is not parenthesized.
-f((b)); //→ this `b` is parenthesized.
+// those `a` are not parenthesized.
+f(a);
+new C(a);
+if (a) {}
+switch (a) {}
+while (a) {}
+do {} while (a);
+with (a) {}
 
-new C(a); //→ this `a` is not parenthesized.
-new C((b)); //→ this `b` is parenthesized.
-
-if (a) {} //→ this `a` is not parenthesized.
-if ((b)) {} //→ this `b` is parenthesized.
-
-switch (a) {} //→ this `a` is not parenthesized.
-switch ((b)) {} //→ this `b` is parenthesized.
-
-while (a) {} //→ this `a` is not parenthesized.
-while ((b)) {} //→ this `b` is parenthesized.
-
-do {} while (a); //→ this `a` is not parenthesized.
-do {} while ((b)); //→ this `b` is parenthesized.
-
-with (a) {} //→ this `a` is not parenthesized.
-with ((b)) {} //→ this `b` is parenthesized.
+// those `b` are parenthesized.
+f((b));
+new C((b));
+if ((b)) {}
+switch ((b)) {}
+while ((b)) {}
+do {} while ((b));
+with ((b)) {}
 ```
 
 ### Parameters

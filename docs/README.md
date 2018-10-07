@@ -2,6 +2,13 @@
 home: true
 actionText: Get Started →
 actionLink: /guide/getting-started
+features:
+- title: Scope Utilities
+  details: Finding the specific global variables and their members with tracking assignments, finding variables, etc...
+- title: AST Utilities
+  details: Computing the runtime value of a node, Getting the property name of a Property|MemberExpression|MemberExpression node, etc...
+- title: Token Utilities
+  details: Distinguishing the token types of a given token, etc...
 ---
 
 <center>
