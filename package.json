@@ -9,7 +9,9 @@
   "files": [
     "index.*"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "eslint-visitor-keys": "^1.0.0"
+  },
   "devDependencies": {
     "@mysticatea/eslint-plugin": "^5.0.1",
     "codecov": "^3.0.2",

@@ -5,6 +5,7 @@ import { getInnermostScope } from "./get-innermost-scope"
 import { getPropertyName } from "./get-property-name"
 import { getStaticValue } from "./get-static-value"
 import { getStringIfConstant } from "./get-string-if-constant"
+import { hasSideEffect } from "./has-side-effect"
 import { isParenthesized } from "./is-parenthesized"
 import { PatternMatcher } from "./pattern-matcher"
 import {
@@ -50,6 +51,7 @@ export default {
     getPropertyName,
     getStaticValue,
     getStringIfConstant,
+    hasSideEffect,
     isArrowToken,
     isClosingBraceToken,
     isClosingBracketToken,
@@ -88,6 +90,7 @@ export {
     getPropertyName,
     getStaticValue,
     getStringIfConstant,
+    hasSideEffect,
     isArrowToken,
     isClosingBraceToken,
     isClosingBracketToken,

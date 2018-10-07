@@ -350,6 +350,67 @@ function getStringIfConstant(node, initialScope) {
 
 ----
 
+## hasSideEffect
+
+```js
+const ret = utils.hasSideEffect(node, sourceCode, options)
+```
+
+Check whether a given node has any side effect or not.
+
+The side effect means that it *may* modify a certain variable or object member. This function considers the node which contains the following types as the node which has side effects:
+
+- `AssignmentExpression`
+- `AwaitExpression`
+- `CallExpression`
+- `NewExpression`
+- `UnaryExpression` (`[operator = "delete"]`)
+- `UpdateExpression`
+- `YieldExpression`
+- When `options.considerGetters` is `true`:
+    - `MemberExpression`
+- When `options.considerImplicitTypeConversion` is `true`:
+    - `BinaryExpression` (`[operator = "==" | "!=" | "<" | "<=" | ">" | ">=" | "<<" | ">>" | ">>>" | "+" | "-" | "*" | "/" | "%" | "|" | "^" | "&" | "in"]`)
+    - `MemberExpression` (`[computed = true]`)
+    - `MethodDefinition` (`[computed = true]`)
+    - `Property` (`[computed = true]`)
+    - `UnaryExpression` (`[operator = "-" | "+" | "!" | "~"]`)
+
+### Parameters
+
+ Name | Type | Description
+:-----|:-----|:------------
+node | Node | The node to check.
+sourceCode | SourceCode | The source code object to get visitor keys.
+options.considerGetters | boolean | Default is `false`. If `true` then it considers member accesses as the node which has side effects.
+options.considerImplicitTypeConversion | boolean | Default is `false`. If `true` then it considers implicit type conversion as the node which has side effects.
+
+### Return value
+
+`true` if the node has a certain side effect.
+
+### Example
+
+```js{9}
+const { hasSideEffect } = require("eslint-utils")
+
+module.exports = {
+    meta: {},
+    create(context) {
+        const sourceCode = context.getSourceCode()
+        return {
+            ":expression"(node) {
+                if (hasSideEffect(node, sourceCode)) {
+                    // ...
+                }
+            },
+        }
+    },
+}
+```
+
+----
+
 ## isParenthesized
 
 ```js
