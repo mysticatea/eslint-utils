@@ -25,7 +25,8 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.62.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "vuepress": "github:mysticatea/vuepress#skip-waiting"
+    "vuepress": "github:mysticatea/vuepress#skip-waiting",
+    "warun": "^1.0.0"
   },
   "scripts": {
     "prebuild": "npm run -s clean",
@@ -41,7 +42,7 @@
     "preversion": "npm test && npm run -s build",
     "postversion": "git push && git push --tags",
     "prewatch": "npm run -s clean",
-    "watch": "mocha --require esm --reporter dot --watch --growl \"test/*.js\""
+    "watch": "warun \"{src,test}/**/*.js\" -- nyc --reporter lcov mocha --reporter dot \"test/*.js\""
   },
   "repository": {
     "type": "git",
