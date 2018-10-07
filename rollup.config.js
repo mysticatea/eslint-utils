@@ -21,6 +21,7 @@ function config(ext) {
             banner: `/*! @author Toru Nagashima <https://github.com/mysticatea> */`,
         },
         plugins: [sourcemaps()],
+        external: Object.keys(require("./package.json").dependencies),
     }
 }
 
