@@ -5,7 +5,9 @@
   "engines": {
     "node": ">=6"
   },
+  "sideEffects": false,
   "main": "index",
+  "module": "index.mjs",
   "files": [
     "index.*"
   ],
@@ -13,12 +15,12 @@
     "eslint-visitor-keys": "^1.0.0"
   },
   "devDependencies": {
-    "@mysticatea/eslint-plugin": "^5.0.1",
+    "@mysticatea/eslint-plugin": "^10.0.3",
     "codecov": "^3.0.2",
     "dot-prop": "^4.2.0",
-    "eslint": "^5.0.1",
+    "eslint": "^5.16.0",
     "esm": "^3.0.55",
-    "espree": "^4.0.0",
+    "espree": "^5.0.1",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "opener": "^1.4.3",

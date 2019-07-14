@@ -3,7 +3,6 @@ import eslint from "eslint"
 import { findVariable } from "../src/"
 
 describe("The 'findVariable' function", () => {
-    //eslint-disable-next-line require-jsdoc
     function getVariable(code, selector, withString = null) {
         const linter = new eslint.Linter()
         let variable = null

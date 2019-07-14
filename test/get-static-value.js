@@ -59,7 +59,7 @@ describe("The 'getStaticValue' function", () => {
         { code: "false", expected: { value: false } },
         { code: "1", expected: { value: 1 } },
         { code: "'hello'", expected: { value: "hello" } },
-        { code: "/foo/g", expected: { value: /foo/g } },
+        { code: "/foo/gu", expected: { value: /foo/gu } },
         { code: "true && 1", expected: { value: 1 } },
         { code: "false && a", expected: { value: false } },
         { code: "true || a", expected: { value: true } },

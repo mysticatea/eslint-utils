@@ -3,7 +3,7 @@ import { PatternMatcher } from "../src/"
 
 const NAMED_CAPTURE_GROUP_SUPPORTED = (() => {
     try {
-        new RegExp("(?<a>)", "u") //eslint-disable-line no-new, @mysticatea/node/no-unsupported-features
+        new RegExp("(?<a>)", "u") //eslint-disable-line no-new, @mysticatea/node/no-unsupported-features/es-syntax
         return true
     } catch (_error) {
         return false
@@ -44,16 +44,16 @@ describe("The 'PatternMatcher' class:", () => {
             ]) {
                 assert.throws(
                     () => new PatternMatcher(value),
-                    /^TypeError: 'pattern' should be a RegExp instance\.$/
+                    /^TypeError: 'pattern' should be a RegExp instance\.$/u
                 )
             }
         })
 
         it("should throw Error if the RegExp value does not have 'g' flag.", () => {
-            for (const value of [/foo/, /bar/im]) {
+            for (const value of [/foo/u, /bar/imu]) {
                 assert.throws(
                     () => new PatternMatcher(value),
-                    /^Error: 'pattern' should contains 'g' flag\.$/
+                    /^Error: 'pattern' should contains 'g' flag\.$/u
                 )
             }
         })
@@ -116,7 +116,7 @@ describe("The 'PatternMatcher' class:", () => {
                 it(`should return ${JSON.stringify(
                     expected
                 )} in ${JSON.stringify(str)}.`, () => {
-                    const matcher = new PatternMatcher(/foo/g)
+                    const matcher = new PatternMatcher(/foo/gu)
                     const actual = Array.from(matcher.execAll(str))
                     assert.deepStrictEqual(actual, expected)
                 })
@@ -139,14 +139,14 @@ describe("The 'PatternMatcher' class:", () => {
                 it(`should return ${JSON.stringify(
                     expected
                 )} in ${JSON.stringify(str)}.`, () => {
-                    const matcher = new PatternMatcher(/(\w)(\d)/g)
+                    const matcher = new PatternMatcher(/(\w)(\d)/gu)
                     const actual = Array.from(matcher.execAll(str))
                     assert.deepStrictEqual(actual, expected)
                 })
             }
 
             it("should iterate for two strings in parallel.", () => {
-                const matcher = new PatternMatcher(/\w/g)
+                const matcher = new PatternMatcher(/\w/gu)
                 const expected1 = [
                     newRegExpExecArray(["a"], 0, "a--b-c"),
                     newRegExpExecArray(["b"], 3, "a--b-c"),
@@ -213,7 +213,7 @@ describe("The 'PatternMatcher' class:", () => {
                 it(`should return ${JSON.stringify(
                     expected
                 )} in ${JSON.stringify(str)}.`, () => {
-                    const matcher = new PatternMatcher(/foo/g, {
+                    const matcher = new PatternMatcher(/foo/gu, {
                         escaped: true,
                     })
                     const actual = Array.from(matcher.execAll(str))
@@ -238,7 +238,7 @@ describe("The 'PatternMatcher' class:", () => {
             { str: String.raw`-foo\foofooabcfoo-`, expected: true },
         ]) {
             it(`should return ${expected} in ${JSON.stringify(str)}.`, () => {
-                const matcher = new PatternMatcher(/foo/g)
+                const matcher = new PatternMatcher(/foo/gu)
                 const actual = matcher.test(str)
                 assert.deepStrictEqual(actual, expected)
             })
@@ -278,7 +278,7 @@ describe("The 'PatternMatcher' class:", () => {
             { str: "abc", replacer: "$0", expected: "$0$0$0" },
             { str: "abc", replacer: "$1", expected: "$1$1$1" },
             {
-                pattern: /a(b)/g,
+                pattern: /a(b)/gu,
                 str: "abc",
                 replacer: "$1",
                 expected: "bc",
@@ -287,14 +287,14 @@ describe("The 'PatternMatcher' class:", () => {
             it(`should return ${expected} in ${JSON.stringify(
                 str
             )} and ${JSON.stringify(replacer)}.`, () => {
-                const matcher = new PatternMatcher(pattern || /[a-c]/g)
+                const matcher = new PatternMatcher(pattern || /[a-c]/gu)
                 const actual = str.replace(matcher, replacer)
                 assert.deepStrictEqual(actual, expected)
             })
         }
 
-        it(`should pass the correct arguments to replacers.`, () => {
-            const matcher = new PatternMatcher(/(\w)(\d)/g)
+        it("should pass the correct arguments to replacers.", () => {
+            const matcher = new PatternMatcher(/(\w)(\d)/gu)
             const actualArgs = []
             const actual = "abc1d2efg".replace(matcher, (...args) => {
                 actualArgs.push(args)

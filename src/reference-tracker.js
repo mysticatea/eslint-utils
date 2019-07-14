@@ -2,8 +2,8 @@ import { findVariable } from "./find-variable"
 import { getPropertyName } from "./get-property-name"
 import { getStringIfConstant } from "./get-string-if-constant"
 
-const SENTINEL_TYPE = /^(?:.+?Statement|.+?Declaration|(?:Array|ArrowFunction|Assignment|Call|Class|Function|Member|New|Object)Expression|AssignmentPattern|Program|VariableDeclarator)$/
-const IMPORT_TYPE = /^(?:Import|Export(?:All|Default|Named))Declaration$/
+const SENTINEL_TYPE = /^(?:.+?Statement|.+?Declaration|(?:Array|ArrowFunction|Assignment|Call|Class|Function|Member|New|Object)Expression|AssignmentPattern|Program|VariableDeclarator)$/u
+const IMPORT_TYPE = /^(?:Import|Export(?:All|Default|Named))Declaration$/u
 const has = Function.call.bind(Object.hasOwnProperty)
 
 export const READ = Symbol("read")
@@ -224,7 +224,7 @@ export class ReferenceTracker {
      * @param {object} traceMap The trace map.
      * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
      */
-    //eslint-disable-next-line complexity, require-jsdoc
+    //eslint-disable-next-line complexity
     *_iteratePropertyReferences(rootNode, path, traceMap) {
         let node = rootNode
         while (!SENTINEL_TYPE.test(node.parent.type)) {

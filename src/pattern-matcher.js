@@ -3,7 +3,7 @@
  * See LICENSE file in root directory for full license.
  */
 
-const placeholder = /\$(?:[$&`']|[1-9][0-9]?)/g
+const placeholder = /\$(?:[$&`']|[1-9][0-9]?)/gu
 
 /** @type {WeakMap<PatternMatcher, {pattern:RegExp,escaped:boolean}>} */
 const internal = new WeakMap()
@@ -70,7 +70,6 @@ function replaceS(matcher, str, replacement) {
     return chunks.join("")
 }
 
-//eslint-disable-next-line valid-jsdoc
 /**
  * Replace a given string by a given matcher.
  * @param {PatternMatcher} matcher The pattern matcher.
@@ -146,7 +145,6 @@ export class PatternMatcher {
         return !ret.done
     }
 
-    //eslint-disable-next-line valid-jsdoc
     /**
      * Replace a given string.
      * @param {string} str The string to be replaced.
