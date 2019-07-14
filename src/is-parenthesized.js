@@ -37,6 +37,12 @@ function getParentSyntaxParen(node, sourceCode) {
             }
             return null
 
+        case "ImportExpression":
+            if (parent.source === node) {
+                return sourceCode.getFirstToken(parent, 1)
+            }
+            return null
+
         case "SwitchStatement":
             if (parent.discriminant === node) {
                 return sourceCode.getFirstToken(parent, 1)
