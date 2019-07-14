@@ -234,4 +234,80 @@ describe("The 'isParenthesized' function", () => {
             }
         })
     }
+
+    for (const { code, expected } of [
+        {
+            code: "777",
+            expected: {
+                "body.0": false,
+                "body.0.expression": false,
+            },
+        },
+        {
+            code: "(777)",
+            expected: {
+                "body.0": false,
+                "body.0.expression": false,
+            },
+        },
+        {
+            code: "((777))",
+            expected: {
+                "body.0": false,
+                "body.0.expression": true,
+            },
+        },
+        {
+            code: "if (a) ;",
+            expected: {
+                "body.0": false,
+                "body.0.test": false,
+            },
+        },
+        {
+            code: "if ((a)) ;",
+            expected: {
+                "body.0": false,
+                "body.0.test": false,
+            },
+        },
+        {
+            code: "if (((a))) ;",
+            expected: {
+                "body.0": false,
+                "body.0.test": true,
+            },
+        },
+    ]) {
+        describe(`on the code \`${code}\` and 2 times`, () => {
+            for (const key of Object.keys(expected)) {
+                it(`should return ${expected[key]} at "${key}"`, () => {
+                    const linter = new eslint.Linter()
+
+                    let actual = null
+                    linter.defineRule("test", context => ({
+                        Program(node) {
+                            actual = isParenthesized(
+                                2,
+                                dotProp.get(node, key),
+                                context.getSourceCode()
+                            )
+                        },
+                    }))
+                    const messages = linter.verify(code, {
+                        env: { es6: true },
+                        parserOptions: { ecmaVersion: 2018 },
+                        rules: { test: "error" },
+                    })
+
+                    assert.strictEqual(
+                        messages.length,
+                        0,
+                        messages[0] && messages[0].message
+                    )
+                    assert.strictEqual(actual, expected[key])
+                })
+            }
+        })
+    }
 })

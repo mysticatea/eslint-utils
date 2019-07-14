@@ -6,6 +6,7 @@ extends:
   - plugin:@mysticatea/+node
 
 rules:
+  init-declarations: "off"
   "@mysticatea/node/no-unsupported-features/es-syntax":
     - error
     - ignores:

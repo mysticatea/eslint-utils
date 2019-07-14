@@ -414,7 +414,8 @@ module.exports = {
 ## isParenthesized
 
 ```js
-const ret = utils.isParenthesized(node, sourceCode)
+const ret1 = utils.isParenthesized(times, node, sourceCode)
+const ret2 = utils.isParenthesized(node, sourceCode)
 ```
 
 Check whether a given node is parenthesized or not.
@@ -445,12 +446,15 @@ with ((b)) {}
 
  Name | Type | Description
 :-----|:-----|:------------
+times | number | Optional. The number of redundant parenthesized. Default is `1`.
 node | Node | The node to check.
 sourceCode | SourceCode | The source code object to get tokens.
 
 ### Return value
 
 `true` if the node is parenthesized.
+
+If `times` was given, it returns `true` only if the node is parenthesized the `times` times. For example, `isParenthesized(2, node, sourceCode)` returns `true` for `((foo))`, but not for `(foo)`.
 
 ### Example
 
