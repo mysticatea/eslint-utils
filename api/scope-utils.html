@@ -7,8 +7,8 @@
     <meta name="description" content="Utilities for ESLint plugins and custom rules.">
     
     
-    <link rel="preload" href="/eslint-utils/assets/css/styles.5d469670.css" as="style"><link rel="preload" href="/eslint-utils/assets/js/app.5d469670.js" as="script"><link rel="preload" href="/eslint-utils/assets/js/5.bfc8510b.js" as="script"><link rel="prefetch" href="/eslint-utils/assets/js/2.280bc6f1.js"><link rel="prefetch" href="/eslint-utils/assets/css/1.styles.babd7481.css"><link rel="prefetch" href="/eslint-utils/assets/js/1.babd7481.js"><link rel="prefetch" href="/eslint-utils/assets/css/2.styles.280bc6f1.css"><link rel="prefetch" href="/eslint-utils/assets/js/3.c9579cba.js"><link rel="prefetch" href="/eslint-utils/assets/js/4.c820eaf8.js"><link rel="prefetch" href="/eslint-utils/assets/js/6.e8d18f8e.js"><link rel="prefetch" href="/eslint-utils/assets/js/7.a147b051.js">
-    <link rel="stylesheet" href="/eslint-utils/assets/css/1.styles.babd7481.css"><link rel="stylesheet" href="/eslint-utils/assets/css/2.styles.280bc6f1.css"><link rel="stylesheet" href="/eslint-utils/assets/css/styles.5d469670.css">
+    <link rel="preload" href="/eslint-utils/assets/css/0.styles.87363eac.css" as="style"><link rel="preload" href="/eslint-utils/assets/js/app.58b52b29.js" as="script"><link rel="preload" href="/eslint-utils/assets/js/5.b828f092.js" as="script"><link rel="prefetch" href="/eslint-utils/assets/js/2.8becae5f.js"><link rel="prefetch" href="/eslint-utils/assets/js/3.b6c0c902.js"><link rel="prefetch" href="/eslint-utils/assets/js/4.18974c97.js"><link rel="prefetch" href="/eslint-utils/assets/js/6.6b5f8912.js"><link rel="prefetch" href="/eslint-utils/assets/js/7.a01980b0.js"><link rel="prefetch" href="/eslint-utils/assets/js/8.b45cb0f2.js">
+    <link rel="stylesheet" href="/eslint-utils/assets/css/0.styles.87363eac.css">
   </head>
   <body>
     <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/eslint-utils/" class="home-link router-link-active"><!----> <span class="site-name">eslint-utils</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/eslint-utils/guide/getting-started.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/eslint-utils/api/ast-utils.html" class="nav-link">API Reference</a></div> <a href="https://github.com/mysticatea/eslint-utils" target="_blank" rel="noopener noreferrer" class="repo-link">
@@ -20,9 +20,9 @@
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">create</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
-            <span class="token function">Identifier</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">Identifier</span><span class="token punctuation">(</span><span class="token parameter">node</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">const</span> variable <span class="token operator">=</span> <span class="token function">findVariable</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> node<span class="token punctuation">)</span>
             <span class="token punctuation">}</span><span class="token punctuation">,</span>
         <span class="token punctuation">}</span>
@@ -34,7 +34,7 @@ If such scope doesn't exist then it returns the 1st argument <code>initialScope<
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">create</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
             <span class="token string">&quot;Program&quot;</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">const</span> globalScope <span class="token operator">=</span> context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -52,7 +52,7 @@ Every reference is the object that has the following properties.</p> <table><the
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">create</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
             <span class="token string">&quot;Program:exit&quot;</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">const</span> tracker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReferenceTracker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -89,7 +89,7 @@ Every reference is the object that has the following properties.</p> <table><the
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">create</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
             <span class="token string">&quot;Program:exit&quot;</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">const</span> tracker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReferenceTracker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -127,7 +127,7 @@ Every reference is the object that has the following properties.</p> <table><the
 
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
     meta<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token function">create</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">create</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token punctuation">{</span>
             <span class="token string">&quot;Program:exit&quot;</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">const</span> tracker <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReferenceTracker</span><span class="token punctuation">(</span>context<span class="token punctuation">.</span><span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
@@ -167,6 +167,6 @@ module<span class="token punctuation">.</span>exports <span class="token operato
         </a>
         →
       </span></p></div> </div> <!----></div></div>
-    <script src="/eslint-utils/assets/js/5.bfc8510b.js" defer></script><script src="/eslint-utils/assets/js/app.5d469670.js" defer></script>
+    <script src="/eslint-utils/assets/js/app.58b52b29.js" defer></script><script src="/eslint-utils/assets/js/5.b828f092.js" defer></script>
   </body>
 </html>
