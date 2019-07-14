@@ -16,9 +16,8 @@ function config(ext) {
             file: `index${ext}`,
             format: ext === ".mjs" ? "es" : "cjs",
             sourcemap: true,
-            sourcemapFile: `index${ext}.map`,
-            strict: true,
-            banner: `/*! @author Toru Nagashima <https://github.com/mysticatea> */`,
+            banner:
+                "/*! @author Toru Nagashima <https://github.com/mysticatea> */",
         },
         plugins: [sourcemaps()],
         external: Object.keys(require("./package.json").dependencies),
