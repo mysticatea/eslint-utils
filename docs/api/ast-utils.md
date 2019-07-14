@@ -363,6 +363,7 @@ The side effect means that it *may* modify a certain variable or object member. 
 - `AssignmentExpression`
 - `AwaitExpression`
 - `CallExpression`
+- `ImportExpression`
 - `NewExpression`
 - `UnaryExpression` (`[operator = "delete"]`)
 - `UpdateExpression`

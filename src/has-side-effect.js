@@ -83,6 +83,9 @@ const visitor = Object.freeze(
         FunctionExpression() {
             return false
         },
+        ImportExpression() {
+            return true
+        },
         MemberExpression(node, options, visitorKeys) {
             if (options.considerGetters) {
                 return true
