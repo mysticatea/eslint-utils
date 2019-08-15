@@ -75,7 +75,7 @@ describe("The 'getStaticValue' function", () => {
         { code: "Symbol[iterator]", expected: null },
         { code: "Object.freeze", expected: { value: Object.freeze } },
         { code: "Object.xxx", expected: { value: undefined } },
-        { code: "new Array(2)", expected: { value: new Array(2) } },
+        { code: "new Array(2)", expected: null },
         { code: "new Array(len)", expected: null },
         { code: "({})", expected: { value: {} } },
         {
@@ -116,6 +116,33 @@ const aMap = Object.freeze({
 ;\`on\${eventName} : \${aMap[eventName]}\``,
             expected: { value: "onclick : 777" },
         },
+        {
+            code: 'Function("return process.env.npm_name")()',
+            expected: null,
+        },
+        {
+            code: 'new Function("return process.env.npm_name")()',
+            expected: null,
+        },
+        {
+            code:
+                '({}.constructor.constructor("return process.env.npm_name")())',
+            expected: null,
+        },
+        {
+            code:
+                'JSON.stringify({a:1}, new {}.constructor.constructor("console.log(\\"code injected\\"); process.exit(1)"), 2)',
+            expected: null,
+        },
+        {
+            code:
+                'Object.create(null, {a:{get:new {}.constructor.constructor("console.log(\\"code injected\\"); process.exit(1)")}}).a',
+            expected: null,
+        },
+        {
+            code: "RegExp.$1",
+            expected: null,
+        },
     ]) {
         it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
             const linter = new eslint.Linter()
@@ -138,7 +165,7 @@ const aMap = Object.freeze({
             if (actual == null) {
                 assert.strictEqual(actual, expected)
             } else {
-                assert.deepStrictEqual(actual.value, expected.value)
+                assert.deepStrictEqual(actual, expected)
             }
         })
     }

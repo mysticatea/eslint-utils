@@ -1,3 +1,5 @@
+/* globals BigInt */
+
 import { findVariable } from "./find-variable"
 
 const builtinNames = Object.freeze(
@@ -14,9 +16,7 @@ const builtinNames = Object.freeze(
         "decodeURIComponent",
         "encodeURI",
         "encodeURIComponent",
-        "Error",
         "escape",
-        "EvalError",
         "Float32Array",
         "Float64Array",
         "Function",
@@ -37,26 +37,97 @@ const builtinNames = Object.freeze(
         "parseInt",
         "Promise",
         "Proxy",
-        "RangeError",
-        "ReferenceError",
         "Reflect",
         "RegExp",
         "Set",
         "String",
         "Symbol",
-        "SyntaxError",
-        "TypeError",
         "Uint16Array",
         "Uint32Array",
         "Uint8Array",
         "Uint8ClampedArray",
         "undefined",
         "unescape",
-        "URIError",
         "WeakMap",
         "WeakSet",
     ])
 )
+const callAllowed = new Set(
+    [
+        Array.isArray,
+        typeof BigInt === "function" ? BigInt : undefined,
+        Boolean,
+        Date,
+        Date.parse,
+        decodeURI,
+        decodeURIComponent,
+        encodeURI,
+        encodeURIComponent,
+        escape,
+        isFinite,
+        isNaN,
+        isPrototypeOf,
+        ...Object.getOwnPropertyNames(Math)
+            .map(k => Math[k])
+            .filter(f => typeof f === "function"),
+        Number,
+        Number.isFinite,
+        Number.isNaN,
+        Number.parseFloat,
+        Number.parseInt,
+        Object,
+        Object.entries, //eslint-disable-line @mysticatea/node/no-unsupported-features/es-builtins
+        Object.is,
+        Object.isExtensible,
+        Object.isFrozen,
+        Object.isSealed,
+        Object.keys,
+        Object.values, //eslint-disable-line @mysticatea/node/no-unsupported-features/es-builtins
+        parseFloat,
+        parseInt,
+        RegExp,
+        String,
+        String.fromCharCode,
+        String.fromCodePoint,
+        String.raw,
+        Symbol,
+        Symbol.for,
+        Symbol.keyFor,
+        unescape,
+    ].filter(f => typeof f === "function")
+)
+const callPassThrough = new Set([
+    Object.freeze,
+    Object.preventExtensions,
+    Object.seal,
+])
+
+/**
+ * Get the property descriptor.
+ * @param {object} object The object to get.
+ * @param {string|number|symbol} name The property name to get.
+ */
+function getPropertyDescriptor(object, name) {
+    let x = object
+    while ((typeof x === "object" || typeof x === "function") && x !== null) {
+        const d = Object.getOwnPropertyDescriptor(x, name)
+        if (d) {
+            return d
+        }
+        x = Object.getPrototypeOf(x)
+    }
+    return null
+}
+
+/**
+ * Check if a property is getter or not.
+ * @param {object} object The object to check.
+ * @param {string|number|symbol} name The property name to check.
+ */
+function isGetter(object, name) {
+    const d = getPropertyDescriptor(object, name)
+    return d != null && d.get != null
+}
 
 /**
  * Get the element values of a given node list.
@@ -176,13 +247,23 @@ const operations = Object.freeze({
                 if (object != null && property != null) {
                     const receiver = object.value
                     const methodName = property.value
-                    return { value: receiver[methodName](...args) }
+                    if (callAllowed.has(receiver[methodName])) {
+                        return { value: receiver[methodName](...args) }
+                    }
+                    if (callPassThrough.has(receiver[methodName])) {
+                        return { value: args[0] }
+                    }
                 }
             } else {
                 const callee = getStaticValueR(calleeNode, initialScope)
                 if (callee != null) {
                     const func = callee.value
-                    return { value: func(...args) }
+                    if (callAllowed.has(func)) {
+                        return { value: func(...args) }
+                    }
+                    if (callPassThrough.has(func)) {
+                        return { value: args[0] }
+                    }
                 }
             }
         }
@@ -240,7 +321,7 @@ const operations = Object.freeze({
             // It was a RegExp/BigInt literal, but Node.js didn't support it.
             return null
         }
-        return node
+        return { value: node.value }
     },
 
     LogicalExpression(node, initialScope) {
@@ -268,7 +349,11 @@ const operations = Object.freeze({
             ? getStaticValueR(node.property, initialScope)
             : { value: node.property.name }
 
-        if (object != null && property != null) {
+        if (
+            object != null &&
+            property != null &&
+            !isGetter(object.value, property.value)
+        ) {
             return { value: object.value[property.value] }
         }
         return null
@@ -280,7 +365,9 @@ const operations = Object.freeze({
 
         if (callee != null && args != null) {
             const Func = callee.value
-            return { value: new Func(...args) }
+            if (callAllowed.has(Func)) {
+                return { value: new Func(...args) }
+            }
         }
 
         return null
@@ -339,7 +426,9 @@ const operations = Object.freeze({
             const strings = node.quasi.quasis.map(q => q.value.cooked)
             strings.raw = node.quasi.quasis.map(q => q.value.raw)
 
-            return { value: func(strings, ...expressions) }
+            if (func === String.raw) {
+                return { value: func(strings, ...expressions) }
+            }
         }
 
         return null
