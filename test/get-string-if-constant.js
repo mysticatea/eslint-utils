@@ -19,6 +19,7 @@ describe("The 'getStringIfConstant' function", () => {
         { code: "`aaa${id}bbb`", expected: null }, //eslint-disable-line no-template-curly-in-string
         { code: "1 + 2", expected: "3" },
         { code: "'a' + 'b'", expected: "ab" },
+        { code: "/(?<a>\\w+)\\k<a>/gu", expected: "/(?<a>\\w+)\\k<a>/gu" },
     ]) {
         it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
             const linter = new eslint.Linter()

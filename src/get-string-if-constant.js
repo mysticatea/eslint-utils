@@ -7,6 +7,16 @@ import { getStaticValue } from "./get-static-value"
  * @returns {string|null} The value of the node, or `null`.
  */
 export function getStringIfConstant(node, initialScope = null) {
+    // Handle the literals that the platform doesn't support natively.
+    if (node.type === "Literal" && node.value === null) {
+        if (node.regex) {
+            return `/${node.regex.pattern}/${node.regex.flags}`
+        }
+        if (node.bigint) {
+            return node.bigint
+        }
+    }
+
     const evaluated = getStaticValue(node, initialScope)
     return evaluated && String(evaluated.value)
 }
