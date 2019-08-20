@@ -4,6 +4,9 @@ const builtinNames = Object.freeze(
     new Set([
         "Array",
         "ArrayBuffer",
+        "BigInt",
+        "BigInt64Array",
+        "BigUint64Array",
         "Boolean",
         "DataView",
         "Date",
@@ -233,8 +236,8 @@ const operations = Object.freeze({
 
     Literal(node) {
         //istanbul ignore if : this is implementation-specific behavior.
-        if (node.regex != null && node.value == null) {
-            // It was a RegExp literal, but Node.js didn't support it.
+        if ((node.regex != null || node.bigint != null) && node.value == null) {
+            // It was a RegExp/BigInt literal, but Node.js didn't support it.
             return null
         }
         return node
