@@ -8,7 +8,7 @@ import { getStaticValue } from "./get-static-value"
  */
 export function getStringIfConstant(node, initialScope = null) {
     // Handle the literals that the platform doesn't support natively.
-    if (node.type === "Literal" && node.value === null) {
+    if (node && node.type === "Literal" && node.value === null) {
         if (node.regex) {
             return `/${node.regex.pattern}/${node.regex.flags}`
         }
