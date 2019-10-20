@@ -1,3 +1,5 @@
+"use strict"
+
 module.exports = {
     title: "eslint-utils",
     description: "Utilities for ESLint plugins and custom rules.",

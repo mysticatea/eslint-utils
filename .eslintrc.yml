@@ -1,13 +1,15 @@
 root: true
 
 extends:
-  - plugin:@mysticatea/es2015
-  - plugin:@mysticatea/+modules
-  - plugin:@mysticatea/+node
+- plugin:@mysticatea/es2015
 
-rules:
-  init-declarations: "off"
-  "@mysticatea/node/no-unsupported-features/es-syntax":
+overrides:
+- files:
+  - src/**/*.js
+  - test/**/*.js
+  extends: plugin:@mysticatea/+modules
+  rules:
+    init-declarations: "off"
+    "@mysticatea/node/no-unsupported-features/es-syntax":
     - error
-    - ignores:
-      - modules
+    - ignores: [modules]

@@ -162,11 +162,11 @@ export class ReferenceTracker {
                         esm
                             ? nextTraceMap
                             : this.mode === "legacy"
-                                ? Object.assign(
-                                      { default: nextTraceMap },
-                                      nextTraceMap
-                                  )
-                                : { default: nextTraceMap }
+                            ? Object.assign(
+                                  { default: nextTraceMap },
+                                  nextTraceMap
+                              )
+                            : { default: nextTraceMap }
                     )
 
                     if (esm) {

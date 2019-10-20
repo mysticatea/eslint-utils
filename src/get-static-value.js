@@ -1,6 +1,17 @@
-/* globals BigInt */
+/* globals BigInt, globalThis, global, self, window */
 
 import { findVariable } from "./find-variable"
+
+const globalObject =
+    typeof globalThis !== "undefined"
+        ? globalThis
+        : typeof self !== "undefined"
+        ? self
+        : typeof window !== "undefined"
+        ? window
+        : typeof global !== "undefined"
+        ? global
+        : {}
 
 const builtinNames = Object.freeze(
     new Set([
@@ -76,13 +87,13 @@ const callAllowed = new Set(
         Number.parseFloat,
         Number.parseInt,
         Object,
-        Object.entries, //eslint-disable-line @mysticatea/node/no-unsupported-features/es-builtins
+        Object.entries,
         Object.is,
         Object.isExtensible,
         Object.isFrozen,
         Object.isSealed,
         Object.keys,
-        Object.values, //eslint-disable-line @mysticatea/node/no-unsupported-features/es-builtins
+        Object.values,
         parseFloat,
         parseInt,
         RegExp,
@@ -294,9 +305,9 @@ const operations = Object.freeze({
                 variable != null &&
                 variable.defs.length === 0 &&
                 builtinNames.has(variable.name) &&
-                variable.name in global
+                variable.name in globalObject
             ) {
-                return { value: global[variable.name] }
+                return { value: globalObject[variable.name] }
             }
 
             // Constants.
