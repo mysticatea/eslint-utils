@@ -4,6 +4,7 @@ import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
 
 const config = {
     parserOptions: { ecmaVersion: 2018, sourceType: "module" },
+    globals: { Reflect: false },
     rules: { test: "error" },
 }
 
@@ -366,6 +367,18 @@ describe("The 'ReferenceTracker' class:", () => {
                         b: { [CALL]: 2 },
                         c: { [CONSTRUCT]: 3 },
                     },
+                },
+                expected: [],
+            },
+            {
+                description:
+                    "should not iterate the references through unary/binary expressions.",
+                code: [
+                    'var construct = typeof Reflect !== "undefined" ? Reflect.construct : undefined',
+                    "construct()",
+                ].join("\n"),
+                traceMap: {
+                    Reflect: { [CALL]: 1 },
                 },
                 expected: [],
             },

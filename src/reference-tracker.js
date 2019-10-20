@@ -2,7 +2,6 @@ import { findVariable } from "./find-variable"
 import { getPropertyName } from "./get-property-name"
 import { getStringIfConstant } from "./get-string-if-constant"
 
-const SENTINEL_TYPE = /^(?:.+?Statement|.+?Declaration|(?:Array|ArrowFunction|Assignment|Call|Class|Function|Member|New|Object)Expression|AssignmentPattern|Program|VariableDeclarator)$/u
 const IMPORT_TYPE = /^(?:Import|Export(?:All|Default|Named))Declaration$/u
 const has = Function.call.bind(Object.hasOwnProperty)
 
@@ -24,6 +23,28 @@ function isModifiedGlobal(variable) {
         variable.defs.length !== 0 ||
         variable.references.some(r => r.isWrite())
     )
+}
+
+/**
+ * Check if the value of a given node is passed through to the parent syntax as-is.
+ * For example, `a` and `b` in (`a || b` and `c ? a : b`) are passed through.
+ * @param {Node} node A node to check.
+ * @returns {boolean} `true` if the node is passed through.
+ */
+function isPassThrough(node) {
+    const parent = node.parent
+
+    switch (parent && parent.type) {
+        case "ConditionalExpression":
+            return parent.consequent === node || parent.alternate === node
+        case "LogicalExpression":
+            return true
+        case "SequenceExpression":
+            return parent.expressions[parent.expressions.length - 1] === node
+
+        default:
+            return false
+    }
 }
 
 /**
@@ -227,7 +248,7 @@ export class ReferenceTracker {
     //eslint-disable-next-line complexity
     *_iteratePropertyReferences(rootNode, path, traceMap) {
         let node = rootNode
-        while (!SENTINEL_TYPE.test(node.parent.type)) {
+        while (isPassThrough(node)) {
             node = node.parent
         }
 
