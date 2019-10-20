@@ -30,18 +30,30 @@ jobs:
     strategy:
       matrix:
         node: [12, 10, 8, 6]
+        eslint: [6, 5]
+        exclude:
+        # ESLint 6 doesn't support Node 6.
+        - node: 6
+          eslint: 6
+        # Run ESLint 5 on only the newest and oldest Node.
+        - node: 10
+          eslint: 5
+        - node: 8
+          eslint: 5
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: Install Node.js ${{ matrix.node }}
+    - name: Install Node.js v${{ matrix.node }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
     - name: Install Packages
       run: npm install
+    - name: Install ESLint v${{ matrix.eslint }}
+      run: npm install --no-save eslint@^${{ matrix.eslint }}.0.0
     - name: Build
       run: npm run -s build
     - name: Test
