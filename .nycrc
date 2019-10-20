@@ -1,5 +1,5 @@
 {
     "include": ["src/**/*.js"],
-    "require": ["esm"],
-    "cache": true
+    "reporter": ["lcov", "text-summary"],
+    "require": ["esm"]
 }

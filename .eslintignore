@@ -1,4 +1,8 @@
-/docs/.vuepress/dist
+/.nyc_output
+/coverage
 /node_modules
 /index.*
+/test.*
+
 !.vuepress
+/docs/.vuepress/dist
