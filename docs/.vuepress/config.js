@@ -12,16 +12,12 @@ module.exports = {
         docsBranch: "master",
         editLinks: true,
 
-        nav: [
-            { text: "Guide", link: "/guide/getting-started" },
-            { text: "API Reference", link: "/api/ast-utils" },
-        ],
         sidebar: {
             "/": [
                 {
                     title: "Guide",
                     collapsable: false,
-                    children: ["/guide/getting-started"],
+                    children: ["/"],
                 },
                 {
                     title: "API Reference",
