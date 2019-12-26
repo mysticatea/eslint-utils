@@ -317,6 +317,117 @@ describe("The 'ReferenceTracker' class:", () => {
             },
             {
                 description:
+                    "should iterate the member references of a given global variable, with 'global'.",
+                code: [
+                    "/*global global */",
+                    "global.Object.a;",
+                    "global.Object.b; global.Object.b(); new global.Object.b();",
+                    "global.Object.c; global.Object.c(); new global.Object.c();",
+                ].join("\n"),
+                traceMap: {
+                    Object: {
+                        a: { [READ]: 1 },
+                        b: { [CALL]: 2 },
+                        c: { [CONSTRUCT]: 3 },
+                    },
+                },
+                expected: [
+                    {
+                        node: { type: "MemberExpression" },
+                        path: ["Object", "a"],
+                        type: READ,
+                        info: 1,
+                    },
+                    {
+                        node: { type: "CallExpression" },
+                        path: ["Object", "b"],
+                        type: CALL,
+                        info: 2,
+                    },
+                    {
+                        node: { type: "NewExpression" },
+                        path: ["Object", "c"],
+                        type: CONSTRUCT,
+                        info: 3,
+                    },
+                ],
+            },
+            {
+                description:
+                    "should iterate the member references of a given global variable, with 'globalThis'.",
+                code: [
+                    "/*global globalThis */",
+                    "globalThis.Object.a;",
+                    "globalThis.Object.b; globalThis.Object.b(); new globalThis.Object.b();",
+                    "globalThis.Object.c; globalThis.Object.c(); new globalThis.Object.c();",
+                ].join("\n"),
+                traceMap: {
+                    Object: {
+                        a: { [READ]: 1 },
+                        b: { [CALL]: 2 },
+                        c: { [CONSTRUCT]: 3 },
+                    },
+                },
+                expected: [
+                    {
+                        node: { type: "MemberExpression" },
+                        path: ["Object", "a"],
+                        type: READ,
+                        info: 1,
+                    },
+                    {
+                        node: { type: "CallExpression" },
+                        path: ["Object", "b"],
+                        type: CALL,
+                        info: 2,
+                    },
+                    {
+                        node: { type: "NewExpression" },
+                        path: ["Object", "c"],
+                        type: CONSTRUCT,
+                        info: 3,
+                    },
+                ],
+            },
+            {
+                description:
+                    "should iterate the member references of a given global variable, with 'self'.",
+                code: [
+                    "/*global self */",
+                    "self.Object.a;",
+                    "self.Object.b; self.Object.b(); new self.Object.b();",
+                    "self.Object.c; self.Object.c(); new self.Object.c();",
+                ].join("\n"),
+                traceMap: {
+                    Object: {
+                        a: { [READ]: 1 },
+                        b: { [CALL]: 2 },
+                        c: { [CONSTRUCT]: 3 },
+                    },
+                },
+                expected: [
+                    {
+                        node: { type: "MemberExpression" },
+                        path: ["Object", "a"],
+                        type: READ,
+                        info: 1,
+                    },
+                    {
+                        node: { type: "CallExpression" },
+                        path: ["Object", "b"],
+                        type: CALL,
+                        info: 2,
+                    },
+                    {
+                        node: { type: "NewExpression" },
+                        path: ["Object", "c"],
+                        type: CONSTRUCT,
+                        info: 3,
+                    },
+                ],
+            },
+            {
+                description:
                     "should iterate the member references of a given global variable, with 'window'.",
                 code: [
                     "/*global window */",

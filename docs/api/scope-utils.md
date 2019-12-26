@@ -88,7 +88,7 @@ This provides reference tracking for global variables, CommonJS modules, and ES 
 :-----|:-----|:------------
 globalScope | Scope | The global scope.
 options.mode | `"strict"` or `"legacy"` | The mode which determines how the `tracker.iterateEsmReferences()` method scans CommonJS modules. If this is `"strict"`, the method binds CommonJS modules to the default export. Otherwise, the method binds CommonJS modules to both the default export and named exports. Optional. Default is `"strict"`.
-options.globalObjectNames | string[] | The name list of Global Object. Optional. Default is `["global", "self", "window"]`.
+options.globalObjectNames | string[] | The name list of Global Object. Optional. Default is `["global", "globalThis", "self", "window"]`.
 
 ## tracker.iterateGlobalReferences
 
