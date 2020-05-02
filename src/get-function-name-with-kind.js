@@ -49,5 +49,22 @@ export function getFunctionNameWithKind(node) {
         }
     }
 
+    if (node.type === "ArrowFunctionExpression") {
+        if (
+            parent.type === "VariableDeclarator" &&
+            parent.id &&
+            parent.id.type === "Identifier"
+        ) {
+            tokens.push(`'${parent.id.name}'`)
+        }
+        if (
+            parent.type === "AssignmentExpression" &&
+            parent.left &&
+            parent.left.type === "Identifier"
+        ) {
+            tokens.push(`'${parent.left.name}'`)
+        }
+    }
+
     return tokens.join(" ")
 }
