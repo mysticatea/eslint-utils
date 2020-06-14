@@ -351,7 +351,8 @@ const operations = Object.freeze({
         if (left != null) {
             if (
                 (node.operator === "||" && Boolean(left.value) === true) ||
-                (node.operator === "&&" && Boolean(left.value) === false)
+                (node.operator === "&&" && Boolean(left.value) === false) ||
+                (node.operator === "??" && left.value != null)
             ) {
                 return left
             }

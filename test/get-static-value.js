@@ -147,6 +147,26 @@ const aMap = Object.freeze({
         ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
             ? [
                   {
+                      code: "const a = null, b = 42; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = undefined, b = 42; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = false, b = 42; a ?? b",
+                      expected: { value: false },
+                  },
+                  {
+                      code: "const a = 42, b = null; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = 42, b = undefined; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
                       code: "const a = { b: { c: 42 } }; a?.b?.c",
                       expected: { value: 42 },
                   },
