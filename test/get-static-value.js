@@ -226,6 +226,14 @@ const aMap = Object.freeze({
                       code: "const a = null; a?.b.c(42)",
                       expected: { value: undefined },
                   },
+                  {
+                      code: "null?.()",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = null; a?.()",
+                      expected: { value: undefined },
+                  },
               ]
             : []),
     ]) {
