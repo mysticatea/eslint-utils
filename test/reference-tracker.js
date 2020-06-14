@@ -3,7 +3,7 @@ import eslint from "eslint"
 import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
 
 const config = {
-    parserOptions: { ecmaVersion: 2018, sourceType: "module" },
+    parserOptions: { ecmaVersion: 2020, sourceType: "module" },
     globals: { Reflect: false },
     rules: { test: "error" },
 }
@@ -504,7 +504,14 @@ describe("The 'ReferenceTracker' class:", () => {
                         actual = Array.from(
                             tracker.iterateGlobalReferences(traceMap)
                         ).map(x =>
-                            Object.assign(x, { node: { type: x.node.type } })
+                            Object.assign(x, {
+                                node: Object.assign(
+                                    { type: x.node.type },
+                                    x.node.optional
+                                        ? { optional: x.node.optional }
+                                        : {}
+                                ),
+                            })
                         )
                     },
                 }))
@@ -526,6 +533,11 @@ describe("The 'ReferenceTracker' class:", () => {
                     "abc();",
                     "new abc();",
                     "abc.xyz;",
+                    "abc?.xyz;",
+                    "abc?.();",
+                    "abc?.xyz?.();",
+                    "(abc.def).ghi;",
+                    "(abc?.def)?.ghi;",
                 ].join("\n"),
                 traceMap: {
                     abc: {
@@ -533,6 +545,7 @@ describe("The 'ReferenceTracker' class:", () => {
                         [CALL]: 2,
                         [CONSTRUCT]: 3,
                         xyz: { [READ]: 4 },
+                        def: { ghi: { [READ]: 5 } },
                     },
                 },
                 expected: [
@@ -559,6 +572,36 @@ describe("The 'ReferenceTracker' class:", () => {
                         path: ["abc", "xyz"],
                         type: READ,
                         info: 4,
+                    },
+                    {
+                        node: { type: "MemberExpression", optional: true },
+                        path: ["abc", "xyz"],
+                        type: READ,
+                        info: 4,
+                    },
+                    {
+                        node: { type: "CallExpression", optional: true },
+                        path: ["abc"],
+                        type: CALL,
+                        info: 2,
+                    },
+                    {
+                        node: { type: "MemberExpression", optional: true },
+                        path: ["abc", "xyz"],
+                        type: READ,
+                        info: 4,
+                    },
+                    {
+                        node: { type: "MemberExpression" },
+                        path: ["abc", "def", "ghi"],
+                        type: READ,
+                        info: 5,
+                    },
+                    {
+                        node: { type: "MemberExpression", optional: true },
+                        path: ["abc", "def", "ghi"],
+                        type: READ,
+                        info: 5,
                     },
                 ],
             },
@@ -613,7 +656,14 @@ describe("The 'ReferenceTracker' class:", () => {
                         actual = Array.from(
                             tracker.iterateCjsReferences(traceMap)
                         ).map(x =>
-                            Object.assign(x, { node: { type: x.node.type } })
+                            Object.assign(x, {
+                                node: Object.assign(
+                                    { type: x.node.type },
+                                    x.node.optional
+                                        ? { optional: x.node.optional }
+                                        : {}
+                                ),
+                            })
                         )
                     },
                 }))
@@ -888,7 +938,14 @@ describe("The 'ReferenceTracker' class:", () => {
                         actual = Array.from(
                             tracker.iterateEsmReferences(traceMap)
                         ).map(x =>
-                            Object.assign(x, { node: { type: x.node.type } })
+                            Object.assign(x, {
+                                node: Object.assign(
+                                    { type: x.node.type },
+                                    x.node.optional
+                                        ? { optional: x.node.optional }
+                                        : {}
+                                ),
+                            })
                         )
                     },
                 }))

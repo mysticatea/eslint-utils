@@ -23,6 +23,16 @@ const typeConversionBinaryOps = Object.freeze(
     ])
 )
 const typeConversionUnaryOps = Object.freeze(new Set(["-", "+", "!", "~"]))
+
+/**
+ * Check whether the given value is an ASTNode or not.
+ * @param {any} x The value to check.
+ * @returns {boolean} `true` if the value is an ASTNode.
+ */
+function isNode(x) {
+    return x !== null && typeof x === "object" && typeof x.type === "string"
+}
+
 const visitor = Object.freeze(
     Object.assign(Object.create(null), {
         $visit(node, options, visitorKeys) {
@@ -44,13 +54,16 @@ const visitor = Object.freeze(
                 if (Array.isArray(value)) {
                     for (const element of value) {
                         if (
-                            element &&
+                            isNode(element) &&
                             this.$visit(element, options, visitorKeys)
                         ) {
                             return true
                         }
                     }
-                } else if (value && this.$visit(value, options, visitorKeys)) {
+                } else if (
+                    isNode(value) &&
+                    this.$visit(value, options, visitorKeys)
+                ) {
                     return true
                 }
             }

@@ -41,6 +41,8 @@ function isPassThrough(node) {
             return true
         case "SequenceExpression":
             return parent.expressions[parent.expressions.length - 1] === node
+        case "ChainExpression":
+            return true
 
         default:
             return false

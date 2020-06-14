@@ -251,23 +251,34 @@ const operations = Object.freeze({
         if (args != null) {
             if (calleeNode.type === "MemberExpression") {
                 const object = getStaticValueR(calleeNode.object, initialScope)
-                const property = calleeNode.computed
-                    ? getStaticValueR(calleeNode.property, initialScope)
-                    : { value: calleeNode.property.name }
-
-                if (object != null && property != null) {
-                    const receiver = object.value
-                    const methodName = property.value
-                    if (callAllowed.has(receiver[methodName])) {
-                        return { value: receiver[methodName](...args) }
+                if (object != null) {
+                    if (
+                        object.value == null &&
+                        (object.optional || node.optional)
+                    ) {
+                        return { value: undefined, optional: true }
                     }
-                    if (callPassThrough.has(receiver[methodName])) {
-                        return { value: args[0] }
+                    const property = calleeNode.computed
+                        ? getStaticValueR(calleeNode.property, initialScope)
+                        : { value: calleeNode.property.name }
+
+                    if (property != null) {
+                        const receiver = object.value
+                        const methodName = property.value
+                        if (callAllowed.has(receiver[methodName])) {
+                            return { value: receiver[methodName](...args) }
+                        }
+                        if (callPassThrough.has(receiver[methodName])) {
+                            return { value: args[0] }
+                        }
                     }
                 }
             } else {
                 const callee = getStaticValueR(calleeNode, initialScope)
                 if (callee != null) {
+                    if (callee.value == null && node.optional) {
+                        return { value: undefined, optional: true }
+                    }
                     const func = callee.value
                     if (callAllowed.has(func)) {
                         return { value: func(...args) }
@@ -356,16 +367,25 @@ const operations = Object.freeze({
 
     MemberExpression(node, initialScope) {
         const object = getStaticValueR(node.object, initialScope)
-        const property = node.computed
-            ? getStaticValueR(node.property, initialScope)
-            : { value: node.property.name }
+        if (object != null) {
+            if (object.value == null && (object.optional || node.optional)) {
+                return { value: undefined, optional: true }
+            }
+            const property = node.computed
+                ? getStaticValueR(node.property, initialScope)
+                : { value: node.property.name }
 
-        if (
-            object != null &&
-            property != null &&
-            !isGetter(object.value, property.value)
-        ) {
-            return { value: object.value[property.value] }
+            if (property != null && !isGetter(object.value, property.value)) {
+                return { value: object.value[property.value] }
+            }
+        }
+        return null
+    },
+
+    ChainExpression(node, initialScope) {
+        const expression = getStaticValueR(node.expression, initialScope)
+        if (expression != null) {
+            return { value: expression.value }
         }
         return null
     },
@@ -493,7 +513,7 @@ const operations = Object.freeze({
  * Get the value of a given node if it's a static value.
  * @param {Node} node The node to get.
  * @param {Scope|undefined} initialScope The scope to start finding variable.
- * @returns {{value:any}|null} The static value of the node, or `null`.
+ * @returns {{value:any}|{value:undefined,optional?:true}|null} The static value of the node, or `null`.
  */
 function getStaticValueR(node, initialScope) {
     if (node != null && Object.hasOwnProperty.call(operations, node.type)) {
@@ -506,7 +526,7 @@ function getStaticValueR(node, initialScope) {
  * Get the value of a given node if it's a static value.
  * @param {Node} node The node to get.
  * @param {Scope} [initialScope] The scope to start finding variable. Optional. If this scope was given, this tries to resolve identifier references which are in the given node as much as possible.
- * @returns {{value:any}|null} The static value of the node, or `null`.
+ * @returns {{value:any}|{value:undefined,optional?:true}|null} The static value of the node, or `null`.
  */
 export function getStaticValue(node, initialScope = null) {
     try {

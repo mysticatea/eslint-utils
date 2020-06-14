@@ -47,17 +47,37 @@ describe("The 'hasSideEffect' function", () => {
             expected: true,
         },
         {
+            code: "f?.()",
+            options: undefined,
+            expected: true,
+        },
+        {
             code: "a + f()",
             options: undefined,
             expected: true,
         },
         {
+            code: "a + f?.()",
+            options: undefined,
+            expected: true,
+        },
+        {
             code: "obj.a",
             options: undefined,
             expected: false,
         },
         {
             code: "obj.a",
+            options: { considerGetters: true },
+            expected: true,
+        },
+        {
+            code: "obj?.a",
+            options: undefined,
+            expected: false,
+        },
+        {
+            code: "obj?.a",
             options: { considerGetters: true },
             expected: true,
         },
@@ -73,6 +93,21 @@ describe("The 'hasSideEffect' function", () => {
         },
         {
             code: "obj[a]",
+            options: { considerImplicitTypeConversion: true },
+            expected: true,
+        },
+        {
+            code: "obj?.[a]",
+            options: undefined,
+            expected: false,
+        },
+        {
+            code: "obj?.[a]",
+            options: { considerGetters: true },
+            expected: true,
+        },
+        {
+            code: "obj?.[a]",
             options: { considerImplicitTypeConversion: true },
             expected: true,
         },
@@ -242,7 +277,7 @@ describe("The 'hasSideEffect' function", () => {
             }))
             const messages = linter.verify(code, {
                 env: { es6: true },
-                parserOptions: { ecmaVersion: 2018 },
+                parserOptions: { ecmaVersion: 2020 },
                 rules: { test: "error" },
             })
 
