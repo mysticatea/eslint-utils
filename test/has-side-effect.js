@@ -1,5 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
+import semver from "semver"
 import dp from "dot-prop"
 import { hasSideEffect } from "../src/"
 
@@ -46,21 +47,29 @@ describe("The 'hasSideEffect' function", () => {
             options: undefined,
             expected: true,
         },
-        {
-            code: "f?.()",
-            options: undefined,
-            expected: true,
-        },
+        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+            ? [
+                  {
+                      code: "f?.()",
+                      options: undefined,
+                      expected: true,
+                  },
+              ]
+            : []),
         {
             code: "a + f()",
             options: undefined,
             expected: true,
         },
-        {
-            code: "a + f?.()",
-            options: undefined,
-            expected: true,
-        },
+        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+            ? [
+                  {
+                      code: "a + f?.()",
+                      options: undefined,
+                      expected: true,
+                  },
+              ]
+            : []),
         {
             code: "obj.a",
             options: undefined,
@@ -71,16 +80,20 @@ describe("The 'hasSideEffect' function", () => {
             options: { considerGetters: true },
             expected: true,
         },
-        {
-            code: "obj?.a",
-            options: undefined,
-            expected: false,
-        },
-        {
-            code: "obj?.a",
-            options: { considerGetters: true },
-            expected: true,
-        },
+        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+            ? [
+                  {
+                      code: "obj?.a",
+                      options: undefined,
+                      expected: false,
+                  },
+                  {
+                      code: "obj?.a",
+                      options: { considerGetters: true },
+                      expected: true,
+                  },
+              ]
+            : []),
         {
             code: "obj[a]",
             options: undefined,
@@ -96,21 +109,25 @@ describe("The 'hasSideEffect' function", () => {
             options: { considerImplicitTypeConversion: true },
             expected: true,
         },
-        {
-            code: "obj?.[a]",
-            options: undefined,
-            expected: false,
-        },
-        {
-            code: "obj?.[a]",
-            options: { considerGetters: true },
-            expected: true,
-        },
-        {
-            code: "obj?.[a]",
-            options: { considerImplicitTypeConversion: true },
-            expected: true,
-        },
+        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+            ? [
+                  {
+                      code: "obj?.[a]",
+                      options: undefined,
+                      expected: false,
+                  },
+                  {
+                      code: "obj?.[a]",
+                      options: { considerGetters: true },
+                      expected: true,
+                  },
+                  {
+                      code: "obj?.[a]",
+                      options: { considerImplicitTypeConversion: true },
+                      expected: true,
+                  },
+              ]
+            : []),
         {
             code: "obj[0]",
             options: { considerImplicitTypeConversion: true },
@@ -277,7 +294,11 @@ describe("The 'hasSideEffect' function", () => {
             }))
             const messages = linter.verify(code, {
                 env: { es6: true },
-                parserOptions: { ecmaVersion: 2020 },
+                parserOptions: {
+                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "6.0.0")
+                        ? 2020
+                        : 2018,
+                },
                 rules: { test: "error" },
             })
 

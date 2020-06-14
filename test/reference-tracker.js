@@ -1,9 +1,15 @@
 import assert from "assert"
 import eslint from "eslint"
+import semver from "semver"
 import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
 
 const config = {
-    parserOptions: { ecmaVersion: 2020, sourceType: "module" },
+    parserOptions: {
+        ecmaVersion: semver.gte(eslint.CLIEngine.version, "6.0.0")
+            ? 2020
+            : 2018,
+        sourceType: "module",
+    },
     globals: { Reflect: false },
     rules: { test: "error" },
 }
@@ -533,11 +539,15 @@ describe("The 'ReferenceTracker' class:", () => {
                     "abc();",
                     "new abc();",
                     "abc.xyz;",
-                    "abc?.xyz;",
-                    "abc?.();",
-                    "abc?.xyz?.();",
-                    "(abc.def).ghi;",
-                    "(abc?.def)?.ghi;",
+                    ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+                        ? [
+                              "abc?.xyz;",
+                              "abc?.();",
+                              "abc?.xyz?.();",
+                              "(abc.def).ghi;",
+                              "(abc?.def)?.ghi;",
+                          ]
+                        : []),
                 ].join("\n"),
                 traceMap: {
                     abc: {
@@ -573,36 +583,52 @@ describe("The 'ReferenceTracker' class:", () => {
                         type: READ,
                         info: 4,
                     },
-                    {
-                        node: { type: "MemberExpression", optional: true },
-                        path: ["abc", "xyz"],
-                        type: READ,
-                        info: 4,
-                    },
-                    {
-                        node: { type: "CallExpression", optional: true },
-                        path: ["abc"],
-                        type: CALL,
-                        info: 2,
-                    },
-                    {
-                        node: { type: "MemberExpression", optional: true },
-                        path: ["abc", "xyz"],
-                        type: READ,
-                        info: 4,
-                    },
-                    {
-                        node: { type: "MemberExpression" },
-                        path: ["abc", "def", "ghi"],
-                        type: READ,
-                        info: 5,
-                    },
-                    {
-                        node: { type: "MemberExpression", optional: true },
-                        path: ["abc", "def", "ghi"],
-                        type: READ,
-                        info: 5,
-                    },
+                    ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+                        ? [
+                              {
+                                  node: {
+                                      type: "MemberExpression",
+                                      optional: true,
+                                  },
+                                  path: ["abc", "xyz"],
+                                  type: READ,
+                                  info: 4,
+                              },
+                              {
+                                  node: {
+                                      type: "CallExpression",
+                                      optional: true,
+                                  },
+                                  path: ["abc"],
+                                  type: CALL,
+                                  info: 2,
+                              },
+                              {
+                                  node: {
+                                      type: "MemberExpression",
+                                      optional: true,
+                                  },
+                                  path: ["abc", "xyz"],
+                                  type: READ,
+                                  info: 4,
+                              },
+                              {
+                                  node: { type: "MemberExpression" },
+                                  path: ["abc", "def", "ghi"],
+                                  type: READ,
+                                  info: 5,
+                              },
+                              {
+                                  node: {
+                                      type: "MemberExpression",
+                                      optional: true,
+                                  },
+                                  path: ["abc", "def", "ghi"],
+                                  type: READ,
+                                  info: 5,
+                              },
+                          ]
+                        : []),
                 ],
             },
             {
