@@ -28,6 +28,7 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.25.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
+    "semver": "^7.3.2",
     "vuepress": "^1.2.0",
     "warun": "^1.0.0"
   },

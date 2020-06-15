@@ -1,5 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
+import semver from "semver"
 import { getStaticValue } from "../src/"
 
 describe("The 'getStaticValue' function", () => {
@@ -143,6 +144,102 @@ const aMap = Object.freeze({
             code: "RegExp.$1",
             expected: null,
         },
+        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+            ? [
+                  {
+                      code: "const a = null, b = 42; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = undefined, b = 42; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = false, b = 42; a ?? b",
+                      expected: { value: false },
+                  },
+                  {
+                      code: "const a = 42, b = null; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = 42, b = undefined; a ?? b",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = { b: { c: 42 } }; a?.b?.c",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = { b: { c: 42 } }; a?.b?.['c']",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = { b: null }; a?.b?.c",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = { b: undefined }; a?.b?.c",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = { b: null }; a?.b?.['c']",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = null; a?.b?.c",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = null; a?.b.c",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = void 0; a?.b.c",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = { b: { c: 42 } }; (a?.b).c",
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: "const a = null; (a?.b).c",
+                      expected: null,
+                  },
+                  {
+                      code: "const a = { b: null }; (a?.b).c",
+                      expected: null,
+                  },
+                  {
+                      code: "const a = { b: { c: String } }; a?.b?.c?.(42)",
+                      expected: { value: "42" },
+                  },
+                  {
+                      code: "const a = null; a?.b?.c?.(42)",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = { b: { c: String } }; a?.b.c(42)",
+                      expected: { value: "42" },
+                  },
+                  {
+                      code: "const a = null; a?.b.c(42)",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "null?.()",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "const a = null; a?.()",
+                      expected: { value: undefined },
+                  },
+                  {
+                      code: "a?.()",
+                      expected: null,
+                  },
+              ]
+            : []),
     ]) {
         it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
             const linter = new eslint.Linter()
@@ -158,7 +255,11 @@ const aMap = Object.freeze({
             }))
             linter.verify(code, {
                 env: { es6: true },
-                parserOptions: { ecmaVersion: 2018 },
+                parserOptions: {
+                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "6.0.0")
+                        ? 2020
+                        : 2018,
+                },
                 rules: { test: "error" },
             })
 
