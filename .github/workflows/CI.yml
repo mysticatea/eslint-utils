@@ -64,6 +64,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+      - name: Install NPM
+        if: ${{ matrix.node == 6 }}
+        run: |
+          npm install --global npm@^6.0.0
       - name: Install Packages
         run: |
           npm install
