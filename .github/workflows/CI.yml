@@ -66,7 +66,6 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install Packages
         run: |
-          npm install --global npm@^6.0.0
           npm install
       - name: Install ESLint ${{ matrix.eslint }}
         run: npm install --no-save eslint@${{ matrix.eslint }}
