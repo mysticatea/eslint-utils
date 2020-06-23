@@ -13,13 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v2
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Install Packages
         run: npm install
       - name: Lint
@@ -29,32 +27,49 @@ jobs:
     name: Test
     strategy:
       matrix:
-        node: [12, 10, 8, 6]
-        eslint: [6, 5]
-        exclude:
-          # ESLint 6 doesn't support Node 6.
-          - node: 6
-            eslint: 6
-          # Run ESLint 5 on only the newest and oldest Node.
-          - node: 10
-            eslint: 5
-          - node: 8
-            eslint: 5
-    runs-on: ubuntu-latest
+        os: [ubuntu-latest]
+        eslint: [7]
+        node: [14]
+        include:
+          # On other platforms
+          - eslint: 7
+            node: 14
+            os: windows-latest
+          - eslint: 7
+            node: 14
+            os: macos-latest
+          # On old Node.js versions
+          - eslint: 7
+            node: 12
+            os: ubuntu-latest
+          - eslint: 7
+            node: 10
+            os: ubuntu-latest
+          # On old ESLint versions
+          - eslint: 6
+            node: 14
+            os: ubuntu-latest
+          - eslint: 5
+            node: 14
+            os: ubuntu-latest
+          # On the minimum supported ESLint/Node.js version
+          - eslint: 5
+            node: 6.14
+            os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v2
       - name: Install Node.js v${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
       - name: Install Packages
         run: |
+          npm install --global npm@^6.0.0
           npm install
-      - name: Install ESLint v${{ matrix.eslint }}
-        run: npm install --no-save eslint@^${{ matrix.eslint }}.0.0
+      - name: Install ESLint ${{ matrix.eslint }}
+        run: npm install --no-save eslint@${{ matrix.eslint }}
       - name: Build
         run: npm run -s build
       - name: Test
