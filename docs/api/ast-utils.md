@@ -160,6 +160,12 @@ Get the name and kind of a given function node.
 - `const foo = async () => {}`  ........... `async arrow function 'foo'`
 - `foo = () => {}`  ....................... `arrow function 'foo'`
 - `foo = async () => {}`  ................. `async arrow function 'foo'`
+- `const foo = function() {}`  ............ `function 'foo'`
+- `const foo = function* () {}`  .......... `generator function 'foo'`
+- `const foo = async function() {}`  ...... `async function 'foo'`
+- `foo = function() {}`  .................. `function 'foo'`
+- `foo = function* () {}`  ................ `generator function 'foo'`
+- `foo = async function() {}`  ............ `async function 'foo'`
 - `({ foo: function foo() {} })`  ......... `method 'foo'`
 - `({ foo: function() {} })`  ............. `method 'foo'`
 - `({ ['foo']: function() {} })`  ......... `method 'foo'`
