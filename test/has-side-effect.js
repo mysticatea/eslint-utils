@@ -168,7 +168,7 @@ describe("The 'hasSideEffect' function", () => {
             options: { considerImplicitTypeConversion: true },
             expected: false,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+        ...(semver.gte(eslint.CLIEngine.version, "7.0.0")
             ? [
                   {
                       code: "(class { x })",
