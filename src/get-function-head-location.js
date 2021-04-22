@@ -30,7 +30,8 @@ export function getFunctionHeadLocation(node, sourceCode) {
         end = arrowToken.loc.end
     } else if (
         parent.type === "Property" ||
-        parent.type === "MethodDefinition"
+        parent.type === "MethodDefinition" ||
+        parent.type === "PropertyDefinition"
     ) {
         start = parent.loc.start
         end = getOpeningParenOfParams(node, sourceCode).loc.start
