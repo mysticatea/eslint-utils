@@ -240,6 +240,48 @@ const aMap = Object.freeze({
                   },
               ]
             : []),
+        ...(semver.gte(eslint.CLIEngine.version, "7.0.0")
+            ? [
+                  {
+                      code: `class A {
+                          #x = 0;
+                          fn () {
+                              const foo = {x:42}
+                              foo.#x // not 42
+                          }
+                      }`,
+                      expected: null,
+                  },
+                  {
+                      code: `class A {
+                          #x = 0;
+                          fn () {
+                              const foo = {x:42}
+                              foo.x // 42
+                          }
+                      }`,
+                      expected: { value: 42 },
+                  },
+                  {
+                      code: `class A {
+                          #parseInt;
+                          fn () {
+                              Number.#parseInt('42') // not 42
+                          }
+                      }`,
+                      expected: null,
+                  },
+                  {
+                      code: `class A {
+                          #parseInt;
+                          fn () {
+                              Number.parseInt('42') // 42
+                          }
+                      }`,
+                      expected: { value: 42 },
+                  },
+              ]
+            : []),
     ]) {
         it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
             const linter = new eslint.Linter()
@@ -253,16 +295,23 @@ const aMap = Object.freeze({
                     )
                 },
             }))
-            linter.verify(code, {
+            const messages = linter.verify(code, {
                 env: { es6: true },
                 parserOptions: {
-                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "6.0.0")
+                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "7.0.0")
+                        ? 2022
+                        : semver.gte(eslint.CLIEngine.version, "6.0.0")
                         ? 2020
                         : 2018,
                 },
                 rules: { test: "error" },
             })
 
+            assert.strictEqual(
+                messages.length,
+                0,
+                messages[0] && messages[0].message
+            )
             if (actual == null) {
                 assert.strictEqual(actual, expected)
             } else {

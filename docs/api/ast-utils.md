@@ -97,6 +97,50 @@ Get the proper location of a given function node to report.
              ^^^^^^^^^^^^^^
 - `class A { static set foo(a) {} }`
              ^^^^^^^^^^^^^^
+- `class A { #foo() {} }`
+             ^^^^
+- `class A { *#foo() {} }`
+             ^^^^^
+- `class A { async #foo() {} }`
+             ^^^^^^^^^^
+- `class A { get #foo() {} }`
+             ^^^^^^^^
+- `class A { set #foo(a) {} }`
+             ^^^^^^^^
+- `class A { static #foo() {} }`
+             ^^^^^^^^^^^
+- `class A { static *#foo() {} }`
+             ^^^^^^^^^^^^
+- `class A { static async #foo() {} }`
+             ^^^^^^^^^^^^^^^^^
+- `class A { static get #foo() {} }`
+             ^^^^^^^^^^^^^^^
+- `class A { static set #foo(a) {} }`
+             ^^^^^^^^^^^^^^^
+- `class A { foo = function() {} }`
+             ^^^^^^^^^^^^^^
+- `class A { foo = function*() {} }`
+             ^^^^^^^^^^^^^^^
+- `class A { foo = async function() {} }`
+             ^^^^^^^^^^^^^^^^^^^^
+- `class A { static foo = function() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^
+- `class A { static foo = function*() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^^
+- `class A { static foo = async function() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- `class A { #foo = function() {} }`
+             ^^^^^^^^^^^^^^^
+- `class A { #foo = function*() {} }`
+             ^^^^^^^^^^^^^^^^
+- `class A { #foo = async function() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^
+- `class A { static #foo = function() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^^
+- `class A { static #foo = function*() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^^^
+- `class A { static #foo = async function() {} }`
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
 </details>
@@ -148,52 +192,80 @@ Get the name and kind of a given function node.
 <details><summary>Show the name and kind examples:</summary>
 
 ```
-- `function foo() {}`  .................... `function 'foo'`
-- `(function foo() {})`  .................. `function 'foo'`
-- `(function() {})`  ...................... `function`
-- `function* foo() {}`  ................... `generator function 'foo'`
-- `(function* foo() {})`  ................. `generator function 'foo'`
-- `(function*() {})`  ..................... `generator function`
-- `() => {}`  ............................. `arrow function`
-- `async () => {}`  ....................... `async arrow function`
-- `const foo = () => {}`  ................. `arrow function 'foo'`
-- `const foo = async () => {}`  ........... `async arrow function 'foo'`
-- `foo = () => {}`  ....................... `arrow function 'foo'`
-- `foo = async () => {}`  ................. `async arrow function 'foo'`
-- `({ foo: function foo() {} })`  ......... `method 'foo'`
-- `({ foo: function() {} })`  ............. `method 'foo'`
-- `({ ['foo']: function() {} })`  ......... `method 'foo'`
-- `({ [foo]: function() {} })`  ........... `method`
-- `({ foo() {} })`  ....................... `method 'foo'`
-- `({ foo: function* foo() {} })`  ........ `generator method 'foo'`
-- `({ foo: function*() {} })`  ............ `generator method 'foo'`
-- `({ ['foo']: function*() {} })`  ........ `generator method 'foo'`
-- `({ [foo]: function*() {} })`  .......... `generator method`
-- `({ *foo() {} })`  ...................... `generator method 'foo'`
-- `({ foo: async function foo() {} })`  ... `async method 'foo'`
-- `({ foo: async function() {} })`  ....... `async method 'foo'`
-- `({ ['foo']: async function() {} })`  ... `async method 'foo'`
-- `({ [foo]: async function() {} })`  ..... `async method`
-- `({ async foo() {} })`  ................. `async method 'foo'`
-- `({ get foo() {} })`  ................... `getter 'foo'`
-- `({ set foo(a) {} })`  .................. `setter 'foo'`
-- `class A { constructor() {} }`  ......... `constructor`
-- `class A { foo() {} }`  ................. `method 'foo'`
-- `class A { *foo() {} }`  ................ `generator method 'foo'`
-- `class A { async foo() {} }`  ........... `async method 'foo'`
-- `class A { ['foo']() {} }`  ............. `method 'foo'`
-- `class A { *['foo']() {} }`  ............ `generator method 'foo'`
-- `class A { async ['foo']() {} }`  ....... `async method 'foo'`
-- `class A { [foo]() {} }`  ............... `method`
-- `class A { *[foo]() {} }`  .............. `generator method`
-- `class A { async [foo]() {} }`  ......... `async method`
-- `class A { get foo() {} }`  ............. `getter 'foo'`
-- `class A { set foo(a) {} }`  ............ `setter 'foo'`
-- `class A { static foo() {} }`  .......... `static method 'foo'`
-- `class A { static *foo() {} }`  ......... `static generator method 'foo'`
-- `class A { static async foo() {} }`  .... `static async method 'foo'`
-- `class A { static get foo() {} }`  ...... `static getter 'foo'`
-- `class A { static set foo(a) {} }`  ..... `static setter 'foo'`
+- `function foo() {}`  ............................... `function 'foo'`
+- `(function foo() {})`  ............................. `function 'foo'`
+- `(function() {})`  ................................. `function`
+- `function* foo() {}`  .............................. `generator function 'foo'`
+- `(function* foo() {})`  ............................ `generator function 'foo'`
+- `(function*() {})`  ................................ `generator function`
+- `() => {}`  ........................................ `arrow function`
+- `async () => {}`  .................................. `async arrow function`
+- `const foo = () => {}`  ............................ `arrow function 'foo'`
+- `const foo = async () => {}`  ...................... `async arrow function 'foo'`
+- `foo = () => {}`  .................................. `arrow function 'foo'`
+- `foo = async () => {}`  ............................ `async arrow function 'foo'`
+- `({ foo: function foo() {} })`  .................... `method 'foo'`
+- `({ foo: function() {} })`  ........................ `method 'foo'`
+- `({ ['foo']: function() {} })`  .................... `method 'foo'`
+- `({ [foo]: function() {} })`  ...................... `method`
+- `({ foo() {} })`  .................................. `method 'foo'`
+- `({ foo: function* foo() {} })`  ................... `generator method 'foo'`
+- `({ foo: function*() {} })`  ....................... `generator method 'foo'`
+- `({ ['foo']: function*() {} })`  ................... `generator method 'foo'`
+- `({ [foo]: function*() {} })`  ..................... `generator method`
+- `({ *foo() {} })`  ................................. `generator method 'foo'`
+- `({ foo: async function foo() {} })`  .............. `async method 'foo'`
+- `({ foo: async function() {} })`  .................. `async method 'foo'`
+- `({ ['foo']: async function() {} })`  .............. `async method 'foo'`
+- `({ [foo]: async function() {} })`  ................ `async method`
+- `({ async foo() {} })`  ............................ `async method 'foo'`
+- `({ get foo() {} })`  .............................. `getter 'foo'`
+- `({ set foo(a) {} })`  ............................. `setter 'foo'`
+- `class A { constructor() {} }`  .................... `constructor`
+- `class A { foo() {} }`  ............................ `method 'foo'`
+- `class A { *foo() {} }`  ........................... `generator method 'foo'`
+- `class A { async foo() {} }`  ...................... `async method 'foo'`
+- `class A { ['foo']() {} }`  ........................ `method 'foo'`
+- `class A { *['foo']() {} }`  ....................... `generator method 'foo'`
+- `class A { async ['foo']() {} }`  .................. `async method 'foo'`
+- `class A { [foo]() {} }`  .......................... `method`
+- `class A { *[foo]() {} }`  ......................... `generator method`
+- `class A { async [foo]() {} }`  .................... `async method`
+- `class A { get foo() {} }`  ........................ `getter 'foo'`
+- `class A { set foo(a) {} }`  ....................... `setter 'foo'`
+- `class A { static foo() {} }`  ..................... `static method 'foo'`
+- `class A { static *foo() {} }`  .................... `static generator method 'foo'`
+- `class A { static async foo() {} }`  ............... `static async method 'foo'`
+- `class A { static get foo() {} }`  ................. `static getter 'foo'`
+- `class A { static set foo(a) {} }`  ................ `static setter 'foo'`
+- `class A { foo = function() {} }`  ................. `method 'foo'"`
+- `class A { foo = function*() {} }`  ................ `generator method 'foo'"`
+- `class A { foo = async function() {} }`  ........... `async method 'foo'"`
+- `class A { ['foo'] = function() {} }`  ............. `method 'foo'"`
+- `class A { ['foo'] = function*() {} }`  ............ `generator method 'foo'"`
+- `class A { ['foo'] = async function() {} }`  ....... `async method 'foo'"`
+- `class A { [foo] = function() {} }`  ............... `method"`
+- `class A { [foo] = function*() {} }`  .............. `generator method"`
+- `class A { [foo] = async function() {} }`  ......... `async method"`
+- `class A { static foo = function() {} }`  .......... `static method 'foo'"`
+- `class A { static foo = function*() {} }`  ......... `static generator method 'foo'"`
+- `class A { static foo = async function() {} }`  .... `static async method 'foo'"`
+- `class A { #foo() {} }`  ........................... `private method '#foo'`
+- `class A { *#foo() {} }`  .......................... `private generator method '#foo'`
+- `class A { async #foo() {} }`  ..................... `private async method '#foo'`
+- `class A { get #foo() {} }`  ....................... `private getter '#foo'`
+- `class A { set #foo(a) {} }`  ...................... `private setter '#foo'`
+- `class A { static #foo() {} }`  .................... `private static method '#foo'`
+- `class A { static *#foo() {} }`  ................... `private static generator method '#foo'`
+- `class A { static async #foo() {} }`  .............. `private static async method '#foo'`
+- `class A { static get #foo() {} }`  ................ `private static getter '#foo'`
+- `class A { static set #foo(a) {} }`  ............... `private static setter '#foo'`
+- `class A { #foo = function() {} }`  ................ `private method '#foo'"`
+- `class A { #foo = function*() {} }`  ............... `private generator method '#foo'"`
+- `class A { #foo = async function() {} }`  .......... `private async method '#foo'"`
+- `class A { static #foo = function() {} }`  ......... `private static method '#foo'"`
+- `class A { static #foo = function*() {} }`  ........ `private static generator method '#foo'"`
+- `class A { static #foo = async function() {} }`  ... `private static async method '#foo'"`
 ```
 
 </details>
@@ -246,7 +318,7 @@ If the node is a computed property, this tries to compute the property name by t
 
  Name | Type | Description
 :-----|:-----|:------------
-node | Node | The node to get that name. This shuld be any of `MemberExpression`, `Property`, and `MethodDefinition` node.
+node | Node | The node to get that name. This shuld be any of `MemberExpression`, `Property`, `MethodDefinition`, and `PropertyDefinition` node.
 initialScope | Scope or undefined | Optional. The scope object to find variables.
 
 ### Return value
@@ -379,6 +451,7 @@ The side effect means that it *may* modify a certain variable or object member. 
     - `MemberExpression` (`[computed = true]`)
     - `MethodDefinition` (`[computed = true]`)
     - `Property` (`[computed = true]`)
+    - `PropertyDefinition` (`[computed = true]`)
     - `UnaryExpression` (`[operator = "-" | "+" | "!" | "~"]`)
 
 ### Parameters

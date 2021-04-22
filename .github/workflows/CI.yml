@@ -30,8 +30,13 @@ jobs:
     strategy:
       matrix:
         node: [12, 10, 8, 6]
-        eslint: [6, 5]
+        eslint: [7, 6, 5]
         exclude:
+        # ESLint 7 doesn't support Node 8.
+        - node: 8
+          eslint: 7
+        - node: 6
+          eslint: 7
         # ESLint 6 doesn't support Node 6.
         - node: 6
           eslint: 6

@@ -1,5 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
+import semver from "semver"
 import { getPropertyName } from "../src/"
 
 describe("The 'getPropertyName' function", () => {
@@ -33,21 +34,51 @@ describe("The 'getPropertyName' function", () => {
         { code: "(class {['a' + 'b']() {}})", expected: "ab" },
         { code: "(class {[tag`b`]() {}})", expected: null },
         { code: "(class {[`${b}`]() {}})", expected: null }, //eslint-disable-line no-template-curly-in-string
+        ...(semver.gte(eslint.CLIEngine.version, "7.0.0")
+            ? [
+                  { code: "(class { x })", expected: "x" },
+                  { code: "(class { static x })", expected: "x" },
+                  { code: "(class { #x })", expected: null },
+                  { code: "(class { get #x() {} })", expected: null },
+                  { code: "(class { #x() {} })", expected: null },
+                  { code: "(class { static #x })", expected: null },
+                  { code: "(class { static get #x() {} })", expected: null },
+                  { code: "(class { static #x() {} })", expected: null },
+                  {
+                      code: "(class { #x; fn() {this.#x} })",
+                      expected: null,
+                  },
+                  {
+                      code: "(class { #x; fn() {this.x} })",
+                      expected: "x",
+                  },
+              ]
+            : []),
     ]) {
         it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
             const linter = new eslint.Linter()
 
             let actual = null
             linter.defineRule("test", () => ({
-                "Property,MethodDefinition,MemberExpression"(node) {
+                "Property,PropertyDefinition,MethodDefinition,MemberExpression"(
+                    node
+                ) {
                     actual = getPropertyName(node)
                 },
             }))
-            linter.verify(code, {
-                parserOptions: { ecmaVersion: 2018 },
+            const messages = linter.verify(code, {
+                parserOptions: {
+                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "7.0.0")
+                        ? 2022
+                        : 2018,
+                },
                 rules: { test: "error" },
             })
-
+            assert.strictEqual(
+                messages.length,
+                0,
+                messages[0] && messages[0].message
+            )
             assert.strictEqual(actual, expected)
         })
     }

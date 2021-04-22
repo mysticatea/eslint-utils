@@ -12,15 +12,22 @@ export function getPropertyName(node, initialScope) {
             if (node.computed) {
                 return getStringIfConstant(node.property, initialScope)
             }
+            if (node.property.type === "PrivateIdentifier") {
+                return null
+            }
             return node.property.name
 
         case "Property":
         case "MethodDefinition":
+        case "PropertyDefinition":
             if (node.computed) {
                 return getStringIfConstant(node.key, initialScope)
             }
             if (node.key.type === "Literal") {
                 return String(node.key.value)
+            }
+            if (node.key.type === "PrivateIdentifier") {
+                return null
             }
             return node.key.name
 

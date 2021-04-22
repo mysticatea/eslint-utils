@@ -135,6 +135,16 @@ const visitor = Object.freeze(
             }
             return this.$visitChildren(node, options, visitorKeys)
         },
+        PropertyDefinition(node, options, visitorKeys) {
+            if (
+                options.considerImplicitTypeConversion &&
+                node.computed &&
+                node.key.type !== "Literal"
+            ) {
+                return true
+            }
+            return this.$visitChildren(node, options, visitorKeys)
+        },
         UnaryExpression(node, options, visitorKeys) {
             if (node.operator === "delete") {
                 return true

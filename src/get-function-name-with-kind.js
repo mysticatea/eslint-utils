@@ -8,9 +8,18 @@ import { getPropertyName } from "./get-property-name"
 export function getFunctionNameWithKind(node) {
     const parent = node.parent
     const tokens = []
-
-    if (parent.type === "MethodDefinition" && parent.static) {
-        tokens.push("static")
+    const isFieldDefinition =
+        parent.type === "MethodDefinition" ||
+        parent.type === "PropertyDefinition"
+    let privateName = null
+    if (isFieldDefinition) {
+        if (parent.key.type === "PrivateIdentifier") {
+            privateName = `#${parent.key.name}`
+            tokens.push("private")
+        }
+        if (parent.static) {
+            tokens.push("static")
+        }
     }
     if (node.async) {
         tokens.push("async")
@@ -21,10 +30,7 @@ export function getFunctionNameWithKind(node) {
 
     if (node.type === "ArrowFunctionExpression") {
         tokens.push("arrow", "function")
-    } else if (
-        parent.type === "Property" ||
-        parent.type === "MethodDefinition"
-    ) {
+    } else if (parent.type === "Property" || isFieldDefinition) {
         if (parent.kind === "constructor") {
             return "constructor"
         }
@@ -42,7 +48,7 @@ export function getFunctionNameWithKind(node) {
     if (node.id) {
         tokens.push(`'${node.id.name}'`)
     } else {
-        const name = getPropertyName(parent)
+        const name = privateName || getPropertyName(parent)
 
         if (name) {
             tokens.push(`'${name}'`)
