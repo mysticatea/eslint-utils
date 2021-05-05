@@ -1,6 +1,8 @@
+import { Scope, Rule, SourceCode, AST } from "eslint"
+
 /**
  * Negate the result of `this` calling.
- * @param {Token} token The token to check.
+ * @param {AST.Token} token The token to check.
  * @returns {boolean} `true` if the result of `this(token)` is `false`.
  */
 function negate0(token) {
@@ -9,8 +11,8 @@ function negate0(token) {
 
 /**
  * Creates the negate function of the given function.
- * @param {function(Token):boolean} f - The function to negate.
- * @returns {function(Token):boolean} Negated function.
+ * @param {function(AST.Token):boolean} f - The function to negate.
+ * @returns {function(AST.Token):boolean} Negated function.
  */
 function negate(f) {
     return negate0.bind(f)
@@ -18,7 +20,7 @@ function negate(f) {
 
 /**
  * Checks if the given token is an arrow token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is an arrow token.
  */
 export function isArrowToken(token) {
@@ -27,7 +29,7 @@ export function isArrowToken(token) {
 
 /**
  * Checks if the given token is a comma token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a comma token.
  */
 export function isCommaToken(token) {
@@ -36,7 +38,7 @@ export function isCommaToken(token) {
 
 /**
  * Checks if the given token is a semicolon token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a semicolon token.
  */
 export function isSemicolonToken(token) {
@@ -45,7 +47,7 @@ export function isSemicolonToken(token) {
 
 /**
  * Checks if the given token is a colon token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a colon token.
  */
 export function isColonToken(token) {
@@ -54,7 +56,7 @@ export function isColonToken(token) {
 
 /**
  * Checks if the given token is an opening parenthesis token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is an opening parenthesis token.
  */
 export function isOpeningParenToken(token) {
@@ -63,7 +65,7 @@ export function isOpeningParenToken(token) {
 
 /**
  * Checks if the given token is a closing parenthesis token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a closing parenthesis token.
  */
 export function isClosingParenToken(token) {
@@ -72,7 +74,7 @@ export function isClosingParenToken(token) {
 
 /**
  * Checks if the given token is an opening square bracket token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is an opening square bracket token.
  */
 export function isOpeningBracketToken(token) {
@@ -81,7 +83,7 @@ export function isOpeningBracketToken(token) {
 
 /**
  * Checks if the given token is a closing square bracket token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a closing square bracket token.
  */
 export function isClosingBracketToken(token) {
@@ -90,7 +92,7 @@ export function isClosingBracketToken(token) {
 
 /**
  * Checks if the given token is an opening brace token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is an opening brace token.
  */
 export function isOpeningBraceToken(token) {
@@ -99,7 +101,7 @@ export function isOpeningBraceToken(token) {
 
 /**
  * Checks if the given token is a closing brace token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a closing brace token.
  */
 export function isClosingBraceToken(token) {
@@ -108,7 +110,7 @@ export function isClosingBraceToken(token) {
 
 /**
  * Checks if the given token is a comment token or not.
- * @param {Token} token - The token to check.
+ * @param {AST.Token} token - The token to check.
  * @returns {boolean} `true` if the token is a comment token.
  */
 export function isCommentToken(token) {

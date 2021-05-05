@@ -9,9 +9,12 @@
   "main": "index",
   "module": "index.mjs",
   "files": [
-    "index.*"
+    "index.*",
+    "types"
   ],
+  "types": "types/index.d.ts",
   "dependencies": {
+    "@types/eslint": "^7.2.10",
     "eslint-visitor-keys": "^1.1.0"
   },
   "devDependencies": {
@@ -29,12 +32,14 @@
     "rollup": "^1.25.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "semver": "^7.3.2",
+    "typescript": "^4.2.4",
     "vuepress": "^1.2.0",
     "warun": "^1.0.0"
   },
   "scripts": {
     "prebuild": "npm run -s clean",
     "build": "rollup -c",
+    "build:declaration": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir types",
     "clean": "rimraf .nyc_output coverage index.*",
     "codecov": "nyc report -r lcovonly && codecov",
     "coverage": "opener ./coverage/lcov-report/index.html",

@@ -60,6 +60,8 @@ jobs:
       run: npm install --no-save eslint@^${{ matrix.eslint }}.0.0
     - name: Build
       run: npm run -s build
+    - name: Build declaration
+      run: npm run -s build:declaration
     - name: Test
       run: npm run -s test:mocha
     - name: Send Coverage
