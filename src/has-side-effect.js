@@ -1,3 +1,4 @@
+import { Rule, SourceCode } from "eslint"
 import evk from "eslint-visitor-keys"
 
 const typeConversionBinaryOps = Object.freeze(
@@ -159,7 +160,7 @@ const visitor = Object.freeze(
 
 /**
  * Check whether a given node has any side effect or not.
- * @param {Node} node The node to get.
+ * @param {Rule.Node} node The node to get.
  * @param {SourceCode} sourceCode The source code object.
  * @param {object} [options] The option object.
  * @param {boolean} [options.considerGetters=false] If `true` then it considers member accesses as the node which has side effects.

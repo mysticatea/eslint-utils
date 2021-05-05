@@ -1,5 +1,7 @@
 /* globals BigInt, globalThis, global, self, window */
 
+import { Scope, Rule } from "eslint"
+
 import { findVariable } from "./find-variable"
 
 const globalObject =
@@ -142,8 +144,8 @@ function isGetter(object, name) {
 
 /**
  * Get the element values of a given node list.
- * @param {Node[]} nodeList The node list to get values.
- * @param {Scope|undefined} initialScope The initial scope to find variables.
+ * @param {Rule.Node[]} nodeList The node list to get values.
+ * @param {Scope.Scope|undefined} initialScope The initial scope to find variables.
  * @returns {any[]|null} The value list if all nodes are constant. Otherwise, null.
  */
 function getElementValues(nodeList, initialScope) {
@@ -512,8 +514,8 @@ const operations = Object.freeze({
 
 /**
  * Get the value of a given node if it's a static value.
- * @param {Node} node The node to get.
- * @param {Scope|undefined} initialScope The scope to start finding variable.
+ * @param {Rule.Node} node The node to get.
+ * @param {Scope.Scope|undefined} initialScope The scope to start finding variable.
  * @returns {{value:any}|{value:undefined,optional?:true}|null} The static value of the node, or `null`.
  */
 function getStaticValueR(node, initialScope) {
@@ -525,8 +527,8 @@ function getStaticValueR(node, initialScope) {
 
 /**
  * Get the value of a given node if it's a static value.
- * @param {Node} node The node to get.
- * @param {Scope} [initialScope] The scope to start finding variable. Optional. If this scope was given, this tries to resolve identifier references which are in the given node as much as possible.
+ * @param {Rule.Node} node The node to get.
+ * @param {Scope.Scope} [initialScope] The scope to start finding variable. Optional. If this scope was given, this tries to resolve identifier references which are in the given node as much as possible.
  * @returns {{value:any}|{value:undefined,optional?:true}|null} The static value of the node, or `null`.
  */
 export function getStaticValue(node, initialScope = null) {

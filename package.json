@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@mysticatea/eslint-plugin": "^12.0.0",
-    "check-dts": "^0.4.4",
     "codecov": "^3.6.1",
     "dot-prop": "^4.2.0",
     "eslint": "^6.5.1",
@@ -46,7 +45,6 @@
     "lint": "eslint src test",
     "test": "run-s lint build test:mocha",
     "test:mocha": "nyc mocha --reporter dot \"test/*.js\"",
-    "test:type": "check-dts",
     "preversion": "npm test && npm run -s build",
     "postversion": "git push && git push --tags",
     "prewatch": "npm run -s clean",

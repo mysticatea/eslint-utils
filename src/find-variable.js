@@ -1,10 +1,11 @@
+import { Scope, Rule } from "eslint"
 import { getInnermostScope } from "./get-innermost-scope"
 
 /**
  * Find the variable of a given name.
- * @param {Scope} initialScope The scope to start finding.
- * @param {string|Node} nameOrNode The variable name to find. If this is a Node object then it should be an Identifier node.
- * @returns {Variable|null} The found variable or null.
+ * @param {Scope.Scope} initialScope The scope to start finding.
+ * @param {string|Rule.Node} nameOrNode The variable name to find. If this is a Node object then it should be an Identifier node.
+ * @returns {Scope.Variable|null} The found variable or null.
  */
 export function findVariable(initialScope, nameOrNode) {
     let name = ""

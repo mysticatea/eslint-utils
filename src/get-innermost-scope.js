@@ -1,7 +1,9 @@
+import { Scope, Rule } from "eslint"
+
 /**
  * Get the innermost scope which contains a given location.
- * @param {Scope} initialScope The initial scope to search.
- * @param {Node} node The location to search.
+ * @param {Scope.Scope} initialScope The initial scope to search.
+ * @param {Rule.Node} node The location to search.
  * @returns {Scope} The innermost scope.
  */
 export function getInnermostScope(initialScope, node) {

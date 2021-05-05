@@ -1,8 +1,9 @@
+import { Rule } from "eslint"
 import { getPropertyName } from "./get-property-name"
 
 /**
  * Get the name and kind of the given function node.
- * @param {ASTNode} node - The function node to get.
+ * @param {Rule.Node} node - The function node to get.
  * @returns {string} The name and kind of the function node.
  */
 export function getFunctionNameWithKind(node) {

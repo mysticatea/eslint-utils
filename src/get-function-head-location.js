@@ -1,10 +1,11 @@
+import { Scope, Rule, SourceCode, AST } from "eslint"
 import { isArrowToken, isOpeningParenToken } from "./token-predicate"
 
 /**
  * Get the `(` token of the given function node.
- * @param {Node} node - The function node to get.
+ * @param {Rule.Node} node - The function node to get.
  * @param {SourceCode} sourceCode - The source code object to get tokens.
- * @returns {Token} `(` token.
+ * @returns {AST.Token} `(` token.
  */
 function getOpeningParenOfParams(node, sourceCode) {
     return node.id
@@ -14,7 +15,7 @@ function getOpeningParenOfParams(node, sourceCode) {
 
 /**
  * Get the location of the given function node for reporting.
- * @param {Node} node - The function node to get.
+ * @param {Rule.Node} node - The function node to get.
  * @param {SourceCode} sourceCode - The source code object to get tokens.
  * @returns {string} The location of the function node for reporting.
  */

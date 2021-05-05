@@ -1,3 +1,4 @@
+import { Scope, Rule } from "eslint"
 import { findVariable } from "./find-variable"
 import { getPropertyName } from "./get-property-name"
 import { getStringIfConstant } from "./get-string-if-constant"
@@ -14,7 +15,7 @@ const requireCall = { require: { [CALL]: true } }
 
 /**
  * Check whether a given variable is modified or not.
- * @param {Variable} variable The variable to check.
+ * @param {Scope.Variable} variable The variable to check.
  * @returns {boolean} `true` if the variable is modified.
  */
 function isModifiedGlobal(variable) {
@@ -28,7 +29,7 @@ function isModifiedGlobal(variable) {
 /**
  * Check if the value of a given node is passed through to the parent syntax as-is.
  * For example, `a` and `b` in (`a || b` and `c ? a : b`) are passed through.
- * @param {Node} node A node to check.
+ * @param {Rule.Node} node A node to check.
  * @returns {boolean} `true` if the node is passed through.
  */
 function isPassThrough(node) {
@@ -55,7 +56,7 @@ function isPassThrough(node) {
 export class ReferenceTracker {
     /**
      * Initialize this tracker.
-     * @param {Scope} globalScope The global scope.
+     * @param {Scope.Scope} globalScope The global scope.
      * @param {object} [options] The options.
      * @param {"legacy"|"strict"} [options.mode="strict"] The mode to determine the ImportDeclaration's behavior for CJS modules.
      * @param {string[]} [options.globalObjectNames=["global","globalThis","self","window"]] The variable names for Global Object.
@@ -212,7 +213,7 @@ export class ReferenceTracker {
 
     /**
      * Iterate the references for a given variable.
-     * @param {Variable} variable The variable to iterate that references.
+     * @param {Scope.Variable} variable The variable to iterate that references.
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
      * @param {boolean} shouldReport = The flag to report those references.
@@ -319,7 +320,7 @@ export class ReferenceTracker {
 
     /**
      * Iterate the references for a given Pattern node.
-     * @param {Node} patternNode The Pattern node to iterate references.
+     * @param {Rule.Node} patternNode The Pattern node to iterate references.
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
      * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
@@ -370,7 +371,7 @@ export class ReferenceTracker {
 
     /**
      * Iterate the references for a given ModuleSpecifier node.
-     * @param {Node} specifierNode The ModuleSpecifier node to iterate references.
+     * @param {Rule.Node} specifierNode The ModuleSpecifier node to iterate references.
      * @param {string[]} path The current path.
      * @param {object} traceMap The trace map.
      * @returns {IterableIterator<{node:Node,path:string[],type:symbol,info:any}>} The iterator to iterate references.
