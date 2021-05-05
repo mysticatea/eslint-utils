@@ -3,5 +3,5 @@
 /docs/.vuepress/dist
 /node_modules
 /index.*
-!/index.d.ts
 /test.*
+/types
