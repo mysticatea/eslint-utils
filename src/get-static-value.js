@@ -101,7 +101,6 @@ const callAllowed = new Set(
         String.fromCharCode,
         String.fromCodePoint,
         String.raw,
-        Symbol,
         Symbol.for,
         Symbol.keyFor,
         unescape,

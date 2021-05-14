@@ -74,6 +74,10 @@ describe("The 'getStaticValue' function", () => {
             expected: { value: Symbol.iterator },
         },
         { code: "Symbol[iterator]", expected: null },
+        {
+            code: "const symbol = Symbol(); (symbol === symbol)",
+            expected: null,
+        },
         { code: "Object.freeze", expected: { value: Object.freeze } },
         { code: "Object.xxx", expected: { value: undefined } },
         { code: "new Array(2)", expected: null },
