@@ -49,7 +49,10 @@ export function getFunctionNameWithKind(node) {
         }
     }
 
-    if (node.type === "ArrowFunctionExpression") {
+    if (
+        node.type === "ArrowFunctionExpression" ||
+        (node.type === "FunctionExpression" && node.id === null)
+    ) {
         if (
             parent.type === "VariableDeclarator" &&
             parent.id &&
