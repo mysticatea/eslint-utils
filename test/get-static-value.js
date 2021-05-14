@@ -91,10 +91,6 @@ describe("The 'getStaticValue' function", () => {
             code: "const obj = {b: 2}; ({a: 1, ...obj})",
             expected: { value: { a: 1, b: 2 } },
         },
-        {
-            code: "({'a': 1, 1e+1: 2, 2n: 3})",
-            expected: { value: { a: 1, "10": 2, "2": 3 } },
-        },
         { code: "var obj = {b: 2}; ({a: 1, ...obj})", expected: null },
         { code: "({ get a() {} })", expected: null },
         { code: "({ a })", expected: null },
@@ -245,6 +241,10 @@ const aMap = Object.freeze({
                   {
                       code: "a?.()",
                       expected: null,
+                  },
+                  {
+                      code: "({'a': 1, 1e+1: 2, 2n: 3})",
+                      expected: { value: { a: 1, "10": 2, "2": 3 } },
                   },
               ]
             : []),

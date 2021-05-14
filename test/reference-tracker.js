@@ -501,19 +501,23 @@ describe("The 'ReferenceTracker' class:", () => {
                 },
                 expected: [],
             },
-            {
-                description:
-                    "should not mix up public and private identifiers.",
-                code: [
-                    "class C { #value; wrap() { var value = MyObj.#value; } }",
-                ].join("\n"),
-                traceMap: {
-                    MyObj: {
-                        value: { [READ]: 1 },
-                    },
-                },
-                expected: [],
-            },
+            ...(semver.gte(eslint.Linter.version, "7.0.0")
+                ? [
+                      {
+                          description:
+                              "should not mix up public and private identifiers.",
+                          code: [
+                              "class C { #value; wrap() { var value = MyObj.#value; } }",
+                          ].join("\n"),
+                          traceMap: {
+                              MyObj: {
+                                  value: { [READ]: 1 },
+                              },
+                          },
+                          expected: [],
+                      },
+                  ]
+                : []),
         ]) {
             it(description, () => {
                 const linter = new eslint.Linter()
