@@ -34,7 +34,7 @@ describe("The 'getPropertyName' function", () => {
         { code: "(class {['a' + 'b']() {}})", expected: "ab" },
         { code: "(class {[tag`b`]() {}})", expected: null },
         { code: "(class {[`${b}`]() {}})", expected: null }, //eslint-disable-line no-template-curly-in-string
-        ...(semver.gte(eslint.CLIEngine.version, "7.0.0")
+        ...(semver.gte(eslint.Linter.version, "7.0.0")
             ? [
                   { code: "(class { x })", expected: "x" },
                   { code: "(class { static x })", expected: "x" },
@@ -68,7 +68,7 @@ describe("The 'getPropertyName' function", () => {
             }))
             const messages = linter.verify(code, {
                 parserOptions: {
-                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "7.0.0")
+                    ecmaVersion: semver.gte(eslint.Linter.version, "7.0.0")
                         ? 2022
                         : 2018,
                 },

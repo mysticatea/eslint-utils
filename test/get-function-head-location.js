@@ -50,7 +50,7 @@ describe("The 'getFunctionHeadLocation' function", () => {
             "class A { static get foo() {} }": [10, 24],
             "class A { static set foo(a) {} }": [10, 24],
         },
-        semver.gte(eslint.CLIEngine.version, "7.0.0")
+        semver.gte(eslint.Linter.version, "7.0.0")
             ? {
                   "class A { #foo() {} }": [10, 14],
                   "class A { *#foo() {} }": [10, 15],
@@ -121,10 +121,7 @@ describe("The 'getFunctionHeadLocation' function", () => {
                 {
                     rules: { test: "error" },
                     parserOptions: {
-                        ecmaVersion: semver.gte(
-                            eslint.CLIEngine.version,
-                            "7.0.0"
-                        )
+                        ecmaVersion: semver.gte(eslint.Linter.version, "7.0.0")
                             ? 2022
                             : 2018,
                     },

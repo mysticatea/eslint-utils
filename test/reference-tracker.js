@@ -5,9 +5,7 @@ import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
 
 const config = {
     parserOptions: {
-        ecmaVersion: semver.gte(eslint.CLIEngine.version, "6.0.0")
-            ? 2020
-            : 2018,
+        ecmaVersion: semver.gte(eslint.Linter.version, "6.0.0") ? 2020 : 2018,
         sourceType: "module",
     },
     globals: { Reflect: false },
@@ -539,7 +537,7 @@ describe("The 'ReferenceTracker' class:", () => {
                     "abc();",
                     "new abc();",
                     "abc.xyz;",
-                    ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+                    ...(semver.gte(eslint.Linter.version, "6.0.0")
                         ? [
                               "abc?.xyz;",
                               "abc?.();",
@@ -583,7 +581,7 @@ describe("The 'ReferenceTracker' class:", () => {
                         type: READ,
                         info: 4,
                     },
-                    ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+                    ...(semver.gte(eslint.Linter.version, "6.0.0")
                         ? [
                               {
                                   node: {

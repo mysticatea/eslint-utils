@@ -47,7 +47,7 @@ describe("The 'hasSideEffect' function", () => {
             options: undefined,
             expected: true,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+        ...(semver.gte(eslint.Linter.version, "6.0.0")
             ? [
                   {
                       code: "f?.()",
@@ -61,7 +61,7 @@ describe("The 'hasSideEffect' function", () => {
             options: undefined,
             expected: true,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+        ...(semver.gte(eslint.Linter.version, "6.0.0")
             ? [
                   {
                       code: "a + f?.()",
@@ -80,7 +80,7 @@ describe("The 'hasSideEffect' function", () => {
             options: { considerGetters: true },
             expected: true,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+        ...(semver.gte(eslint.Linter.version, "6.0.0")
             ? [
                   {
                       code: "obj?.a",
@@ -109,7 +109,7 @@ describe("The 'hasSideEffect' function", () => {
             options: { considerImplicitTypeConversion: true },
             expected: true,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+        ...(semver.gte(eslint.Linter.version, "6.0.0")
             ? [
                   {
                       code: "obj?.[a]",
@@ -168,7 +168,7 @@ describe("The 'hasSideEffect' function", () => {
             options: { considerImplicitTypeConversion: true },
             expected: false,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "7.0.0")
+        ...(semver.gte(eslint.Linter.version, "7.0.0")
             ? [
                   {
                       code: "(class { x })",
@@ -334,9 +334,9 @@ describe("The 'hasSideEffect' function", () => {
             const messages = linter.verify(code, {
                 env: { es6: true },
                 parserOptions: {
-                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "7.0.0")
+                    ecmaVersion: semver.gte(eslint.Linter.version, "7.0.0")
                         ? 2022
-                        : semver.gte(eslint.CLIEngine.version, "6.0.0")
+                        : semver.gte(eslint.Linter.version, "6.0.0")
                         ? 2020
                         : 2018,
                 },

@@ -148,7 +148,7 @@ const aMap = Object.freeze({
             code: "RegExp.$1",
             expected: null,
         },
-        ...(semver.gte(eslint.CLIEngine.version, "6.0.0")
+        ...(semver.gte(eslint.Linter.version, "6.0.0")
             ? [
                   {
                       code: "const a = null, b = 42; a ?? b",
@@ -244,7 +244,7 @@ const aMap = Object.freeze({
                   },
               ]
             : []),
-        ...(semver.gte(eslint.CLIEngine.version, "7.0.0")
+        ...(semver.gte(eslint.Linter.version, "7.0.0")
             ? [
                   {
                       code: `class A {
@@ -302,9 +302,9 @@ const aMap = Object.freeze({
             const messages = linter.verify(code, {
                 env: { es6: true },
                 parserOptions: {
-                    ecmaVersion: semver.gte(eslint.CLIEngine.version, "7.0.0")
+                    ecmaVersion: semver.gte(eslint.Linter.version, "7.0.0")
                         ? 2022
-                        : semver.gte(eslint.CLIEngine.version, "6.0.0")
+                        : semver.gte(eslint.Linter.version, "6.0.0")
                         ? 2020
                         : 2018,
                 },
