@@ -214,16 +214,19 @@ Get the name and kind of a given function node.
 - `({ foo: function() {} })`  ........................ `method 'foo'`
 - `({ ['foo']: function() {} })`  .................... `method 'foo'`
 - `({ [foo]: function() {} })`  ...................... `method`
+- `({ [foo]: function() {} })`  ...................... `method [foo]` if sourceCode is present.
 - `({ foo() {} })`  .................................. `method 'foo'`
 - `({ foo: function* foo() {} })`  ................... `generator method 'foo'`
 - `({ foo: function*() {} })`  ....................... `generator method 'foo'`
 - `({ ['foo']: function*() {} })`  ................... `generator method 'foo'`
 - `({ [foo]: function*() {} })`  ..................... `generator method`
+- `({ [foo]: function*() {} })`  ..................... `generator method [foo]` if sourceCode is present.
 - `({ *foo() {} })`  ................................. `generator method 'foo'`
 - `({ foo: async function foo() {} })`  .............. `async method 'foo'`
 - `({ foo: async function() {} })`  .................. `async method 'foo'`
 - `({ ['foo']: async function() {} })`  .............. `async method 'foo'`
 - `({ [foo]: async function() {} })`  ................ `async method`
+- `({ [foo]: async function() {} })`  ................ `async method [foo]` if sourceCode is present.
 - `({ async foo() {} })`  ............................ `async method 'foo'`
 - `({ get foo() {} })`  .............................. `getter 'foo'`
 - `({ set foo(a) {} })`  ............................. `setter 'foo'`
@@ -235,8 +238,11 @@ Get the name and kind of a given function node.
 - `class A { *['foo']() {} }`  ....................... `generator method 'foo'`
 - `class A { async ['foo']() {} }`  .................. `async method 'foo'`
 - `class A { [foo]() {} }`  .......................... `method`
+- `class A { [foo]() {} }`  .......................... `method [foo]` if sourceCode is present.
 - `class A { *[foo]() {} }`  ......................... `generator method`
+- `class A { *[foo]() {} }`  ......................... `generator method [foo]` if sourceCode is present.
 - `class A { async [foo]() {} }`  .................... `async method`
+- `class A { async [foo]() {} }`  .................... `async method [foo]` if sourceCode is present.
 - `class A { get foo() {} }`  ........................ `getter 'foo'`
 - `class A { set foo(a) {} }`  ....................... `setter 'foo'`
 - `class A { static foo() {} }`  ..................... `static method 'foo'`
@@ -244,22 +250,24 @@ Get the name and kind of a given function node.
 - `class A { static async foo() {} }`  ............... `static async method 'foo'`
 - `class A { static get foo() {} }`  ................. `static getter 'foo'`
 - `class A { static set foo(a) {} }`  ................ `static setter 'foo'`
-- `class A { #foo() {} }`  ........................... `private method '#foo'`
-- `class A { *#foo() {} }`  .......................... `private generator method '#foo'`
-- `class A { async #foo() {} }`  ..................... `private async method '#foo'`
-- `class A { get #foo() {} }`  ....................... `private getter '#foo'`
-- `class A { set #foo(a) {} }`  ...................... `private setter '#foo'`
-- `class A { static #foo() {} }`  .................... `private static method '#foo'`
-- `class A { static *#foo() {} }`  ................... `private static generator method '#foo'`
-- `class A { static async #foo() {} }`  .............. `private static async method '#foo'`
-- `class A { static get #foo() {} }`  ................ `private static getter '#foo'`
-- `class A { static set #foo(a) {} }`  ............... `private static setter '#foo'`
-- `class A { #foo = function() {} }`  ................ `private method '#foo'"`
-- `class A { #foo = function*() {} }`  ............... `private generator method '#foo'"`
-- `class A { #foo = async function() {} }`  .......... `private async method '#foo'"`
-- `class A { static #foo = function() {} }`  ......... `private static method '#foo'"`
-- `class A { static #foo = function*() {} }`  ........ `private static generator method '#foo'"`
-- `class A { static #foo = async function() {} }`  ... `private static async method '#foo'"`
+- `class A { #foo() {} }`  ........................... `private method #foo`
+- `class A { '#foo'() {} }`  ......................... `method '#foo'`
+- `class A { *#foo() {} }`  .......................... `private generator method #foo`
+- `class A { async #foo() {} }`  ..................... `private async method #foo`
+- `class A { get #foo() {} }`  ....................... `private getter #foo`
+- `class A { set #foo(a) {} }`  ...................... `private setter #foo`
+- `class A { static #foo() {} }`  .................... `static private method #foo`
+- `class A { static *#foo() {} }`  ................... `static private generator method #foo`
+- `class A { static async #foo() {} }`  .............. `static private async method #foo`
+- `class A { static get #foo() {} }`  ................ `static private getter #foo`
+- `class A { static set #foo(a) {} }`  ............... `static private setter #foo`
+- `class A { '#foo' = function() {} }`  .............. `method '#foo'"`
+- `class A { #foo = function() {} }`  ................ `private method #foo"`
+- `class A { #foo = function*() {} }`  ............... `private generator method #foo"`
+- `class A { #foo = async function() {} }`  .......... `private async method #foo"`
+- `class A { static #foo = function() {} }`  ......... `static private method #foo"`
+- `class A { static #foo = function*() {} }`  ........ `static private generator method #foo"`
+- `class A { static #foo = async function() {} }`  ... `static private async method #foo"`
 ```
 
 </details>
@@ -269,6 +277,7 @@ Get the name and kind of a given function node.
  Name | Type | Description
 :-----|:-----|:------------
 node | Node | The function node to get the name and kind. This should be any of `FunctionDeclaration`, `FunctionExpression`, and `ArrowFunctionExpression` node.
+sourceCode | SourceCode | Optional. The source code object to get the text of computed property keys.
 
 ### Return value
 
@@ -282,12 +291,14 @@ const { getFunctionNameWithKind } = require("eslint-utils")
 module.exports = {
     meta: {},
     create(context) {
+        const sourceCode = context.getSourceCode()
+
         return {
             FunctionDeclaration(node) {
                 context.report({
                     node,
                     message: "disallow this {{name}}!",
-                    data: { name: getFunctionNameWithKind(node) }
+                    data: { name: getFunctionNameWithKind(node, sourceCode) }
                 })
             },
         }
