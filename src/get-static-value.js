@@ -535,10 +535,24 @@ function getStaticValueR(node, initialScope) {
  * @returns {{value:any}|{value:undefined,optional?:true}|null} The static value of the property name of the node, or `null`.
  */
 function getStaticPropertyNameValue(node, initialScope) {
-    const propertyKey = node.type === "Property" ? node.key : node.property
-    return node.computed
-        ? getStaticValueR(propertyKey, initialScope)
-        : { value: propertyKey.name }
+    const nameNode = node.type === "Property" ? node.key : node.property
+
+    if (node.computed) {
+        return getStaticValueR(nameNode, initialScope)
+    }
+
+    if (nameNode.type === "Identifier") {
+        return { value: nameNode.name }
+    }
+
+    if (nameNode.type === "Literal") {
+        if (nameNode.bigint) {
+            return { value: nameNode.bigint }
+        }
+        return { value: String(nameNode.value) }
+    }
+
+    return null
 }
 
 /**
