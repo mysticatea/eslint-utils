@@ -1,6 +1,6 @@
 {
   "name": "eslint-utils",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Utilities for ESLint plugins.",
   "engines": {
     "node": "^10.0.0 || ^12.0.0 || >= 14.0.0"
