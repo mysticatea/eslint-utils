@@ -94,10 +94,10 @@ export function isParenthesized(
 
     if (
         node == null ||
+        // `Program` can't be parenthesized
+        node.parent == null ||
         // `CatchClause.param` can't be parenthesized, example `try {} catch (error) {}`
-        (node.parent &&
-            node.parent.type === "CatchClause" &&
-            node.parent.param === node)
+        (node.parent.type === "CatchClause" && node.parent.param === node)
     ) {
         return false
     }
