@@ -5,7 +5,11 @@ import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
 
 const config = {
     parserOptions: {
-        ecmaVersion: semver.gte(eslint.Linter.version, "6.0.0") ? 2020 : 2018,
+        ecmaVersion: semver.gte(eslint.Linter.version, "7.0.0")
+            ? 2022
+            : semver.gte(eslint.Linter.version, "6.0.0")
+            ? 2020
+            : 2018,
         sourceType: "module",
     },
     globals: { Reflect: false },
@@ -494,6 +498,19 @@ describe("The 'ReferenceTracker' class:", () => {
                 ].join("\n"),
                 traceMap: {
                     Reflect: { [CALL]: 1 },
+                },
+                expected: [],
+            },
+            {
+                description:
+                    "should not mix up public and private identifiers.",
+                code: [
+                    "class C { #value; wrap() { var value = MyObj.#value; } }",
+                ].join("\n"),
+                traceMap: {
+                    MyObj: {
+                        value: { [READ]: 1 },
+                    },
                 },
                 expected: [],
             },
