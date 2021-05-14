@@ -209,6 +209,12 @@ describe("The 'isParenthesized' function", () => {
                 "body.0.handler.param": false,
             },
         },
+        {
+            code: "foo;",
+            expected: {
+                "body.0.parent": false,
+            },
+        },
     ]) {
         describe(`on the code \`${code}\``, () => {
             for (const key of Object.keys(expected)) {
