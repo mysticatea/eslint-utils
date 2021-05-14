@@ -138,7 +138,7 @@ describe("The predicate functions for tokens", () => {
         describe(`'is${baseName}'`, () => {
             for (const [token, expected] of patterns) {
                 it(`should return ${expected} if ${JSON.stringify(
-                    token
+                    token,
                 )} was given.`, () => {
                     assert.strictEqual(positive(token), expected)
                 })
@@ -148,7 +148,7 @@ describe("The predicate functions for tokens", () => {
         describe(`'isNot${baseName}'`, () => {
             for (const [token, expected] of patterns) {
                 it(`should return ${!expected} if ${JSON.stringify(
-                    token
+                    token,
                 )} was given.`, () => {
                     assert.strictEqual(negative(token), !expected)
                 })

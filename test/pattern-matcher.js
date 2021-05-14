@@ -44,7 +44,7 @@ describe("The 'PatternMatcher' class:", () => {
             ]) {
                 assert.throws(
                     () => new PatternMatcher(value),
-                    /^TypeError: 'pattern' should be a RegExp instance\.$/u
+                    /^TypeError: 'pattern' should be a RegExp instance\.$/u,
                 )
             }
         })
@@ -53,7 +53,7 @@ describe("The 'PatternMatcher' class:", () => {
             for (const value of [/foo/u, /bar/imu]) {
                 assert.throws(
                     () => new PatternMatcher(value),
-                    /^Error: 'pattern' should contains 'g' flag\.$/u
+                    /^Error: 'pattern' should contains 'g' flag\.$/u,
                 )
             }
         })
@@ -98,23 +98,23 @@ describe("The 'PatternMatcher' class:", () => {
                         newRegExpExecArray(
                             ["foo"],
                             1,
-                            String.raw`-foo\foofooabcfoo-`
+                            String.raw`-foo\foofooabcfoo-`,
                         ),
                         newRegExpExecArray(
                             ["foo"],
                             8,
-                            String.raw`-foo\foofooabcfoo-`
+                            String.raw`-foo\foofooabcfoo-`,
                         ),
                         newRegExpExecArray(
                             ["foo"],
                             14,
-                            String.raw`-foo\foofooabcfoo-`
+                            String.raw`-foo\foofooabcfoo-`,
                         ),
                     ],
                 },
             ]) {
                 it(`should return ${JSON.stringify(
-                    expected
+                    expected,
                 )} in ${JSON.stringify(str)}.`, () => {
                     const matcher = new PatternMatcher(/foo/gu)
                     const actual = Array.from(matcher.execAll(str))
@@ -137,7 +137,7 @@ describe("The 'PatternMatcher' class:", () => {
                 },
             ]) {
                 it(`should return ${JSON.stringify(
-                    expected
+                    expected,
                 )} in ${JSON.stringify(str)}.`, () => {
                     const matcher = new PatternMatcher(/(\w)(\d)/gu)
                     const actual = Array.from(matcher.execAll(str))
@@ -211,7 +211,7 @@ describe("The 'PatternMatcher' class:", () => {
                 },
             ]) {
                 it(`should return ${JSON.stringify(
-                    expected
+                    expected,
                 )} in ${JSON.stringify(str)}.`, () => {
                     const matcher = new PatternMatcher(/foo/gu, {
                         escaped: true,
@@ -285,7 +285,7 @@ describe("The 'PatternMatcher' class:", () => {
             },
         ]) {
             it(`should return ${expected} in ${JSON.stringify(
-                str
+                str,
             )} and ${JSON.stringify(replacer)}.`, () => {
                 const matcher = new PatternMatcher(pattern || /[a-c]/gu)
                 const actual = str.replace(matcher, replacer)

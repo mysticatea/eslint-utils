@@ -1,0 +1,6 @@
+overrides:
+  - files: ["*.js"]
+    options:
+      tabWidth: 4
+      semi: false
+      trailingComma: all

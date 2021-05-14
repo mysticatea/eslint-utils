@@ -61,7 +61,7 @@ describe("The 'getPropertyName' function", () => {
             let actual = null
             linter.defineRule("test", () => ({
                 "Property,PropertyDefinition,MethodDefinition,MemberExpression"(
-                    node
+                    node,
                 ) {
                     actual = getPropertyName(node)
                 },
@@ -77,7 +77,7 @@ describe("The 'getPropertyName' function", () => {
             assert.strictEqual(
                 messages.length,
                 0,
-                messages[0] && messages[0].message
+                messages[0] && messages[0].message,
             )
             assert.strictEqual(actual, expected)
         })

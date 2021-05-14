@@ -16,7 +16,7 @@ function getParentSyntaxParen(node, sourceCode) {
             if (parent.arguments.length === 1 && parent.arguments[0] === node) {
                 return sourceCode.getTokenAfter(
                     parent.callee,
-                    isOpeningParenToken
+                    isOpeningParenToken,
                 )
             }
             return null
@@ -25,7 +25,7 @@ function getParentSyntaxParen(node, sourceCode) {
             if (parent.test === node) {
                 return sourceCode.getTokenAfter(
                     parent.body,
-                    isOpeningParenToken
+                    isOpeningParenToken,
                 )
             }
             return null
@@ -76,7 +76,7 @@ function getParentSyntaxParen(node, sourceCode) {
 export function isParenthesized(
     timesOrNode,
     nodeOrSourceCode,
-    optionalSourceCode
+    optionalSourceCode,
 ) {
     let times, node, sourceCode, maybeLeftParen, maybeRightParen
     if (typeof timesOrNode === "number") {

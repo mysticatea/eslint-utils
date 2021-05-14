@@ -7,7 +7,7 @@ describe("The 'findVariable' function", () => {
         const linter = new eslint.Linter()
         let variable = null
 
-        linter.defineRule("test", context => ({
+        linter.defineRule("test", (context) => ({
             [selector](node) {
                 variable = findVariable(context.getScope(), withString || node)
             },
@@ -24,21 +24,21 @@ describe("The 'findVariable' function", () => {
         it("from the same scope.", () => {
             const variable = getVariable(
                 "let a; foo(a)",
-                "CallExpression Identifier[name='a']"
+                "CallExpression Identifier[name='a']",
             )
             assert.strictEqual(variable.name, "a")
         })
         it("from nested blocks.", () => {
             const variable = getVariable(
                 "let a; if (b) { foo(a) }",
-                "CallExpression Identifier[name='a']"
+                "CallExpression Identifier[name='a']",
             )
             assert.strictEqual(variable.name, "a")
         })
         it("from function blocks.", () => {
             const variable = getVariable(
                 "let a; function f() { foo(a) }",
-                "CallExpression Identifier[name='a']"
+                "CallExpression Identifier[name='a']",
             )
             assert.strictEqual(variable.name, "a")
         })
@@ -49,7 +49,7 @@ describe("The 'findVariable' function", () => {
             const variable = getVariable(
                 "let a; foo(a)",
                 "CallExpression Identifier[name='a']",
-                "a"
+                "a",
             )
             assert.strictEqual(variable.name, "a")
         })
@@ -57,7 +57,7 @@ describe("The 'findVariable' function", () => {
             const variable = getVariable(
                 "let a; if (b) { foo(a) }",
                 "CallExpression Identifier[name='a']",
-                "a"
+                "a",
             )
             assert.strictEqual(variable.name, "a")
         })
@@ -65,7 +65,7 @@ describe("The 'findVariable' function", () => {
             const variable = getVariable(
                 "let a; function f() { foo(a) }",
                 "CallExpression Identifier[name='a']",
-                "a"
+                "a",
             )
             assert.strictEqual(variable.name, "a")
         })
@@ -75,7 +75,7 @@ describe("The 'findVariable' function", () => {
         const variable = getVariable(
             "let a; function f() { foo(a) }",
             "CallExpression Identifier[name='a']",
-            "Object"
+            "Object",
         )
         assert.strictEqual(variable.name, "Object")
     })
@@ -84,7 +84,7 @@ describe("The 'findVariable' function", () => {
         const variable = getVariable(
             "let a; function f() { foo(a) }",
             "CallExpression Identifier[name='a']",
-            "x"
+            "x",
         )
         assert.strictEqual(variable, null)
     })

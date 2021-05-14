@@ -41,7 +41,7 @@ export function getFunctionHeadLocation(node, sourceCode) {
     }
 
     return {
-        start: Object.assign({}, start),
-        end: Object.assign({}, end),
+        start: { ...start },
+        end: { ...end },
     }
 }

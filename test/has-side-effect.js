@@ -317,17 +317,17 @@ describe("The 'hasSideEffect' function", () => {
         },
     ]) {
         it(`should return ${expected} on the code \`${code}\` and the options \`${JSON.stringify(
-            options
+            options,
         )}\``, () => {
             const linter = new eslint.Linter()
 
             let actual = null
-            linter.defineRule("test", context => ({
+            linter.defineRule("test", (context) => ({
                 Program(node) {
                     actual = hasSideEffect(
                         dp.get(node, key),
                         context.getSourceCode(),
-                        options
+                        options,
                     )
                 },
             }))
@@ -346,7 +346,7 @@ describe("The 'hasSideEffect' function", () => {
             assert.strictEqual(
                 messages.length,
                 0,
-                messages[0] && messages[0].message
+                messages[0] && messages[0].message,
             )
             assert.strictEqual(actual, expected)
         })

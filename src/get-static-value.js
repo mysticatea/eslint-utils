@@ -1,4 +1,4 @@
-/* globals BigInt, globalThis, global, self, window */
+/* globals globalThis, global, self, window */
 
 import { findVariable } from "./find-variable"
 
@@ -61,7 +61,7 @@ const builtinNames = Object.freeze(
         "unescape",
         "WeakMap",
         "WeakSet",
-    ])
+    ]),
 )
 const callAllowed = new Set(
     [
@@ -79,8 +79,8 @@ const callAllowed = new Set(
         isNaN,
         isPrototypeOf,
         ...Object.getOwnPropertyNames(Math)
-            .map(k => Math[k])
-            .filter(f => typeof f === "function"),
+            .map((k) => Math[k])
+            .filter((f) => typeof f === "function"),
         Number,
         Number.isFinite,
         Number.isNaN,
@@ -104,7 +104,7 @@ const callAllowed = new Set(
         Symbol.for,
         Symbol.keyFor,
         unescape,
-    ].filter(f => typeof f === "function")
+    ].filter((f) => typeof f === "function"),
 )
 const callPassThrough = new Set([
     Object.freeze,
@@ -262,7 +262,7 @@ const operations = Object.freeze({
                     }
                     const property = getStaticPropertyNameValue(
                         calleeNode,
-                        initialScope
+                        initialScope,
                     )
 
                     if (property != null) {
@@ -419,7 +419,7 @@ const operations = Object.freeze({
                 }
                 const key = getStaticPropertyNameValue(
                     propertyNode,
-                    initialScope
+                    initialScope,
                 )
                 const value = getStaticValueR(propertyNode.value, initialScope)
                 if (key == null || value == null) {
@@ -432,7 +432,7 @@ const operations = Object.freeze({
             ) {
                 const argument = getStaticValueR(
                     propertyNode.argument,
-                    initialScope
+                    initialScope,
                 )
                 if (argument == null) {
                     return null
@@ -455,13 +455,13 @@ const operations = Object.freeze({
         const tag = getStaticValueR(node.tag, initialScope)
         const expressions = getElementValues(
             node.quasi.expressions,
-            initialScope
+            initialScope,
         )
 
         if (tag != null && expressions != null) {
             const func = tag.value
-            const strings = node.quasi.quasis.map(q => q.value.cooked)
-            strings.raw = node.quasi.quasis.map(q => q.value.raw)
+            const strings = node.quasi.quasis.map((q) => q.value.cooked)
+            strings.raw = node.quasi.quasis.map((q) => q.value.raw)
 
             if (func === String.raw) {
                 return { value: func(strings, ...expressions) }

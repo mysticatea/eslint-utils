@@ -523,20 +523,20 @@ describe("The 'ReferenceTracker' class:", () => {
                 const linter = new eslint.Linter()
 
                 let actual = null
-                linter.defineRule("test", context => ({
+                linter.defineRule("test", (context) => ({
                     "Program:exit"() {
                         const tracker = new ReferenceTracker(context.getScope())
                         actual = Array.from(
-                            tracker.iterateGlobalReferences(traceMap)
-                        ).map(x =>
+                            tracker.iterateGlobalReferences(traceMap),
+                        ).map((x) =>
                             Object.assign(x, {
-                                node: Object.assign(
-                                    { type: x.node.type },
-                                    x.node.optional
+                                node: {
+                                    type: x.node.type,
+                                    ...(x.node.optional
                                         ? { optional: x.node.optional }
-                                        : {}
-                                ),
-                            })
+                                        : {}),
+                                },
+                            }),
                         )
                     },
                 }))
@@ -695,20 +695,20 @@ describe("The 'ReferenceTracker' class:", () => {
                 const linter = new eslint.Linter()
 
                 let actual = null
-                linter.defineRule("test", context => ({
+                linter.defineRule("test", (context) => ({
                     "Program:exit"() {
                         const tracker = new ReferenceTracker(context.getScope())
                         actual = Array.from(
-                            tracker.iterateCjsReferences(traceMap)
-                        ).map(x =>
+                            tracker.iterateCjsReferences(traceMap),
+                        ).map((x) =>
                             Object.assign(x, {
-                                node: Object.assign(
-                                    { type: x.node.type },
-                                    x.node.optional
+                                node: {
+                                    type: x.node.type,
+                                    ...(x.node.optional
                                         ? { optional: x.node.optional }
-                                        : {}
-                                ),
-                            })
+                                        : {}),
+                                },
+                            }),
                         )
                     },
                 }))
@@ -977,20 +977,20 @@ describe("The 'ReferenceTracker' class:", () => {
                 const linter = new eslint.Linter()
 
                 let actual = null
-                linter.defineRule("test", context => ({
+                linter.defineRule("test", (context) => ({
                     "Program:exit"() {
                         const tracker = new ReferenceTracker(context.getScope())
                         actual = Array.from(
-                            tracker.iterateEsmReferences(traceMap)
-                        ).map(x =>
+                            tracker.iterateEsmReferences(traceMap),
+                        ).map((x) =>
                             Object.assign(x, {
-                                node: Object.assign(
-                                    { type: x.node.type },
-                                    x.node.optional
+                                node: {
+                                    type: x.node.type,
+                                    ...(x.node.optional
                                         ? { optional: x.node.optional }
-                                        : {}
-                                ),
-                            })
+                                        : {}),
+                                },
+                            }),
                         )
                     },
                 }))

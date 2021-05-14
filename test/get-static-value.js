@@ -130,18 +130,15 @@ const aMap = Object.freeze({
             expected: null,
         },
         {
-            code:
-                '({}.constructor.constructor("return process.env.npm_name")())',
+            code: '({}.constructor.constructor("return process.env.npm_name")())',
             expected: null,
         },
         {
-            code:
-                'JSON.stringify({a:1}, new {}.constructor.constructor("console.log(\\"code injected\\"); process.exit(1)"), 2)',
+            code: 'JSON.stringify({a:1}, new {}.constructor.constructor("console.log(\\"code injected\\"); process.exit(1)"), 2)',
             expected: null,
         },
         {
-            code:
-                'Object.create(null, {a:{get:new {}.constructor.constructor("console.log(\\"code injected\\"); process.exit(1)")}}).a',
+            code: 'Object.create(null, {a:{get:new {}.constructor.constructor("console.log(\\"code injected\\"); process.exit(1)")}}).a',
             expected: null,
         },
         {
@@ -244,7 +241,7 @@ const aMap = Object.freeze({
                   },
                   {
                       code: "({'a': 1, 1e+1: 2, 2n: 3})",
-                      expected: { value: { a: 1, "10": 2, "2": 3 } },
+                      expected: { value: { a: 1, 10: 2, 2: 3 } },
                   },
               ]
             : []),
@@ -295,11 +292,11 @@ const aMap = Object.freeze({
             const linter = new eslint.Linter()
 
             let actual = null
-            linter.defineRule("test", context => ({
+            linter.defineRule("test", (context) => ({
                 ExpressionStatement(node) {
                     actual = getStaticValue(
                         node,
-                        noScope ? null : context.getScope()
+                        noScope ? null : context.getScope(),
                     )
                 },
             }))
@@ -318,7 +315,7 @@ const aMap = Object.freeze({
             assert.strictEqual(
                 messages.length,
                 0,
-                messages[0] && messages[0].message
+                messages[0] && messages[0].message,
             )
             if (actual == null) {
                 assert.strictEqual(actual, expected)

@@ -216,11 +216,11 @@ describe("The 'isParenthesized' function", () => {
                     const linter = new eslint.Linter()
 
                     let actual = null
-                    linter.defineRule("test", context => ({
+                    linter.defineRule("test", (context) => ({
                         Program(node) {
                             actual = isParenthesized(
                                 dotProp.get(node, key),
-                                context.getSourceCode()
+                                context.getSourceCode(),
                             )
                         },
                     }))
@@ -233,7 +233,7 @@ describe("The 'isParenthesized' function", () => {
                     assert.strictEqual(
                         messages.length,
                         0,
-                        messages[0] && messages[0].message
+                        messages[0] && messages[0].message,
                     )
                     assert.strictEqual(actual, expected[key])
                 })
@@ -291,12 +291,12 @@ describe("The 'isParenthesized' function", () => {
                     const linter = new eslint.Linter()
 
                     let actual = null
-                    linter.defineRule("test", context => ({
+                    linter.defineRule("test", (context) => ({
                         Program(node) {
                             actual = isParenthesized(
                                 2,
                                 dotProp.get(node, key),
-                                context.getSourceCode()
+                                context.getSourceCode(),
                             )
                         },
                     }))
@@ -309,7 +309,7 @@ describe("The 'isParenthesized' function", () => {
                     assert.strictEqual(
                         messages.length,
                         0,
-                        messages[0] && messages[0].message
+                        messages[0] && messages[0].message,
                     )
                     assert.strictEqual(actual, expected[key])
                 })

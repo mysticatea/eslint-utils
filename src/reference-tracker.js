@@ -21,7 +21,7 @@ function isModifiedGlobal(variable) {
     return (
         variable == null ||
         variable.defs.length !== 0 ||
-        variable.references.some(r => r.isWrite())
+        variable.references.some((r) => r.isWrite())
     )
 }
 
@@ -65,7 +65,7 @@ export class ReferenceTracker {
         {
             mode = "strict",
             globalObjectNames = ["global", "globalThis", "self", "window"],
-        } = {}
+        } = {},
     ) {
         this.variableStack = []
         this.globalScope = globalScope
@@ -92,7 +92,7 @@ export class ReferenceTracker {
                 variable,
                 path,
                 nextTraceMap,
-                true
+                true,
             )
         }
 
@@ -108,7 +108,7 @@ export class ReferenceTracker {
                 variable,
                 path,
                 traceMap,
-                false
+                false,
             )
         }
     }
@@ -185,11 +185,8 @@ export class ReferenceTracker {
                         esm
                             ? nextTraceMap
                             : this.mode === "legacy"
-                            ? Object.assign(
-                                  { default: nextTraceMap },
-                                  nextTraceMap
-                              )
-                            : { default: nextTraceMap }
+                            ? { default: nextTraceMap, ...nextTraceMap }
+                            : { default: nextTraceMap },
                     )
 
                     if (esm) {
@@ -275,7 +272,7 @@ export class ReferenceTracker {
                 yield* this._iteratePropertyReferences(
                     parent,
                     path,
-                    nextTraceMap
+                    nextTraceMap,
                 )
             }
             return
@@ -332,7 +329,7 @@ export class ReferenceTracker {
                     variable,
                     path,
                     traceMap,
-                    false
+                    false,
                 )
             }
             return
@@ -358,7 +355,7 @@ export class ReferenceTracker {
                 yield* this._iterateLhsReferences(
                     property.value,
                     nextPath,
-                    nextTraceMap
+                    nextTraceMap,
                 )
             }
             return
@@ -401,7 +398,7 @@ export class ReferenceTracker {
                 findVariable(this.globalScope, specifierNode.local),
                 path,
                 nextTraceMap,
-                false
+                false,
             )
 
             return
@@ -412,7 +409,7 @@ export class ReferenceTracker {
                 findVariable(this.globalScope, specifierNode.local),
                 path,
                 traceMap,
-                false
+                false,
             )
             return
         }

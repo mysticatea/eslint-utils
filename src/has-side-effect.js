@@ -20,7 +20,7 @@ const typeConversionBinaryOps = Object.freeze(
         "^",
         "&",
         "in",
-    ])
+    ]),
 )
 const typeConversionUnaryOps = Object.freeze(new Set(["-", "+", "!", "~"]))
 
@@ -164,7 +164,7 @@ const visitor = Object.freeze(
         YieldExpression() {
             return true
         },
-    })
+    }),
 )
 
 /**
@@ -180,11 +180,11 @@ const visitor = Object.freeze(
 export function hasSideEffect(
     node,
     sourceCode,
-    { considerGetters = false, considerImplicitTypeConversion = false } = {}
+    { considerGetters = false, considerImplicitTypeConversion = false } = {},
 ) {
     return visitor.$visit(
         node,
         { considerGetters, considerImplicitTypeConversion },
-        sourceCode.visitorKeys || evk.KEYS
+        sourceCode.visitorKeys || evk.KEYS,
     )
 }

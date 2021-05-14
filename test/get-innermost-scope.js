@@ -8,50 +8,50 @@ describe("The 'getInnermostScope' function", () => {
         {
             code: "let a = 0",
             parserOptions: {},
-            selectNode: node => node,
-            selectScope: scope => scope,
+            selectNode: (node) => node,
+            selectScope: (scope) => scope,
         },
         {
             code: "let a = 0",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            selectNode: node => node,
-            selectScope: scope => scope.childScopes[0],
+            selectNode: (node) => node,
+            selectScope: (scope) => scope.childScopes[0],
         },
         {
             code: "let a = 0",
             parserOptions: { sourceType: "module" },
-            selectNode: node => node,
-            selectScope: scope => scope.childScopes[0],
+            selectNode: (node) => node,
+            selectScope: (scope) => scope.childScopes[0],
         },
         {
             code: "a; { b; { c; } d; } e;",
             parserOptions: {},
-            selectNode: node => node.body[0],
-            selectScope: scope => scope,
+            selectNode: (node) => node.body[0],
+            selectScope: (scope) => scope,
         },
         {
             code: "a; { b; { c; } d; } e;",
             parserOptions: {},
-            selectNode: node => node.body[2],
-            selectScope: scope => scope,
+            selectNode: (node) => node.body[2],
+            selectScope: (scope) => scope,
         },
         {
             code: "a; { b; { c; } d; } e;",
             parserOptions: {},
-            selectNode: node => node.body[1].body[0],
-            selectScope: scope => scope.childScopes[0],
+            selectNode: (node) => node.body[1].body[0],
+            selectScope: (scope) => scope.childScopes[0],
         },
         {
             code: "a; { b; { c; } d; } e;",
             parserOptions: {},
-            selectNode: node => node.body[1].body[2],
-            selectScope: scope => scope.childScopes[0],
+            selectNode: (node) => node.body[1].body[2],
+            selectScope: (scope) => scope.childScopes[0],
         },
         {
             code: "a; { b; { c; } d; } e;",
             parserOptions: {},
-            selectNode: node => node.body[1].body[1].body[0],
-            selectScope: scope => scope.childScopes[0].childScopes[0],
+            selectNode: (node) => node.body[1].body[1].body[0],
+            selectScope: (scope) => scope.childScopes[0].childScopes[0],
         },
     ]) {
         it(`should return the innermost scope (${++i})`, () => {
@@ -59,7 +59,7 @@ describe("The 'getInnermostScope' function", () => {
 
             let actualScope = null
             let expectedScope = null
-            linter.defineRule("test", context => ({
+            linter.defineRule("test", (context) => ({
                 Program(node) {
                     const scope = context.getScope()
                     actualScope = getInnermostScope(scope, selectNode(node))
@@ -67,10 +67,7 @@ describe("The 'getInnermostScope' function", () => {
                 },
             }))
             linter.verify(code, {
-                parserOptions: Object.assign(
-                    { ecmaVersion: 2018 },
-                    parserOptions
-                ),
+                parserOptions: { ecmaVersion: 2018, ...parserOptions },
                 rules: { test: "error" },
             })
 

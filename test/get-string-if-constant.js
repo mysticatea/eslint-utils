@@ -51,7 +51,7 @@ describe("The 'getStringIfConstant' function", () => {
                 const linter = new eslint.Linter()
 
                 let actual = null
-                linter.defineRule("test", context => ({
+                linter.defineRule("test", (context) => ({
                     "Program > ExpressionStatement > *"(node) {
                         actual = getStringIfConstant(node, context.getScope())
                     },

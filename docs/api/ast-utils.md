@@ -1,11 +1,11 @@
 # AST utilities
 
-----
+---
 
 ## getFunctionHeadLocation
 
 ```js
-const loc = utils.getFunctionHeadLocation(node, sourceCode)
+const loc = utils.getFunctionHeadLocation(node, sourceCode);
 ```
 
 Get the proper location of a given function node to report.
@@ -147,10 +147,10 @@ Get the proper location of a given function node to report.
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-node | Node | The function node to get the location. This should be any of `FunctionDeclaration`, `FunctionExpression`, and `ArrowFunctionExpression` node.
-sourceCode | SourceCode | The source code object to get tokens.
+| Name       | Type       | Description                                                                                                                                   |
+| :--------- | :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| node       | Node       | The function node to get the location. This should be any of `FunctionDeclaration`, `FunctionExpression`, and `ArrowFunctionExpression` node. |
+| sourceCode | SourceCode | The source code object to get tokens.                                                                                                         |
 
 ### Return value
 
@@ -179,12 +179,12 @@ module.exports = {
 }
 ```
 
-----
+---
 
 ## getFunctionNameWithKind
 
 ```js
-const name = utils.getFunctionNameWithKind(node)
+const name = utils.getFunctionNameWithKind(node);
 ```
 
 Get the name and kind of a given function node.
@@ -274,10 +274,10 @@ Get the name and kind of a given function node.
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-node | Node | The function node to get the name and kind. This should be any of `FunctionDeclaration`, `FunctionExpression`, and `ArrowFunctionExpression` node.
-sourceCode | SourceCode | Optional. The source code object to get the text of computed property keys.
+| Name       | Type       | Description                                                                                                                                        |
+| :--------- | :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| node       | Node       | The function node to get the name and kind. This should be any of `FunctionDeclaration`, `FunctionExpression`, and `ArrowFunctionExpression` node. |
+| sourceCode | SourceCode | Optional. The source code object to get the text of computed property keys.                                                                        |
 
 ### Return value
 
@@ -306,13 +306,13 @@ module.exports = {
 }
 ```
 
-----
+---
 
 ## getPropertyName
 
 ```js
-const name = utils.getPropertyName(node)
-const name = utils.getPropertyName(node, initialScope)
+const name = utils.getPropertyName(node);
+const name = utils.getPropertyName(node, initialScope);
 ```
 
 Get the property name of a given property node.
@@ -321,10 +321,10 @@ If the node is a computed property, this tries to compute the property name by t
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-node | Node | The node to get that name. This shuld be any of `MemberExpression`, `Property`, `MethodDefinition`, and `PropertyDefinition` node.
-initialScope | Scope or undefined | Optional. The scope object to find variables.
+| Name         | Type               | Description                                                                                                                        |
+| :----------- | :----------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| node         | Node               | The node to get that name. This shuld be any of `MemberExpression`, `Property`, `MethodDefinition`, and `PropertyDefinition` node. |
+| initialScope | Scope or undefined | Optional. The scope object to find variables.                                                                                      |
 
 ### Return value
 
@@ -348,20 +348,20 @@ module.exports = {
 }
 ```
 
-----
+---
 
 ## getStaticValue
 
 ```js
-const ret1 = utils.getStaticValue(node)
-const ret2 = utils.getStaticValue(node, initialScope)
+const ret1 = utils.getStaticValue(node);
+const ret2 = utils.getStaticValue(node, initialScope);
 ```
 
 Get the value of a given node if it can decide the value statically.
 
 If the 2nd parameter `initialScope` was given, this function tries to resolve identifier references which are in the given node as much as possible.
 In the resolving way, it does on the assumption that built-in global objects have not been modified.
-For example, it considers `Symbol.iterator`, ``String.raw`hello` ``, and `Object.freeze({a: 1}).a` as static.
+For example, it considers `Symbol.iterator`, `` String.raw`hello`  ``, and `Object.freeze({a: 1}).a` as static.
 
 For another complex example, this function can evaluate the following cases on AST:
 
@@ -376,10 +376,10 @@ const aMap = Object.freeze({
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-node | Node | The node to get that the value.
-initialScope | Scope or undefined | Optional. The scope object to find variables.
+| Name         | Type               | Description                                   |
+| :----------- | :----------------- | :-------------------------------------------- |
+| node         | Node               | The node to get that the value.               |
+| initialScope | Scope or undefined | Optional. The scope object to find variables. |
 
 ### Return value
 
@@ -408,13 +408,13 @@ module.exports = {
 }
 ```
 
-----
+---
 
 ## getStringIfConstant
 
 ```js
-const str1 = utils.getStringIfConstant(node)
-const str2 = utils.getStringIfConstant(node, initialScope)
+const str1 = utils.getStringIfConstant(node);
+const str2 = utils.getStringIfConstant(node, initialScope);
 ```
 
 Get the string value of a given node.
@@ -424,22 +424,22 @@ I.e., this is the same as below:
 
 ```js
 function getStringIfConstant(node, initialScope) {
-    const evaluated = getStaticValue(node, initialScope)
-    return evaluated && String(evaluated.value)
+  const evaluated = getStaticValue(node, initialScope);
+  return evaluated && String(evaluated.value);
 }
 ```
 
-----
+---
 
 ## hasSideEffect
 
 ```js
-const ret = utils.hasSideEffect(node, sourceCode, options)
+const ret = utils.hasSideEffect(node, sourceCode, options);
 ```
 
 Check whether a given node has any side effect or not.
 
-The side effect means that it *may* modify a certain variable or object member. This function considers the node which contains the following types as the node which has side effects:
+The side effect means that it _may_ modify a certain variable or object member. This function considers the node which contains the following types as the node which has side effects:
 
 - `AssignmentExpression`
 - `AwaitExpression`
@@ -450,23 +450,23 @@ The side effect means that it *may* modify a certain variable or object member. 
 - `UpdateExpression`
 - `YieldExpression`
 - When `options.considerGetters` is `true`:
-    - `MemberExpression`
+  - `MemberExpression`
 - When `options.considerImplicitTypeConversion` is `true`:
-    - `BinaryExpression` (`[operator = "==" | "!=" | "<" | "<=" | ">" | ">=" | "<<" | ">>" | ">>>" | "+" | "-" | "*" | "/" | "%" | "|" | "^" | "&" | "in"]`)
-    - `MemberExpression` (`[computed = true]`)
-    - `MethodDefinition` (`[computed = true]`)
-    - `Property` (`[computed = true]`)
-    - `PropertyDefinition` (`[computed = true]`)
-    - `UnaryExpression` (`[operator = "-" | "+" | "!" | "~"]`)
+  - `BinaryExpression` (`[operator = "==" | "!=" | "<" | "<=" | ">" | ">=" | "<<" | ">>" | ">>>" | "+" | "-" | "*" | "/" | "%" | "|" | "^" | "&" | "in"]`)
+  - `MemberExpression` (`[computed = true]`)
+  - `MethodDefinition` (`[computed = true]`)
+  - `Property` (`[computed = true]`)
+  - `PropertyDefinition` (`[computed = true]`)
+  - `UnaryExpression` (`[operator = "-" | "+" | "!" | "~"]`)
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-node | Node | The node to check.
-sourceCode | SourceCode | The source code object to get visitor keys.
-options.considerGetters | boolean | Default is `false`. If `true` then it considers member accesses as the node which has side effects.
-options.considerImplicitTypeConversion | boolean | Default is `false`. If `true` then it considers implicit type conversion as the node which has side effects.
+| Name                                   | Type       | Description                                                                                                  |
+| :------------------------------------- | :--------- | :----------------------------------------------------------------------------------------------------------- |
+| node                                   | Node       | The node to check.                                                                                           |
+| sourceCode                             | SourceCode | The source code object to get visitor keys.                                                                  |
+| options.considerGetters                | boolean    | Default is `false`. If `true` then it considers member accesses as the node which has side effects.          |
+| options.considerImplicitTypeConversion | boolean    | Default is `false`. If `true` then it considers implicit type conversion as the node which has side effects. |
 
 ### Return value
 
@@ -492,13 +492,13 @@ module.exports = {
 }
 ```
 
-----
+---
 
 ## isParenthesized
 
 ```js
-const ret1 = utils.isParenthesized(times, node, sourceCode)
-const ret2 = utils.isParenthesized(node, sourceCode)
+const ret1 = utils.isParenthesized(times, node, sourceCode);
+const ret2 = utils.isParenthesized(node, sourceCode);
 ```
 
 Check whether a given node is parenthesized or not.
@@ -509,29 +509,35 @@ This function detects it correctly even if it's parenthesized by specific syntax
 // those `a` are not parenthesized.
 f(a);
 new C(a);
-if (a) {}
-switch (a) {}
+if (a) {
+}
+switch (a) {
+}
 while (a) {}
 do {} while (a);
-with (a) {}
+with (a) {
+}
 
 // those `b` are parenthesized.
-f((b));
-new C((b));
-if ((b)) {}
-switch ((b)) {}
-while ((b)) {}
-do {} while ((b));
-with ((b)) {}
+f(b);
+new C(b);
+if (b) {
+}
+switch (b) {
+}
+while (b) {}
+do {} while (b);
+with (b) {
+}
 ```
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-times | number | Optional. The number of redundant parenthesized. Default is `1`.
-node | Node | The node to check.
-sourceCode | SourceCode | The source code object to get tokens.
+| Name       | Type       | Description                                                      |
+| :--------- | :--------- | :--------------------------------------------------------------- |
+| times      | number     | Optional. The number of redundant parenthesized. Default is `1`. |
+| node       | Node       | The node to check.                                               |
+| sourceCode | SourceCode | The source code object to get tokens.                            |
 
 ### Return value
 
@@ -559,12 +565,12 @@ module.exports = {
 }
 ```
 
-----
+---
 
 ## PatternMatcher class
 
 ```js
-const matcher = new utils.PatternMatcher(pattern, options)
+const matcher = new utils.PatternMatcher(pattern, options);
 ```
 
 The class to find a pattern in strings as handling escape sequences.
@@ -573,24 +579,24 @@ It ignores the found pattern if it's escaped with `\`.
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-pattern | RegExp | The regular expression pattern to find.
-options.escaped | boolean | Optional. Default is `false`. If `true` then this matches to escaped patterns.
+| Name            | Type    | Description                                                                    |
+| :-------------- | :------ | :----------------------------------------------------------------------------- |
+| pattern         | RegExp  | The regular expression pattern to find.                                        |
+| options.escaped | boolean | Optional. Default is `false`. If `true` then this matches to escaped patterns. |
 
 ## matcher.execAll
 
 ```js
-const iterator = matcher.execAll(str)
+const iterator = matcher.execAll(str);
 ```
 
 Iterate all matched parts in a given string.
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-str | string | The string to find this pattern.
+| Name | Type   | Description                      |
+| :--- | :----- | :------------------------------- |
+| str  | string | The string to find this pattern. |
 
 ### Return value
 
@@ -626,16 +632,16 @@ module.exports = {
 ## matcher.test
 
 ```js
-const matched = matcher.test(str)
+const matched = matcher.test(str);
 ```
 
 Check whether this pattern matches a given string or not.
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-str | string | The string to find this pattern.
+| Name | Type   | Description                      |
+| :--- | :----- | :------------------------------- |
+| str  | string | The string to find this pattern. |
 
 ### Return value
 
@@ -667,17 +673,17 @@ module.exports = {
 ## matcher[Symbol.replace]
 
 ```js
-const replacedStr = str.replace(matcher, replacer)
+const replacedStr = str.replace(matcher, replacer);
 ```
 
 Replace all matched parts by a given replacer.
 
 ### Parameters
 
- Name | Type | Description
-:-----|:-----|:------------
-str | string | The string to be replaced.
-replacer | string or function | The string or function to replace each matched part. This is the same as the 2nd parameter of [String.prototype.replace](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace).
+| Name     | Type               | Description                                                                                                                                                                                                                |
+| :------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| str      | string             | The string to be replaced.                                                                                                                                                                                                 |
+| replacer | string or function | The string or function to replace each matched part. This is the same as the 2nd parameter of [String.prototype.replace](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace). |
 
 ### Return value
 

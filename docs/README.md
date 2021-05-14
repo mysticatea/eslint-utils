@@ -25,7 +25,7 @@ npm install eslint-utils
 ## 📖 Usage
 
 ```js
-const utils = require("eslint-utils")
+const utils = require("eslint-utils");
 
 // use it to define rules...
 ```
