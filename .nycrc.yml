@@ -1,5 +1,7 @@
 include:
   - src/**/*.js
+exclude:
+  - src/index.js
 reporter:
   - lcov
   - text-summary

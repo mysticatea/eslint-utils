@@ -54,6 +54,7 @@ describe("The 'getPropertyName' function", () => {
                   },
               ]
             : []),
+        { code: ";", expected: null },
     ]) {
         it(`should return ${JSON.stringify(expected)} from ${code}`, () => {
             const linter = new eslint.Linter()
@@ -65,12 +66,20 @@ describe("The 'getPropertyName' function", () => {
                 ) {
                     actual = getPropertyName(node)
                 },
+                ":not(Property,PropertyDefinition,MethodDefinition,MemberExpression)"(
+                    node,
+                ) {
+                    if (!actual) {
+                        actual = getPropertyName(node)
+                    }
+                },
             }))
             const messages = linter.verify(code, {
                 parserOptions: {
                     ecmaVersion: semver.gte(eslint.Linter.version, "7.0.0")
                         ? 2022
                         : 2018,
+                    sourceType: "module",
                 },
                 rules: { test: "error" },
             })
