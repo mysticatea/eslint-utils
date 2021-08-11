@@ -22,6 +22,7 @@ function getParentSyntaxParen(node, sourceCode) {
             return null
 
         case "DoWhileStatement":
+            /* istanbul ignore else */
             if (parent.test === node) {
                 return sourceCode.getTokenAfter(
                     parent.body,
@@ -32,24 +33,28 @@ function getParentSyntaxParen(node, sourceCode) {
 
         case "IfStatement":
         case "WhileStatement":
+            /* istanbul ignore else */
             if (parent.test === node) {
                 return sourceCode.getFirstToken(parent, 1)
             }
             return null
 
         case "ImportExpression":
+            /* istanbul ignore else */
             if (parent.source === node) {
                 return sourceCode.getFirstToken(parent, 1)
             }
             return null
 
         case "SwitchStatement":
+            /* istanbul ignore else */
             if (parent.discriminant === node) {
                 return sourceCode.getFirstToken(parent, 1)
             }
             return null
 
         case "WithStatement":
+            /* istanbul ignore else */
             if (parent.object === node) {
                 return sourceCode.getFirstToken(parent, 1)
             }

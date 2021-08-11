@@ -4,7 +4,7 @@ import eslint from "eslint"
 import { isParenthesized } from "../src/"
 
 describe("The 'isParenthesized' function", () => {
-    for (const { code, expected } of [
+    for (const { code, expected, sourceType, ecmaVersion } of [
         {
             code: "777",
             expected: {
@@ -209,6 +209,14 @@ describe("The 'isParenthesized' function", () => {
                 "body.0.handler.param": false,
             },
         },
+        {
+            code: "import('./index.js')",
+            expected: {
+                "body.0.expression.source": false,
+            },
+            sourceType: "module",
+            ecmaVersion: 2022,
+        },
     ]) {
         describe(`on the code \`${code}\``, () => {
             for (const key of Object.keys(expected)) {
@@ -226,7 +234,10 @@ describe("The 'isParenthesized' function", () => {
                     }))
                     const messages = linter.verify(code, {
                         env: { es6: true },
-                        parserOptions: { ecmaVersion: 2018 },
+                        parserOptions: {
+                            ecmaVersion: ecmaVersion ? ecmaVersion : 2018,
+                            sourceType,
+                        },
                         rules: { test: "error" },
                     })
 
