@@ -82,6 +82,9 @@ describe("The 'getStaticValue' function", () => {
         { code: "Object.xxx", expected: { value: undefined } },
         { code: "new Array(2)", expected: null },
         { code: "new Array(len)", expected: null },
+        { code: "[0,1,2].filter(Boolean)", expected: { value: [1, 2] } },
+        { code: "[0,1,2].join()", expected: { value: "0,1,2" } },
+        { code: "[0,1,2].join('|')", expected: { value: "0|1|2" } },
         { code: "({})", expected: { value: {} } },
         {
             code: "({a: 1, b: 2, c: 3})",
@@ -103,6 +106,12 @@ describe("The 'getStaticValue' function", () => {
         { code: "String.raw`\\unicode`", expected: { value: "\\unicode" } },
         { code: "`he${a}o`", expected: null }, //eslint-disable-line no-template-curly-in-string
         { code: "x`hello`", expected: null },
+        { code: "'  foo  '.trim()", expected: { value: "foo" } },
+        { code: "'  foo  '.trim().toUpperCase()", expected: { value: "FOO" } },
+        { code: "'  foo  '.indexOf('f')", expected: { value: 2 } },
+        { code: "'  foo  '.charAt(4)", expected: { value: "o" } },
+        { code: "'  foo  '.charCodeAt(400)", expected: { value: NaN } },
+        { code: "'  foo  '.repeat(1e12)", expected: null },
         { code: "-1", expected: { value: -1 } },
         { code: "+'1'", expected: { value: 1 } },
         { code: "!0", expected: { value: true } },
