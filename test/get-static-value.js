@@ -145,6 +145,10 @@ const aMap = Object.freeze({
             code: "RegExp.$1",
             expected: null,
         },
+        {
+            code: "Math.random()",
+            expected: null,
+        },
         ...(semver.gte(eslint.Linter.version, "6.0.0")
             ? [
                   {

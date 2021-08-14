@@ -79,6 +79,7 @@ const callAllowed = new Set(
         isNaN,
         isPrototypeOf,
         ...Object.getOwnPropertyNames(Math)
+            .filter((k) => k !== "random")
             .map((k) => Math[k])
             .filter((f) => typeof f === "function"),
         Number,
