@@ -111,7 +111,8 @@ describe("The 'getStaticValue' function", () => {
         { code: "void a.b", expected: { value: undefined } },
         { code: "+a", expected: null },
         { code: "delete a.b", expected: null },
-        { code: "!function(){ return true }", expected: null },
+        { code: "!function(){ return true }", expected: { value: false } },
+        { code: "!function(){ someFunc(); }", expected: null },
         { code: "'' + Symbol()", expected: null },
         {
             code: `const eventName = "click"
@@ -129,6 +130,13 @@ const aMap = Object.freeze({
             code: 'new Function("return process.env.npm_name")()',
             expected: null,
         },
+        { code: "(() => 5)()", expected: { value: 5 } },
+        { code: "(() => { return 5; })()", expected: { value: 5 } },
+        { code: "(function() { return 5; })()", expected: { value: 5 } },
+        { code: "(function*() { return 5; })()", expected: null },
+        { code: "(async function() { return 5; })()", expected: null },
+        { code: "(async () => { return 5; })()", expected: null },
+        { code: "((a) => a + 1)(4)", expected: null },
         {
             code: '({}.constructor.constructor("return process.env.npm_name")())',
             expected: null,
