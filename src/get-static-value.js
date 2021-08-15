@@ -111,6 +111,23 @@ const callPassThrough = new Set([
     Object.preventExtensions,
     Object.seal,
 ])
+/** @type {readonly (readonly [Function, ReadonlySet<string>])[]} */
+const allowedGetters = [
+    [
+        RegExp,
+        new Set([
+            "source",
+            "flags",
+            "dotAll",
+            "global",
+            "hasIndices",
+            "ignoreCase",
+            "multiline",
+            "sticky",
+            "unicode",
+        ]),
+    ],
+]
 
 /**
  * Get the property descriptor.
@@ -379,9 +396,21 @@ const operations = Object.freeze({
                 return { value: undefined, optional: true }
             }
             const property = getStaticPropertyNameValue(node, initialScope)
+            if (property == null) {
+                return null
+            }
 
-            if (property != null && !isGetter(object.value, property.value)) {
+            if (!isGetter(object.value, property.value)) {
                 return { value: object.value[property.value] }
+            }
+
+            for (const [classFn, allowed] of allowedGetters) {
+                if (
+                    object.value instanceof classFn &&
+                    allowed.has(property.value)
+                ) {
+                    return { value: object.value[property.value] }
+                }
             }
         }
         return null
