@@ -171,10 +171,81 @@ function getElementValues(nodeList, initialScope) {
     return valueList
 }
 
+/**
+ * Whether the given function is safe to execute.
+ * @param {Function} fn
+ * @returns {boolean}
+ */
+function isSafeFunction(fn) {
+    if (fn.isSafeFunction === isSafeFunction) {
+        return true
+    }
+    return callAllowed.has(fn)
+}
+
+/**
+ * Create a new function that simply returns the given value.
+ * @param {T} value
+ * @returns {() => T}
+ * @template T
+ */
+function createSafeFunction(value) {
+    function fn() {
+        return value
+    }
+
+    fn.isSafeFunction = isSafeFunction
+    return fn
+}
+
+/**
+ * Tries to evaluate the body of normal (= non-async and non-generator)
+ * function without parameters.
+ * @param {Node} body
+ * @param {Scope} initialScope
+ * @returns {{value:Function}|null}
+ */
+function evaluateNormalFunctionBody(body, initialScope) {
+    if (body.type === "BlockStatement") {
+        const statements = body.body
+        if (statements.length === 0) {
+            return { value: createSafeFunction(undefined) }
+        }
+        if (
+            statements.length === 1 &&
+            statements[0].type === "ReturnStatement"
+        ) {
+            const ret = statements[0]
+            if (!ret.argument) {
+                return { value: createSafeFunction(undefined) }
+            }
+
+            const object = getStaticValueR(ret.argument, initialScope)
+            if (object) {
+                return { value: createSafeFunction(object.value) }
+            }
+        }
+        return null
+    }
+
+    const object = getStaticValueR(body, initialScope)
+    if (object) {
+        return { value: createSafeFunction(object.value) }
+    }
+    return null
+}
+
 const operations = Object.freeze({
     ArrayExpression(node, initialScope) {
         const elements = getElementValues(node.elements, initialScope)
         return elements != null ? { value: elements } : null
+    },
+
+    ArrowFunctionExpression(node, initialScope) {
+        if (!node.generator && !node.async && node.params.length === 0) {
+            return evaluateNormalFunctionBody(node.body, initialScope)
+        }
+        return null
     },
 
     AssignmentExpression(node, initialScope) {
@@ -268,7 +339,7 @@ const operations = Object.freeze({
                     if (property != null) {
                         const receiver = object.value
                         const methodName = property.value
-                        if (callAllowed.has(receiver[methodName])) {
+                        if (isSafeFunction(receiver[methodName])) {
                             return { value: receiver[methodName](...args) }
                         }
                         if (callPassThrough.has(receiver[methodName])) {
@@ -283,7 +354,7 @@ const operations = Object.freeze({
                         return { value: undefined, optional: true }
                     }
                     const func = callee.value
-                    if (callAllowed.has(func)) {
+                    if (isSafeFunction(func)) {
                         return { value: func(...args) }
                     }
                     if (callPassThrough.has(func)) {
@@ -308,6 +379,13 @@ const operations = Object.freeze({
 
     ExpressionStatement(node, initialScope) {
         return getStaticValueR(node.expression, initialScope)
+    },
+
+    FunctionExpression(node, initialScope) {
+        if (!node.generator && !node.async && node.params.length === 0) {
+            return evaluateNormalFunctionBody(node.body, initialScope)
+        }
+        return null
     },
 
     Identifier(node, initialScope) {
