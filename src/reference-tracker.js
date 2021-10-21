@@ -394,23 +394,28 @@ export class ReferenceTracker {
                     info: nextTraceMap[READ],
                 }
             }
-            yield* this._iterateVariableReferences(
-                findVariable(this.globalScope, specifierNode.local),
-                path,
-                nextTraceMap,
-                false,
-            )
-
+            const variable = findVariable(this.globalScope, specifierNode.local)
+            if (variable != null) {
+                yield* this._iterateVariableReferences(
+                    variable,
+                    path,
+                    nextTraceMap,
+                    false,
+                )
+            }
             return
         }
 
         if (type === "ImportNamespaceSpecifier") {
-            yield* this._iterateVariableReferences(
-                findVariable(this.globalScope, specifierNode.local),
-                path,
-                traceMap,
-                false,
-            )
+            const variable = findVariable(this.globalScope, specifierNode.local)
+            if (variable != null) {
+                yield* this._iterateVariableReferences(
+                    findVariable(this.globalScope, specifierNode.local),
+                    path,
+                    traceMap,
+                    false,
+                )
+            }
             return
         }
 
