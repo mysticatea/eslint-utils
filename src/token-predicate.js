@@ -4,7 +4,7 @@
  * @returns {function(Token):boolean} Negated function.
  */
 function negate(f) {
-    return token => !f(token);
+    return (token) => !f(token)
 }
 
 /**
@@ -114,6 +114,52 @@ export function isClosingBraceToken(token) {
  */
 export function isCommentToken(token) {
     return ["Block", "Line", "Shebang"].includes(token.type)
+}
+
+/**
+ * Checks if the given token is a `=` token or not.
+ * @param {Token} token The token to check.
+ * @returns {boolean} `true` if the token is a `=` token.
+ */
+export function isEqToken(token) {
+    return isPunctuatorTokenWithValue(token, "=")
+}
+
+/**
+ * Checks if the given token is a dot token or not.
+ * @param {Token} token The token to check.
+ * @returns {boolean} `true` if the token is a dot token.
+ */
+export function isDotToken(token) {
+    return isPunctuatorTokenWithValue(token, ".")
+}
+
+/**
+ * Checks if the given token is a `?.` token or not.
+ * @param {Token} token The token to check.
+ * @returns {boolean} `true` if the token is a `?.` token.
+ */
+export function isQuestionDotToken(token) {
+    return isPunctuatorTokenWithValue(token, "?.")
+}
+
+/**
+ * Checks if the given token is a keyword token or not.
+ * @param {Token} token The token to check.
+ * @returns {boolean} `true` if the token is a keyword token.
+ */
+export function isKeywordToken(token) {
+    return token.type === "Keyword"
+}
+
+/**
+ * Determines whether two adjacent tokens are on the same line.
+ * @param {Object} left The left token object.
+ * @param {Object} right The right token object.
+ * @returns {boolean} Whether or not the tokens are on the same line.
+ */
+export function isTokenOnSameLine(left, right) {
+    return left.loc.end.line === right.loc.start.line
 }
 
 export const isNotArrowToken = negate(isArrowToken)
