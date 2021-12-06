@@ -1,5 +1,5 @@
 import assert from "assert"
-import { PatternMatcher } from "../src/"
+import { PatternMatcher } from "../src/index.js"
 
 const NAMED_CAPTURE_GROUP_SUPPORTED = (() => {
     try {

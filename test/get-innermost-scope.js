@@ -1,6 +1,6 @@
 import assert from "assert"
 import eslint from "eslint"
-import { getInnermostScope } from "../src/"
+import { getInnermostScope } from "../src/index.js"
 
 describe("The 'getInnermostScope' function", () => {
     let i = 0

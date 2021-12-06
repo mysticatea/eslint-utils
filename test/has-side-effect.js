@@ -2,7 +2,7 @@ import assert from "assert"
 import eslint from "eslint"
 import semver from "semver"
 import dp from "dot-prop"
-import { hasSideEffect } from "../src/"
+import { hasSideEffect } from "../src/index.js"
 
 describe("The 'hasSideEffect' function", () => {
     for (const { code, key = "body.0.expression", options, expected } of [

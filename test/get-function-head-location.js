@@ -1,7 +1,7 @@
 import assert from "assert"
 import eslint from "eslint"
 import semver from "semver"
-import { getFunctionHeadLocation } from "../src/"
+import { getFunctionHeadLocation } from "../src/index.js"
 
 describe("The 'getFunctionHeadLocation' function", () => {
     const expectedResults = {

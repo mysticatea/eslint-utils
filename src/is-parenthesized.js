@@ -1,4 +1,4 @@
-import { isClosingParenToken, isOpeningParenToken } from "./token-predicate"
+import { isClosingParenToken, isOpeningParenToken } from "./token-predicate.js"
 
 /**
  * Get the left parenthesis of the parent node syntax if it exists.

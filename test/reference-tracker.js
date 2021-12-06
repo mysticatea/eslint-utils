@@ -1,7 +1,7 @@
 import assert from "assert"
 import eslint from "eslint"
 import semver from "semver"
-import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/"
+import { CALL, CONSTRUCT, ESM, READ, ReferenceTracker } from "../src/index.js"
 
 const config = {
     parserOptions: {

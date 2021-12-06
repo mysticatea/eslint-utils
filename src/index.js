@@ -1,13 +1,13 @@
-import { findVariable } from "./find-variable"
-import { getFunctionHeadLocation } from "./get-function-head-location"
-import { getFunctionNameWithKind } from "./get-function-name-with-kind"
-import { getInnermostScope } from "./get-innermost-scope"
-import { getPropertyName } from "./get-property-name"
-import { getStaticValue } from "./get-static-value"
-import { getStringIfConstant } from "./get-string-if-constant"
-import { hasSideEffect } from "./has-side-effect"
-import { isParenthesized } from "./is-parenthesized"
-import { PatternMatcher } from "./pattern-matcher"
+import { findVariable } from "./find-variable.js"
+import { getFunctionHeadLocation } from "./get-function-head-location.js"
+import { getFunctionNameWithKind } from "./get-function-name-with-kind.js"
+import { getInnermostScope } from "./get-innermost-scope.js"
+import { getPropertyName } from "./get-property-name.js"
+import { getStaticValue } from "./get-static-value.js"
+import { getStringIfConstant } from "./get-string-if-constant.js"
+import { hasSideEffect } from "./has-side-effect.js"
+import { isParenthesized } from "./is-parenthesized.js"
+import { PatternMatcher } from "./pattern-matcher.js"
 import {
     CALL,
     CONSTRUCT,
@@ -37,8 +37,8 @@ import {
     isOpeningBraceToken,
     isOpeningBracketToken,
     isOpeningParenToken,
-    isSemicolonToken,
-} from "./token-predicate"
+    isSemicolonToken
+} from "./token-predicate.js"
 
 export default {
     CALL,

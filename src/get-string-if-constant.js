@@ -1,4 +1,4 @@
-import { getStaticValue } from "./get-static-value"
+import { getStaticValue } from "./get-static-value.js"
 
 /**
  * Get the value of a given node if it's a literal or a template literal.

@@ -1,7 +1,7 @@
 import assert from "assert"
 import eslint from "eslint"
 import semver from "semver"
-import { getStaticValue } from "../src/"
+import { getStaticValue } from "../src/index.js"
 
 describe("The 'getStaticValue' function", () => {
     for (const { code, expected, noScope = false } of [
