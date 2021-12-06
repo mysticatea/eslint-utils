@@ -21,8 +21,8 @@ import {
     isOpeningBraceToken,
     isOpeningBracketToken,
     isOpeningParenToken,
-    isSemicolonToken,
-} from "../src/"
+    isSemicolonToken
+} from "../src/index.js"
 
 describe("The predicate functions for tokens", () => {
     for (const { positive, negative, patterns } of [

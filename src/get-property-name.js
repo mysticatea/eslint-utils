@@ -1,4 +1,4 @@
-import { getStringIfConstant } from "./get-string-if-constant"
+import { getStringIfConstant } from "./get-string-if-constant.js"
 
 /**
  * Get the property name from a MemberExpression node or a Property node.

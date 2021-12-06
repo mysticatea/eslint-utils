@@ -1,7 +1,7 @@
 import assert from "assert"
 import eslint from "eslint"
 import semver from "semver"
-import { getPropertyName } from "../src/"
+import { getPropertyName } from "../src/index.js"
 
 describe("The 'getPropertyName' function", () => {
     for (const { code, expected } of [
